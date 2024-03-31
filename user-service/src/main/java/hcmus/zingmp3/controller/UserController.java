@@ -1,0 +1,80 @@
+package hcmus.zingmp3.controller;
+
+import hcmus.zingmp3.dto.AuthenticationRequest;
+import hcmus.zingmp3.dto.UserDto;
+import hcmus.zingmp3.service.UserService;
+import jakarta.ws.rs.core.Response;
+import lombok.AllArgsConstructor;
+import org.keycloak.OAuth2Constants;
+import org.keycloak.admin.client.CreatedResponseUtil;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.CredentialRepresentation;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/auth")
+@AllArgsConstructor
+public class UserController {
+
+    private UserService userService;
+
+    @PostMapping("/authenticate")
+    public AccessTokenResponse login(AuthenticationRequest request) {
+        return userService.authenticate(request);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> createUser(@RequestBody UserDto request) {
+        Keycloak keycloak = KeycloakBuilder.builder()
+                .serverUrl("http://192.168.1.21:8080")
+                .realm("zing-mp3")
+                .grantType(OAuth2Constants.PASSWORD)
+                .clientId("zing-mp3-api")
+                .clientSecret("VmOLegqJIaQq1ppbKtjNPOm3J1jOL1n3")
+                .username("nxc")
+                .password("nxc")
+                .build();
+
+        UserRepresentation user = new UserRepresentation();
+        user.setEnabled(true);
+        user.setUsername(request.getUsername());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+
+        System.out.println(user);
+
+        RealmResource realmResource = keycloak.realm("zing-mp3");
+        UsersResource usersResource = realmResource.users();
+
+        Response response = usersResource.create(user);
+        System.out.printf("Repsonse: %s %s%n", response.getStatus(), response.getStatusInfo());
+        System.out.println(response.getLocation());
+        if (response.getStatus() == 201) {
+            String userId = CreatedResponseUtil.getCreatedId(response);
+
+            System.out.printf("User created with userId: %s%n", userId);
+
+            CredentialRepresentation passwordCred = new CredentialRepresentation();
+            passwordCred.setType(CredentialRepresentation.PASSWORD);
+            passwordCred.setValue(request.getPassword());
+            passwordCred.setTemporary(false);
+
+            UserResource userResource = usersResource.get(userId);
+
+            userResource.resetPassword(passwordCred);
+        }
+
+        return ResponseEntity.status(response.getStatus()).body(null);
+    }
+}

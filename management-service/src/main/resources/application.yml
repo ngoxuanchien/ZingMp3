@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/management_service
+    username: zingmp3
+    password: zingmp3
+  application:
+    name: management-service
+server:
+  port: 0
+eureka:
+  instance:
+    prefer-ip-address: true
