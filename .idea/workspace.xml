@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c47cb601-6397-43b0-950e-70dfe90be9f6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/ZingMp3Microservice.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/controller/SongController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/controller/SongRestfullController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/dto/SongDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/model/Song.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/repository/SongRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/service/SongReactiveService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/service/SongService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/proto/schema.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/resources/application-docker.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/song-service/src/main/resources/graphql/song/song.graphqls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/local.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/UserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/dto/AuthenticatedRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/dto/UserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/test/java/zingmp3/UserServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ZingMp3.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-service/src/main/java/zingmp3/hcmus/discoveryservice/DiscoveryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/src/main/java/zingmp3/hcmus/discoveryservice/DiscoveryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/song-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/hcmus/songservice/SongServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/song-service/src/main/java/zingmp3/SongServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/song-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/main/resources/graphql/bank/bankAccount.graphqls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/main/resources/graphql/bank/currency.graphqls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/main/resources/graphql/query.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/song-service/src/main/resources/graphql/query.graphqls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/song-service/src/test/java/zingmp3/hcmus/songservice/SongServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/song-service/src/test/java/zingmp3/SongServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/zingmp3/hcmus/userservice/UserServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/zingmp3/hcmus/userservice/UserServiceApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Dockerfile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2eSPtNjb4FL4Bq2syxc4oMFAa3g" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Docker.docker-compose.yml.mysql-song: Compose Deployment.executor": "Run",
+    "Docker.song-service.mysql-song: Compose Deployment.executor": "Run",
+    "Maven.song-service [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.song-service [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DiscoveryServiceApplication.executor": "Run",
+    "Spring Boot.SongServiceApplication (1).executor": "Run",
+    "Spring Boot.SongServiceApplication.executor": "Run",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/HCMUS/Term8/DoAnCongNghePhanMem/ZingMp3/Backend/ZingMp3Microservice/user-service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "database.data.views.appearance",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="zingmp3.service" />
+      <recent name="zingmp3.hcmus.songservice.domain.bank" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\user-service" />
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\user-service\src\main\java\zingmp3\dto" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\song-service\src\main\resources\graphql\song" />
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\song-service\src\main\resources\graphql" />
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\song-service\src\main\resources\static" />
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\song-service\src\main\resources\graphql.sing" />
+      <recent name="D:\HCMUS\Term8\DoAnCongNghePhanMem\ZingMp3\Backend\ZingMp3Microservice\song-service\src\main" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="zingmp3.controller" />
+      <recent name="zingmp3.service" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SongServiceApplication">
+    <configuration name="AlbumServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="album-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.albumservice.AlbumServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="api-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.apigateway.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArtistServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="artist-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.artistservice.ArtistServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="discovery-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.discoveryservice.DiscoveryServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlaylistServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="playlist-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.playlistservice.PlaylistServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProviderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="provider-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.providerservice.ProviderServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="song-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.SongServiceApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.userservice.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="zingmp3.hcmus.userservice.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.mysql-song: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="mysql-song" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="song-service.mysql-song: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="mysql-song" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="song-service/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml.mysql-song: Compose Deployment" />
+        <item itemvalue="Docker.song-service.mysql-song: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-4caba194b151-23eed401" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c47cb601-6397-43b0-950e-70dfe90be9f6" name="Changes" comment="" />
+      <created>1711895221397</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1711895221397</updated>
+      <workItem from="1711895223745" duration="3248000" />
+      <workItem from="1712040508158" duration="12252000" />
+      <workItem from="1712120375730" duration="11110000" />
+      <workItem from="1712144797366" duration="4684000" />
+      <workItem from="1712159730717" duration="17093000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.graphql:spring-graphql" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot-starter-graphql" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.ws.rs:jakarta.ws.rs-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

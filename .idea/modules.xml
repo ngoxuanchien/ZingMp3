@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ZingMp3.iml" filepath="$PROJECT_DIR$/.idea/ZingMp3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ZingMp3Microservice.iml" filepath="$PROJECT_DIR$/.idea/ZingMp3Microservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/song-service/song-service.iml" filepath="$PROJECT_DIR$/song-service/song-service.iml" />
     </modules>
   </component>
 </project>
