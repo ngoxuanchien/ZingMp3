@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-playlist:3306/playlist_service
+server:
+  port: 8081
