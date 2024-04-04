@@ -1,7 +1,23 @@
 spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3310/user_service
+#    username: zingmp3
+#    password: zingmp3
   application:
     name: user-service
-  cloud:
-    config:
-      import-check:
-        enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: zing-mp3-api
+            client-secret: VmOLegqJIaQq1ppbKtjNPOm3J1jOL1n3
+server:
+  port: 0
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+#    service-url:
+#      defaultZone: http://eureka:password@localhost:8761/eureka

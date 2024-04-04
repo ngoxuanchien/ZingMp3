@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  mysql-song:
+    container_name: mysql-song
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: song_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3306
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      song-service-net:
+
+  song-service:
+    depends_on:
+      - mysql-song
+    container_name: song-service
+    build: .
+    image: song-service
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-song:3306/song_service
+      - GRPC_SERVER_PORT=9090
+    networks:
+      song-service-net:
+    stdin_open: true
+    tty: true
+
+
+networks:
+  song-service-net:
