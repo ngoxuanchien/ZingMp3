@@ -1,26 +1,5 @@
 version: '3.8'
 services:
-  ### Keycloak
-  #  keycloak:
-  #    container_name: keycloak
-  #    image: quay.io/keycloak/keycloak:24.0.1
-  #    command: [ "start-dev"]
-  #    environment:
-  ##      DB_VENDOR: MYSQL
-  ##      DB_ADDR: mysql
-  ##      DB_DATABASE: keycloak
-  ##      DB_USER: keycloak
-  ##      DB_PASSWORD: keycloak
-  #      KEYCLOAK_ADMIN: admin
-  #      KEYCLOAK_ADMIN_PASSWORD: admin
-  #    ports:
-  #      - "8080:8080"
-  #    volumes:
-  #      - ./realms/:/opt/keycloak/data/import/
-  #    depends_on:
-  #      - keycloak-mysql
-
-  ### MySQL Music
   mysql-song:
     container_name: mysql-song
     image: mysql
@@ -30,68 +9,64 @@ services:
       MYSQL_USER: zingmp3
       MYSQL_PASSWORD: zingmp3
       MYSQL_TCP_PORT: 3306
-    volumes:
-      - ./database/mysql-music:/data/mysql
     ports:
       - "3306:3306"
     restart: always
+    networks:
+      song-service-net:
 
-#  mysql-management:
-#    container_name: mysql-management
-#    image: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: management_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3307
-#    volumes:
-#      - ./database/mysql-management:/data/mysql
-#    ports:
-#      - "3307:3307"
-#    restart: always
-#
-#  mysql-discovery:
-#    container_name: mysql-discovery
-#    image: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: discovery_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3308
-#    volumes:
-#      - ./database/mysql-discovery:/data/mysql
-#    ports:
-#      - "3308:3308"
-#    restart: always
-#
-#  mysql-notification:
-#    container_name: mysql-notification
-#    image: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: notification_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3309
-#    volumes:
-#      - ./database/mysql-notification:/data/mysql
-#    ports:
-#      - "3309:3309"
-#    restart: always
-#
-#  mysql-user:
-#    container_name: mysql-user
-#    image: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: user_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3310
-#    volumes:
-#      - ./database/mysql-user:/data/mysql
-#    ports:
-#      - "3310:3310"
-#    restart: always
+  mysql-playlist:
+    container_name: mysql-playlist
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playlist_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - ./database/mysql-playlist:/data/mysql
+    ports:
+      - "3307:3307"
+    restart: always
+    networks:
+      playlist-service-net:
+
+  song-service:
+    depends_on:
+      - mysql-song
+    container_name: song-service
+    build: ./song-service
+    image: song-service
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-song:3306/song_service
+      - GRPC_SERVER_PORT=9090
+    networks:
+      song-service-net:
+    stdin_open: true
+    tty: true
+
+  playlist-service:
+    depends_on:
+      - mysql-playlist
+    container_name: playlist-service
+    build: ./playlist-service
+    image: playlist-service
+    ports:
+      - "8081:8081"
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-playlist:3307/playlist_service
+    networks:
+      playlist-service-net:
+    stdin_open: true
+    tty: true
+
+
+networks:
+  song-service-net:
+  playlist-service-net:
