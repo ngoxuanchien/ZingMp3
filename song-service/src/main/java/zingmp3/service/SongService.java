@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import zingmp3.dto.SongDto;
+import zingmp3.exception.SongNotFoundException;
 import zingmp3.model.Song;
 import zingmp3.repository.SongRepository;
 
@@ -15,7 +16,7 @@ public class SongService {
     private final SongRepository songRepository;
 
     public Song getSong(Integer songId) {
-        return songRepository.findById(songId).orElseThrow();
+        return songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
     }
 
     public List<Song> getAllSong() {
@@ -38,7 +39,7 @@ public class SongService {
     }
 
     public Song updateSong(Integer songId, SongDto request) {
-        Song song = songRepository.findById(songId).orElseThrow();
+        Song song = songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
         song.setSongName(request.getSongName());
         song.setDuration(request.getDuration());
         song.setSongWriter(request.getSongWriter());
@@ -52,7 +53,7 @@ public class SongService {
     }
 
     public void deleteSongInService(Integer songId) {
-        Song song = songRepository.findById(songId).orElseThrow();
+        Song song = songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
         songRepository.delete(song);
     }
 }
