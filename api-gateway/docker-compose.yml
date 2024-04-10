@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: api-gateway
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
+    networks:
+      - zingmp3-net
+
+networks:
+  zingmp3-net:
+    name: zingmp3-net
