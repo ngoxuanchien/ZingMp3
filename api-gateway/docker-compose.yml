@@ -9,6 +9,7 @@ services:
     restart: on-failure
     environment:
       - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak:8080/realms/zingmp3
     networks:
       - zingmp3-net
 

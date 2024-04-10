@@ -1,6 +1,8 @@
 package zingmp3.service;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
@@ -12,6 +14,8 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import zingmp3.dto.AuthenticatedRequest;
 import zingmp3.dto.UserDto;
@@ -19,21 +23,30 @@ import zingmp3.dto.UserDto;
 @Service
 @Slf4j
 public class UserService {
-    private final Keycloak keycloak = KeycloakBuilder.builder()
-            .serverUrl("http://localhost:8080")
-            .realm("zing-mp3")
-            .grantType(OAuth2Constants.PASSWORD)
-            .clientId("zing-mp3-api")
-            .clientSecret("nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD")
-            .username("nxc")
-            .password("nxc")
-            .build();
+
+    @Value(value = "${keycloak.url}")
+    private String serviceUrl;
+
+    private Keycloak keycloak;
+
+    @PostConstruct
+    public void init() {
+        this.keycloak = KeycloakBuilder.builder()
+                .serverUrl(serviceUrl)
+                .realm("zing-mp3")
+                .grantType(OAuth2Constants.PASSWORD)
+                .clientId("zing-mp3-api")
+                .clientSecret("nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD")
+                .username("nxc")
+                .password("nxc")
+                .build();
+    }
 
     public AccessTokenResponse authenticate(AuthenticatedRequest request) {
         log.info("Username {}", request.getUsername());
         log.info("Password {}", request.getPassword());
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080")
+                .serverUrl(serviceUrl)
                 .realm("zing-mp3")
                 .grantType(OAuth2Constants.PASSWORD)
                 .clientId("zing-mp3-api")

@@ -4,3 +4,5 @@ eureka:
       default-zone: http://discovery-service:8761/eureka
 server:
   port: 0
+keycloak:
+  url: http://keycloak:8080
