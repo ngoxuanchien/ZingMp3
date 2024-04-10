@@ -13,26 +13,24 @@ services:
       - "3306:3306"
     restart: always
     networks:
-      song-service-net:
+      - zingmp3-net
 
   song-service:
     depends_on:
       - mysql-song
     container_name: song-service
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: song-service
-    ports:
-      - "8080:8080"
-      - "9090:9090"
     restart: on-failure
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-song:3306/song_service
-      - GRPC_SERVER_PORT=9090
+      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
     networks:
-      song-service-net:
+      - zingmp3-net
     stdin_open: true
     tty: true
-
-
 networks:
-  song-service-net:
+  zingmp3-net:
+    name: zingmp3-net

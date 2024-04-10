@@ -12,12 +12,12 @@ spring:
         registration:
           keycloak:
             client-id: zing-mp3-api
-            client-secret: VmOLegqJIaQq1ppbKtjNPOm3J1jOL1n3
+            client-secret: nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD
 server:
   port: 0
 eureka:
   instance:
     prefer-ip-address: true
   client:
-#    service-url:
-#      defaultZone: http://eureka:password@localhost:8761/eureka
+    service-url:
+      defaultZone: http://eureka:password@localhost:8761/eureka

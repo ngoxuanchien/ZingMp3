@@ -1,9 +1,9 @@
 package zingmp3.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import zingmp3.dto.SongDto;
+import zingmp3.dto.SongDTO;
 import zingmp3.exception.SongNotFoundException;
 import zingmp3.model.Song;
 import zingmp3.repository.SongRepository;
@@ -12,18 +12,38 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class SongService {
     private final SongRepository songRepository;
 
-    public Song getSong(Integer songId) {
-        return songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
+    public SongDTO findById(Integer songId) {
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
+        return mapToSongResponse(song);
     }
 
-    public List<Song> getAllSong() {
-        return songRepository.findAll();
+    private SongDTO mapToSongResponse(Song song) {
+        return SongDTO.builder()
+                .id(song.getId())
+                .songName(song.getSongName())
+                .songWriter(song.getSongWriter())
+                .lyric(song.getLyric())
+                .thumbnail(song.getThumbnail())
+                .songImage(song.getSongImage())
+                .songFile(song.getSongFile())
+                .duration(song.getDuration())
+                .played(song.getPlayed())
+                .liked(song.getLiked())
+                .providedBy(song.getProvidedBy())
+                .build();
     }
 
-    public Song addNewSong(SongDto request) {
+    public List<SongDTO> findAll() {
+        List<Song> songs = songRepository.findAll();
+        return songs.stream().map(this::mapToSongResponse).toList();
+    }
+
+    public SongDTO createSong(SongDTO request) {
         Song song = Song.builder()
                 .songName(request.getSongName())
                 .songWriter(request.getSongWriter())
@@ -34,11 +54,13 @@ public class SongService {
                 .liked(request.getLiked())
                 .played(request.getPlayed())
                 .build();
-        return songRepository.save(song);
+        songRepository.save(song);
+        log.info("Song {} is saved", song.getId());
+        return mapToSongResponse(song);
 
     }
 
-    public Song updateSong(Integer songId, SongDto request) {
+    public SongDTO updateSong(Integer songId, SongDTO request) {
         Song song = songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
         song.setSongName(request.getSongName());
         song.setDuration(request.getDuration());
@@ -49,10 +71,11 @@ public class SongService {
         song.setLiked(request.getLiked());
         song.setPlayed(request.getPlayed());
 
-        return songRepository.save(song);
+        songRepository.save(song);
+        return mapToSongResponse(song);
     }
 
-    public void deleteSongInService(Integer songId) {
+    public void delete(Integer songId) {
         Song song = songRepository.findById(songId).orElseThrow(() -> new SongNotFoundException("Song not found with id: " + songId));
         songRepository.delete(song);
     }

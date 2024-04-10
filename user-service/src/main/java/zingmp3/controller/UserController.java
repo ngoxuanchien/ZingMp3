@@ -3,6 +3,8 @@ package zingmp3.controller;
 
 import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -24,13 +26,15 @@ import zingmp3.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/authenticate")
-    public AccessTokenResponse login(AuthenticatedRequest request) {
+    public AccessTokenResponse login(@RequestBody AuthenticatedRequest request) {
+        log.info(request.toString());
         return userService.authenticate(request);
     }
 

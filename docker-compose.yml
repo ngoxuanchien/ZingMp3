@@ -1,5 +1,36 @@
 version: '3.8'
 services:
+  ## Keycloak
+  keycloak-mysql:
+    container_name: keycloak-mysql
+    image: mysql
+    volumes:
+      - ./database/keycloak:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:24.0.2
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import
+    depends_on:
+      - keycloak-mysql
+
   mysql-song:
     container_name: mysql-song
     image: mysql
@@ -35,12 +66,10 @@ services:
   song-service:
     depends_on:
       - mysql-song
+      - discovery-service
     container_name: song-service
     build: ./song-service
     image: song-service
-    ports:
-      - "8080:8080"
-      - "9090:9090"
     restart: on-failure
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-song:3306/song_service
@@ -53,11 +82,10 @@ services:
   playlist-service:
     depends_on:
       - mysql-playlist
+      - discovery-service
     container_name: playlist-service
     build: ./playlist-service
     image: playlist-service
-    ports:
-      - "8081:8081"
     restart: on-failure
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-playlist:3307/playlist_service
@@ -66,6 +94,52 @@ services:
     stdin_open: true
     tty: true
 
+  user-service:
+    depends_on:
+      - mysql-playlist
+      - mysql-song
+      - discovery-service
+    build: ./user-service
+    image: user-service
+    restart: on-failure
+
+  discovery-service:
+    depends_on:
+      - mysql-song
+      - mysql-playlist
+      - keycloak-mysql
+    build: ./discovery-service
+    image: discovery-service
+    restart: on-failure
+    ports:
+      - "8761:8761"
+
+  search-service:
+    depends_on:
+      - mysql-playlist
+      - mysql-song
+      - keycloak-mysql
+      - discovery-service
+      - song-service
+      - playlist-service
+    build: ./search-service
+    image: search-service
+    restart: on-failure
+
+  api-gateway:
+    depends_on:
+      - mysql-song
+      - mysql-playlist
+      - keycloak-mysql
+      - discovery-service
+      - song-service
+      - playlist-service
+      - search-service
+    build: ./api-gateway
+    image: api-gateway
+    restart: on-failure
+    ports:
+      - "8081:8081"
 
 networks:
   song-service-net:

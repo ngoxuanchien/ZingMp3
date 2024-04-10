@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  discovery-service:
+    container_name: discovery-service
+    build: ./
+    image: discovery-service
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    networks:
+      - zingmp3-net
+networks:
+  zingmp3-net:
+    name: zingmp3-net
