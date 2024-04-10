@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  user-service:
+    container_name: user-service
+    image: user-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
+    networks:
+      - zingmp3-net
+
+networks:
+  zingmp3-net:
+    name: zingmp3-net

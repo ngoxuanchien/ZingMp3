@@ -1,6 +1,7 @@
 package zingmp3.service;
 
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -16,14 +17,27 @@ import zingmp3.dto.AuthenticatedRequest;
 import zingmp3.dto.UserDto;
 
 @Service
+@Slf4j
 public class UserService {
+    private final Keycloak keycloak = KeycloakBuilder.builder()
+            .serverUrl("http://localhost:8080")
+            .realm("zing-mp3")
+            .grantType(OAuth2Constants.PASSWORD)
+            .clientId("zing-mp3-api")
+            .clientSecret("nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD")
+            .username("nxc")
+            .password("nxc")
+            .build();
+
     public AccessTokenResponse authenticate(AuthenticatedRequest request) {
+        log.info("Username {}", request.getUsername());
+        log.info("Password {}", request.getPassword());
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://192.168.1.21:8080")
+                .serverUrl("http://localhost:8080")
                 .realm("zing-mp3")
                 .grantType(OAuth2Constants.PASSWORD)
                 .clientId("zing-mp3-api")
-                .clientSecret("VmOLegqJIaQq1ppbKtjNPOm3J1jOL1n3")
+                .clientSecret("nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD")
                 .username(request.getUsername())
                 .password(request.getPassword())
                 .build();
@@ -32,15 +46,6 @@ public class UserService {
     }
 
     public int register(UserDto request) {
-        Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://192.168.1.21:8080")
-                .realm("zing-mp3")
-                .grantType(OAuth2Constants.PASSWORD)
-                .clientId("zing-mp3-api")
-                .clientSecret("VmOLegqJIaQq1ppbKtjNPOm3J1jOL1n3")
-                .username("nxc")
-                .password("nxc")
-                .build();
 
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
@@ -55,8 +60,7 @@ public class UserService {
         UsersResource usersResource = realmResource.users();
 
         Response response = usersResource.create(user);
-        System.out.printf("Repsonse: %s %s%n", response.getStatus(), response.getStatusInfo());
-        System.out.println(response.getLocation());
+        log.info("Response: {} {}", response.getStatus(), response.getStatusInfo());
 
         if (response.getStatus() == 201) {
             String userId = CreatedResponseUtil.getCreatedId(response);

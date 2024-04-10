@@ -19,20 +19,10 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<graphql.version>11.0.0</graphql.version>
 		<reactive.grpc.version>1.2.4</reactive.grpc.version>
-		<reactor.version>3.5.5</reactor.version>
+		<reactor.version>3.6.4</reactor.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -42,6 +32,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -92,18 +87,50 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+		</dependency>
 <!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-docker-compose</artifactId>-->
-<!--			<scope>runtime</scope>-->
+<!--			<groupId>hcmus.zingmp3</groupId>-->
+<!--			<artifactId>zingmp3-proto</artifactId>-->
+<!--			<version>1.0-20240409.172243-5</version>-->
 <!--		</dependency>-->
-		<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--		</dependency>-->
-
 
 	</dependencies>
+
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>snapshot-nexus</id>-->
+<!--			<name>snapshots</name>-->
+<!--			<url>http://192.168.1.21:8081/repository/maven-snapshots/</url>-->
+<!--		</repository>-->
+<!--	</repositories>-->
+
+<!--	<distributionManagement>-->
+<!--		<snapshotRepository>-->
+<!--			<id>snapshot-nexus</id>-->
+<!--			<url>http://192.168.1.21:8081/repository/maven-snapshots/</url>-->
+<!--		</snapshotRepository>-->
+<!--	</distributionManagement>-->
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
 
 	<build>
 		<extensions>
@@ -163,30 +190,19 @@
 					</execution>
 				</executions>
 			</plugin>
-<!--			<plugin>-->
-<!--				<groupId>com.google.cloud.tools</groupId>-->
-<!--				<artifactId>jib-maven-plugin</artifactId>-->
-<!--				<version>3.4.0</version>-->
-<!--				<configuration>-->
-<!--					<from>-->
-<!--						<image>openjdk:21</image>-->
-<!--					</from>-->
-<!--					<to><image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image></to>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-jar-plugin</artifactId>-->
-<!--				<version>3.3.0</version>-->
-<!--				<configuration>-->
-<!--					<archive>-->
-<!--						<mainifest>-->
-<!--							<mainClass>src.main.java.zingmp3.SongServiceApplication.java</mainClass>-->
-<!--						</mainifest>-->
-<!--					</archive>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<from>
+						<image>jelastic/maven:3.9.5-openjdk-21</image>
+					</from>
+					<to>
+						<image>registry.hub.docker.com/ngoxuanchien/${artifactId}</image>
+					</to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

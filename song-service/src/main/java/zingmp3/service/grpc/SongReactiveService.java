@@ -1,28 +1,30 @@
-package zingmp3.service;
+package zingmp3.service.grpc;
 
-import io.grpc.StatusRuntimeException;
-import lombok.AllArgsConstructor;
+import hcmus.zing_mp3.ReactorSongServiceGrpc;
+import hcmus.zing_mp3.Song;
+import hcmus.zing_mp3.Status;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import zing_mp3.ReactorSongServiceGrpc;
-import zing_mp3.Song;
-import zing_mp3.Status;
-import zingmp3.dto.SongDto;
+import zingmp3.dto.SongDTO;
 import zingmp3.repository.SongRepository;
+import zingmp3.service.SongService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @GrpcService
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Slf4j
 public class SongReactiveService extends ReactorSongServiceGrpc.SongServiceImplBase {
     private final SongRepository songRepository;
     private final SongService songService;
 
-    private Song convertToSong(zingmp3.model.Song song) {
+
+
+    private Song convertToSong(SongDTO song) {
+
         return Song.newBuilder()
                 .setId(song.getId())
                 .setName(song.getSongName())
@@ -36,8 +38,9 @@ public class SongReactiveService extends ReactorSongServiceGrpc.SongServiceImplB
                 .build();
     }
 
-    private SongDto convertToSongDto(Song song) {
-        return SongDto.builder()
+    private SongDTO convertToSongDto(Song song) {
+        return SongDTO.builder()
+                .id(song.getId())
                 .songName(song.getName())
                 .songWriter(song.getSongWriter())
                 .lyric(song.getLyric())
@@ -47,46 +50,43 @@ public class SongReactiveService extends ReactorSongServiceGrpc.SongServiceImplB
                 .liked(song.getLiked())
                 .played(song.getPlayed())
                 .build();
-
-
     }
 
     @Override
-    public Flux<Song> getAllSong(Song request) {
-        List<zingmp3.model.Song> songList = songRepository.findAll();
-
+    public Flux<Song> getAllSongs(Song request) {
+        List<SongDTO> songList = songService.findAll();
+        log.info("Get all song");
         List<Song> convertedSongList = songList.stream()
                 .map(this::convertToSong)
                 .toList();
 
+
         return Flux.fromIterable(convertedSongList);
     }
 
-
     @Override
-    public Mono<Song> getSong(Song request) {
-        zingmp3.model.Song song = songRepository.findById(request.getId()).orElseThrow();
-
+    public Mono<Song> getSongById(Song request) {
+        SongDTO song = songService.findById(request.getId());
+        log.info("Song id: {}", song.getId());
         return Mono.just(convertToSong(song));
     }
 
     @Override
     public Mono<Song> addSong(Song request) {
-        zingmp3.model.Song song = songService.addNewSong(convertToSongDto(request));
+        SongDTO song = songService.createSong(convertToSongDto(request));
         return Mono.just(convertToSong(song));
     }
 
     @Override
     public Mono<Song> updateSong(Song request) {
-        zingmp3.model.Song song = songRepository.findById(request.getId()).orElseThrow();
-        songService.updateSong(request.getId(), convertToSongDto(request));
+        SongDTO songDTO = songService.updateSong(request.getId(), convertToSongDto(request));
 
-        return Mono.just(convertToSong(song));
+        return Mono.just(convertToSong(songDTO));
     }
 
     @Override
     public Mono<Status> deleteSong(Song request) {
-        songService.deleteSongInService(request.getId());
+        songService.delete(request.getId());
         return Mono.just(Status.newBuilder().setMessage("Deleted").build());
     }
 }
