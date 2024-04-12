@@ -6,7 +6,17 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/zing-mp3
-
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**
+        - id: song-service
+          uri: lb://search-service
+          predicates:
+            - Path=/api/song/**
 eureka:
   client:
     service-url:
@@ -20,3 +30,5 @@ logging:
 
 server:
   port: 8081
+
+
