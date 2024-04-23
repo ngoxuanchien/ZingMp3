@@ -1,4 +1,4 @@
-package hcmus.zingmp3.playservice;
+package hcmus.zingmp3.playservice.service;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,8 +38,7 @@ public class MediaStreamLoaderImp implements MediaStreamLoader {
             endPos = 0L;
         }
 
-        ResponseEntity<StreamingResponseBody> retVal =
-            loadPartialMediaFile(localMediaFilePath, 0, endPos);
+        ResponseEntity<StreamingResponseBody> retVal = loadPartialMediaFile(localMediaFilePath, 0, endPos);
 
         return retVal;
     }
@@ -76,9 +75,7 @@ public class MediaStreamLoaderImp implements MediaStreamLoader {
     }
 
     @Override
-    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile
-            (String localMediaFilePath, String rangeValues)
-            throws IOException
+    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile (String localMediaFilePath, String rangeValues) throws IOException
     {
         if (!StringUtils.hasText(rangeValues))
         {
@@ -163,9 +160,7 @@ public class MediaStreamLoaderImp implements MediaStreamLoader {
     }
 
     @Override
-    public ResponseEntity<StreamingResponseBody>
-    loadPartialMediaFile(String localMediaFilePath, long fileStartPos, long fileEndPos)
-            throws IOException
+    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile(String localMediaFilePath, long fileStartPos, long fileEndPos) throws IOException
     {
         StreamingResponseBody responseStream;
         Path filePath = Paths.get(localMediaFilePath);

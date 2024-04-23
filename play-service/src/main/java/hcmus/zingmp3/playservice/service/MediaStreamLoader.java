@@ -1,4 +1,4 @@
-package hcmus.zingmp3.playservice;
+package hcmus.zingmp3.playservice.service;
 
 import java.io.IOException;
 
@@ -7,8 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 public interface MediaStreamLoader
 {
-    ResponseEntity<StreamingResponseBody>
-    loadEntireMediaFile(String localMediaFilePath) throws IOException;
+    ResponseEntity<StreamingResponseBody> loadEntireMediaFile(String localMediaFilePath) throws IOException;
 
     ResponseEntity<StreamingResponseBody> loadPartialMediaFile
             (String localMediaFilePath, String rangeValues) throws IOException;

@@ -3,15 +3,11 @@ package hcmus.zingmp3.playservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 @SpringBootApplication
-public class StreamServiceApplication {
+public class PlayServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StreamServiceApplication.class, args);
+        SpringApplication.run(PlayServiceApplication.class, args);
 //        try {
 //            Path path = Paths.get("../newFolder");
 //            Files.createDirectory(path);

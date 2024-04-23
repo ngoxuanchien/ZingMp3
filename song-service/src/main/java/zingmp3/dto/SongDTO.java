@@ -13,8 +13,8 @@ public class SongDTO {
     private String songWriter;
     private String lyric;
     private String thumbnail;
-    private byte[] songImage;
-    private byte[] songFile;
+    private String songImage;
+    private String songFile;
     private int duration;
     private int played;
     private int liked;

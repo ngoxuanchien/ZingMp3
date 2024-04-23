@@ -14,54 +14,74 @@ spring:
   graphql:
     graphiql:
       enabled: true
-
-grpc:
-  server:
-    port: 9090
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/zing-mp3
+      client:
+        registration:
+          keycloak:
+            client-id: song-service
+            client-secret: ghohHM6oyyOcGTZzyTC8Lyxh713XAKhg
+#grpc:
+#  server:
+#    port: 9090
 server:
-  port: 0
+  port: 8082
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-  instance:
-    non-secure-port: ${grpc.server.port}
-management:
-  health:
-    circuitbreakers:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: *
-  endpoint:
-    health:
-      show-details: always
+#  instance:
+#    non-secure-port: ${grpc.server.port}
+#management:
+#  health:
+#    circuitbreakers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: *
+#  endpoint:
+#    health:
+#      show-details: always
 
 # Resilience4j Properties
-resilience4j:
-  circuitbreaker:
-    instances:
-      inventory:
-        register-health-indicator: true
-        event-consumer-buffer-size: 10
-        sliding-window-type: COUNT_BASED
-        sliding-window-size: 10
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 5s
-        permitted-number-of-calls-in-half-open-state: 3
-        automatic-transition-from-open-to-half-open-enabled: true
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      inventory:
+#        register-health-indicator: true
+#        event-consumer-buffer-size: 10
+#        sliding-window-type: COUNT_BASED
+#        sliding-window-size: 10
+#        failure-rate-threshold: 50
+#        wait-duration-in-open-state: 5s
+#        permitted-number-of-calls-in-half-open-state: 3
+#        automatic-transition-from-open-to-half-open-enabled: true
 
 # Resilience4j Timeout Properties
-  timelimiter:
-    instances:
-      inventory:
-        timeout-duration: 3s
+#  timelimiter:
+#    instances:
+#      inventory:
+#        timeout-duration: 3s
 
 # Resilience4j Retry Properties
-  retry:
-    instances:
-      inventory:
-        max-attempts: 3
-        wait-duration: 5s
-
+#  retry:
+#    instances:
+#      inventory:
+#        max-attempts: 3
+#        wait-duration: 5s
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: song-service
+      client-secret: ghohHM6oyyOcGTZzyTC8Lyxh713XAKhg
+keycloak:
+#  domain: localhost
+  realm: zing-mp3
+  resourceId: song-service
+  tokenUrl: http://localhost:8081/api/auth/token
+#  urls:
+#    auth: http://${keycloak.domain}:8080

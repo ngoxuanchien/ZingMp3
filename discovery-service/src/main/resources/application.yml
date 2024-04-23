@@ -10,3 +10,6 @@ eureka:
 #      defaultZone: http://localhost:8761/eureka/
     healthcheck:
       enabled: true
+
+management.endpoint.health.enabled: true
+management.endpoints.web.exposure.include: "health"

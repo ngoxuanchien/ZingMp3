@@ -5,19 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SongDTO {
-    private Integer id = 0;
+@RedisHash("Song")
+public class SongDTO implements Serializable {
+    @Id
+    private Integer id;
     private String songName;
     private String songWriter;
     private String lyric;
     private String thumbnail;
-    private byte[] songImage;
-    private byte[] songFile;
+    private String songImage;
+    private String songFile;
     private int duration;
     private int played;
     private int liked;

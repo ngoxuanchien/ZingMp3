@@ -1,8 +1,15 @@
 package zingmp3.model;
 
-import com.google.type.DateTime;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -12,6 +19,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "song")
+@EntityListeners(AuditingEntityListener.class)
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +29,8 @@ public class Song {
     @Column(name = "lyric", length = 10000)
     private String lyric;
     private String thumbnail;
-    private byte[] songImage;
-    private byte[] songFile;
+    private String songImage;
+    private String songFile;
     private int duration;
     @Builder.Default
     private int played = 0;
@@ -32,10 +40,27 @@ public class Song {
 
     @Builder.Default
     private String providedBy = "";
-    private DateTime releaseDate;
+    private LocalDateTime releaseDate;
 
-    private DateTime createdDate;
-    private Integer createdBy;
-    private DateTime modifiedDate;
-    private Integer modifiedBy;
+    @CreatedDate
+    @Column(
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createdDate;
+
+    @CreatedBy
+    @Column(
+//            nullable = false,
+            updatable = false
+    )
+    private UUID createdBy;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime modifiedDate;
+
+    @LastModifiedBy
+    @Column(insertable = false)
+    private UUID modifiedBy;
 }

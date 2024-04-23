@@ -11,3 +11,46 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://keycloak:8080/realms/zing-mp3
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+      routes:
+        - id: song-service
+          uri: lb://song-service
+          predicates:
+            - Path=/api/songs/**, /v3/api-docs/song-service, /api/songs-demo/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**, /v3/api-docs/user-service, /api/register/**
+        - id: auth-service
+          uri: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/
+          predicates:
+            - Path=/api/auth/**, /v3/api-docs/auth-service/**
+          filters:
+            - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
+springdoc:
+  swagger-ui:
+    enabled: true
+    oauth:
+      client-id: user-service
+      client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
+    urls:
+      - name: auth-service
+        url: /v3/api-docs/auth-service
+      - name: song-service
+        url: /v3/api-docs/song-service
+      - name: user-service
+        url: /v3/api-docs/user-service

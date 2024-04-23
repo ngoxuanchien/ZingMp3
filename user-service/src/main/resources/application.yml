@@ -1,9 +1,4 @@
 spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3310/user_service
-#    username: zingmp3
-#    password: zingmp3
   application:
     name: user-service
   security:
@@ -11,16 +6,32 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: zing-mp3-api
-            client-secret: nGZ3VfUaC8CrnmSEs8wK1J15M4PY1lUD
+            client-id: user-service
+            client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/zing-mp3
 server:
-  port: 0
+  port: 8083
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://eureka:password@localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 
 keycloak:
-  url: http://localhost:8080
+  domain: localhost
+  realm: zing-mp3
+  client-id: user-service
+  client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
+  urls:
+    auth: http://${keycloak.domain}:8080
+  token-url: http://localhost:8081/api/auth/token
+  resource-id: user-service
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${keycloak.client-id}
+      client-secret: ${keycloak.client-secret}

@@ -22,13 +22,9 @@
         <module>song-service</module>
         <module>api-gateway</module>
         <module>user-service</module>
+        <module>play-service</module>
     </modules>
 
-<!--    <properties>-->
-<!--        <maven.compiler.source>21</maven.compiler.source>-->
-<!--        <maven.compiler.target>21</maven.compiler.target>-->
-<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-<!--    </properties>-->
 
     <build>
         <plugins>
@@ -36,14 +32,6 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.0</version>
-<!--                <configuration>-->
-<!--                    <from>-->
-<!--                        <image>jelastic/maven:3.9.5-openjdk-21</image>-->
-<!--                    </from>-->
-<!--                    <to>-->
-<!--                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>-->
-<!--                    </to>-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
