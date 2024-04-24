@@ -3,9 +3,17 @@ package zingmp3.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.Map;
+
+import static com.google.common.collect.Maps.toMap;
+
 
 @Configuration
 public class SpringFoxConfig {
@@ -16,6 +24,7 @@ public class SpringFoxConfig {
                 .packagesToScan("zingmp3.controller")
                 .build();
     }
+
 
     @Bean
     public OpenAPI springUserServiceApi() {

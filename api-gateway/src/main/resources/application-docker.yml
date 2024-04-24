@@ -30,7 +30,7 @@ spring:
         - id: song-service
           uri: lb://song-service
           predicates:
-            - Path=/api/songs/**, /v3/api-docs/song-service, /api/songs-demo/**
+            - Path=/api/songs/**, /v3/api-docs/song-service, /api/songs-demo/**, /api/albums/**, /api/genres/**, /api/artists/**, /api/artists/**, /api/albums/**, /api/composers/**
         - id: user-service
           uri: lb://user-service
           predicates:
@@ -47,6 +47,8 @@ springdoc:
     oauth:
       client-id: user-service
       client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
+    operations-sorter: method
+    tags-sorter: alpha
     urls:
       - name: auth-service
         url: /v3/api-docs/auth-service

@@ -35,3 +35,5 @@ springdoc:
     oauth:
       client-id: ${keycloak.client-id}
       client-secret: ${keycloak.client-secret}
+    operations-sorter: method
+    tags-sorter: alpha

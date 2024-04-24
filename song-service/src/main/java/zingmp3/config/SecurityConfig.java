@@ -1,40 +1,24 @@
 package zingmp3.config;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
-import org.keycloak.adapters.authorization.integration.jakarta.ServletPolicyEnforcerFilter;
-import org.keycloak.adapters.authorization.spi.ConfigurationResolver;
-import org.keycloak.adapters.authorization.spi.HttpRequest;
-import org.keycloak.representations.adapters.config.PolicyEnforcerConfig;
-import org.keycloak.util.JsonSerialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.cors.CorsConfigurationSource;
+
 import zingmp3.converter.JwtAuthConverter;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthConverter jwtAuthConverter;
@@ -43,7 +27,11 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/api/songs/**"
+            "/api/songs/**",
+            "/api/genres/**",
+            "/api/artists/**",
+            "/api/albums/**",
+            "/api/composers/**"
     };
 
     @Bean
@@ -51,9 +39,31 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, WHITELIST).permitAll()
+                        // song authorities
                         .requestMatchers(HttpMethod.POST, "/api/songs/**").hasAuthority("song-create")
                         .requestMatchers(HttpMethod.PUT, "/api/songs/**").hasAuthority("song-update")
                         .requestMatchers(HttpMethod.DELETE, "/api/songs/**").hasAuthority("song-delete")
+
+                        // genre authorities
+                        .requestMatchers(HttpMethod.POST, "/api/genres/**").hasAuthority("genre-create")
+                        .requestMatchers(HttpMethod.PUT, "/api/genres/**").hasAuthority("genre-update")
+                        .requestMatchers(HttpMethod.DELETE, "/api/genres/**").hasAuthority("genre-delete")
+
+                        // album authorities
+                        .requestMatchers(HttpMethod.POST, "/api/albums/**").hasAuthority("album-create")
+                        .requestMatchers(HttpMethod.PUT, "/api/albums/**").hasAuthority("album-update")
+                        .requestMatchers(HttpMethod.DELETE, "/api/albums/**").hasAuthority("album-delete")
+
+                        // artist authorities
+                        .requestMatchers(HttpMethod.POST, "/api/artists/**").hasAuthority("artist-create")
+                        .requestMatchers(HttpMethod.PUT, "/api/artists/**").hasAuthority("artist-update")
+                        .requestMatchers(HttpMethod.DELETE, "/api/artists/**").hasAuthority("artist-delete")
+
+                        // composer authorities
+                        .requestMatchers(HttpMethod.POST, "/api/composers/**").hasAuthority("composer-create")
+                        .requestMatchers(HttpMethod.PUT, "/api/composers/**").hasAuthority("composer-update")
+                        .requestMatchers(HttpMethod.DELETE, "/api/composers/**").hasAuthority("composer-delete")
+
                         .anyRequest()
                         .authenticated())
 //                .addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class)

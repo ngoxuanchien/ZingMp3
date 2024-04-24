@@ -3,11 +3,12 @@ spring:
     name: song-service
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database: mysql
     show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/song_service?createDatabaseIfNotExit=true
+#    url: jdbc:mysql://192.168.1.17:3306/song_service
     username: zingmp3
     password: zingmp3
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,6 +30,9 @@ spring:
 #    port: 9090
 server:
   port: 8082
+  max-song-response: 100
+  max-album-response: 100
+  max-composer-response: 100
 eureka:
   client:
     service-url:
@@ -78,6 +82,8 @@ springdoc:
     oauth:
       client-id: song-service
       client-secret: ghohHM6oyyOcGTZzyTC8Lyxh713XAKhg
+    operations-sorter: method
+    tags-sorter: alpha
 keycloak:
 #  domain: localhost
   realm: zing-mp3
@@ -85,3 +91,4 @@ keycloak:
   tokenUrl: http://localhost:8081/api/auth/token
 #  urls:
 #    auth: http://${keycloak.domain}:8080
+

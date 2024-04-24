@@ -2050,7 +2050,8 @@
       "composite" : true,
       "composites" : {
         "client" : {
-          "song-service" : [ "song-read" ]
+          "song-service" : [ "composer-read", "artist-read", "song-read", "genre-read", "album-read" ],
+          "user-service" : [ "user-read" ]
         }
       },
       "clientRole" : false,
@@ -2085,8 +2086,8 @@
       "composite" : true,
       "composites" : {
         "client" : {
-          "song-service" : [ "song-update", "song-read", "song-create" ],
-          "user-service" : [ "user-create", "user-update", "user-read" ]
+          "user-service" : [ "user-create", "user-read", "user-update" ],
+          "song-service" : [ "artist-create", "genre-create", "artist-update", "album-create", "song-read", "album-update", "composer-create", "song-create", "song-update", "composer-update", "genre-update" ]
         }
       },
       "clientRole" : false,
@@ -2287,8 +2288,48 @@
       "admin-cli" : [ ],
       "account-console" : [ ],
       "song-service" : [ {
-        "id" : "341ffc3e-52f7-449d-b0dc-349b112e84cc",
-        "name" : "song-update",
+        "id" : "95abe893-bd77-446f-86b4-b62a54ef77c4",
+        "name" : "artist-delete",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "02c5671c-302a-4f93-8086-eae796c96dac",
+        "name" : "composer-delete",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "3264e6c6-06d4-402a-b97f-71aaaede008c",
+        "name" : "artist-create",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "ff44ff3e-2273-499e-ad58-c7ae674d13bc",
+        "name" : "genre-delete",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "825bce96-e7bb-4cee-88f4-a062cd4617ba",
+        "name" : "genre-create",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "1e1ba522-a6e6-4eaa-9e83-48a6105fb9db",
+        "name" : "artist-update",
         "description" : "",
         "composite" : false,
         "clientRole" : true,
@@ -2303,8 +2344,9 @@
         "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
         "attributes" : { }
       }, {
-        "id" : "9f55d61f-924f-4761-8da8-d808b3a5adfc",
-        "name" : "uma_protection",
+        "id" : "0e238543-27e0-4a55-8be5-b41cc367bb3c",
+        "name" : "album-create",
+        "description" : "",
         "composite" : false,
         "clientRole" : true,
         "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
@@ -2318,8 +2360,95 @@
         "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
         "attributes" : { }
       }, {
+        "id" : "3ca4a7de-63d8-40b0-ab86-b67fdb564e48",
+        "name" : "album-update",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "c0bfde26-c400-436b-89a4-f7808de968e1",
+        "name" : "album-read",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "ac0fcfdc-d898-4f16-ace8-1ae3f9297f5c",
+        "name" : "composer-create",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
         "id" : "afa025c1-7c62-4e33-94ba-0ebcefd6c823",
         "name" : "song-create",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "341ffc3e-52f7-449d-b0dc-349b112e84cc",
+        "name" : "song-update",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "a2af3b13-7140-4342-8ce8-f8468d32ad94",
+        "name" : "artist-read",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "3ebe2561-c223-4df6-b90b-0636697bf424",
+        "name" : "composer-read",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "e3149bc6-eec5-48a3-b35a-eda3b14c19ac",
+        "name" : "composer-update",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "7f0c94bc-b8a3-4fa1-902b-12fed2ea3997",
+        "name" : "album-delete",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "9f55d61f-924f-4761-8da8-d808b3a5adfc",
+        "name" : "uma_protection",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "432491c0-0762-4c8b-867e-887cafad757c",
+        "name" : "genre-update",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "86e40224-5636-4b85-b456-6c043905a15f",
+        "attributes" : { }
+      }, {
+        "id" : "75fd771d-3a40-4e95-b62f-f6ae6c3120b1",
+        "name" : "genre-read",
         "description" : "",
         "composite" : false,
         "clientRole" : true,
@@ -2494,42 +2623,20 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "webAuthnPolicyPasswordlessExtraOrigins" : [ ],
   "users" : [ {
-    "id" : "c2389c47-58ac-45f0-830b-c7b03ebebec6",
+    "id" : "67a23f8a-877e-47d8-87f5-857475dc311e",
     "username" : "chien",
-    "firstName" : "string",
-    "lastName" : "string",
-    "email" : "chien2@gmail.com",
+    "firstName" : "chien",
+    "lastName" : "chien",
+    "email" : "chien@gmail.com",
     "emailVerified" : false,
-    "createdTimestamp" : 1713894300697,
+    "createdTimestamp" : 1713896478132,
     "enabled" : true,
     "totp" : false,
     "credentials" : [ {
-      "id" : "36c691a9-e034-4687-9eba-c433a08857a3",
+      "id" : "05d8c8b7-7c4e-4b3f-8153-79855a4323d7",
       "type" : "password",
-      "createdDate" : 1713894300965,
-      "secretData" : "{\"value\":\"QZexpGq1jlqPqf3y5aJaX/F0W56dfI4obxgGm00pO+J5xvsHvuEZaahcRW9NuwHoC66UEZxSUg77WaSt6JDS2w==\",\"salt\":\"CP2g6ng9zS5tkH2bOjePjw==\",\"additionalParameters\":{}}",
-      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
-    } ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "user", "default-roles-zing-mp3" ],
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "1c8e0762-9b67-4a62-9615-345d747af811",
-    "username" : "chien1",
-    "firstName" : "string",
-    "lastName" : "string",
-    "email" : "chien12@gmail.com",
-    "emailVerified" : false,
-    "createdTimestamp" : 1713894329808,
-    "enabled" : true,
-    "totp" : false,
-    "credentials" : [ {
-      "id" : "81f0eb44-60b0-48f0-9656-9f1027f3d7b7",
-      "type" : "password",
-      "createdDate" : 1713894330061,
-      "secretData" : "{\"value\":\"taCH4ztZJuduWgTtu9LWosgA8RJx95k6/I4oGlmQxEax1YjGtH7+Ne1Z2lIb3LogU4L/cJTBf7jBmHYX/QASiA==\",\"salt\":\"nk7WM5eFtrH/lK4BPtHgJA==\",\"additionalParameters\":{}}",
+      "createdDate" : 1713896478393,
+      "secretData" : "{\"value\":\"VjrKlQTqo73wbShJNrWiSuAKOvWpHg+YZoOCi4ncz2QqD31fLG0OH0nsFigoCqvcyZW+AYmuLh2eTp1I/poI6A==\",\"salt\":\"VGJS+zkAvYw/2FZHoT1Mzw==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],

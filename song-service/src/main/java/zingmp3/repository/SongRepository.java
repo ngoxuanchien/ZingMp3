@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 import zingmp3.model.Song;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface SongRepository extends JpaRepository<Song, Integer> {
+public interface SongRepository extends JpaRepository<Song, UUID> {
     @NotNull
-    Optional<Song> findById(@NotNull Integer id);
+    Optional<Song> findById(@NotNull UUID id);
 }

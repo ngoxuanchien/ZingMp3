@@ -34,7 +34,11 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/api/auth/**",
             "/api/songs/**",
-            "/api/register/**"
+            "/api/register/**",
+            "/api/genres/**",
+            "/api/artists/**",
+            "/api/albums/**",
+            "/api/composers/**"
     };
 
     @Bean

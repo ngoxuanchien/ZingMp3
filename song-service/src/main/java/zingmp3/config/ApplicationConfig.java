@@ -1,5 +1,6 @@
 package zingmp3.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -12,5 +13,9 @@ public class ApplicationConfig {
     @Bean
     public AuditorAware<UUID> auditorAware() {
         return new ApplicationAuditAware();
+    }
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
