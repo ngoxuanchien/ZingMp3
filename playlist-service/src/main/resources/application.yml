@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: playlist-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/playlist_service
+    username: zingmp3
+    password: zingmp3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/zing-mp3
+      client:
+        registration:
+          keycloak:
+            client-id: playlist-service
+            client-secret: Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4
+server:
+  port: 8084
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: playlist-service
+      client-secret: Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4
+    operations-sorter: method
+    tags-sorter: alpha
+keycloak:
+  domain: localhost
+  realm: zing-mp3
+  resourceId: playlist-service
+  tokenUrl: http://${keycloak.domain}:8081/api/auth/token
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

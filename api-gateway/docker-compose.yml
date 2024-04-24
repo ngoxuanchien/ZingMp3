@@ -2,16 +2,17 @@ version: '3.8'
 services:
   api-gateway:
     container_name: api-gateway
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: api-gateway
-    restart: on-failure
-    environment:
-      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak:8080/realms/zingmp3
+#    depends_on:
+#      mysql-keycloak:
+#        condition: service_healthy
+    image: ngoxuanchien/api-gateway:latest
+    restart: always
+    ports:
+      - "8081:8081"
     networks:
       - zingmp3-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
 networks:
   zingmp3-net:

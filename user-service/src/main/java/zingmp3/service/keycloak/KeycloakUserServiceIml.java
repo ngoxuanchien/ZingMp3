@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import zingmp3.dto.UserRegistrationRecord;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -52,29 +50,6 @@ public class KeycloakUserServiceIml implements KeycloakUserService {
                 .add(roleToAdd);
     }
 
-//    private void assignClientRole(String userId, String clientRole) {
-//        String client_id = keycloak
-//                .realm(realm)
-//                .clients()
-//                .findByClientId(clientId)
-//                .getFirst()
-//                .getId();
-//        UserResource user = keycloak
-//                .realm(realm)
-//                .users()
-//                .get(userId);
-//        List<RoleRepresentation> roleToAdd = new LinkedList<>();
-//        roleToAdd.add(keycloak
-//                .realm(realm)
-//                .clients()
-//                .get(client_id)
-//                .roles()
-//                .get(clientRole)
-//                .toRepresentation()
-//        );
-//        user.roles().clientLevel(client_id).add(roleToAdd);
-//    }
-
     private UsersResource getUsersResource() {
         RealmResource realmResource = keycloak.realm(realm);
         return realmResource.users();
@@ -103,14 +78,19 @@ public class KeycloakUserServiceIml implements KeycloakUserService {
     public UserRegistrationRecord register(UserRegistrationRecord newUser) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
-        user.setUsername(newUser.username());
-        user.setEmail(newUser.email());
-        user.setFirstName(newUser.firstName());
-        user.setLastName(newUser.lastName());
+        user.setEmail(newUser.getEmail());
+        user.setAttributes(new AbstractMap<String, List<String>>() {
+            @Override
+            public Set<Entry<String, List<String>>> entrySet() {
+                Set<Entry<String, List<String>>> set = new HashSet<>();
+                set.add(new AbstractMap.SimpleEntry<>("name", List.of(newUser.getName())));
+                return set;
+            }
+        });
         user.setEmailVerified(false);
 
         CredentialRepresentation credential = new CredentialRepresentation();
-        credential.setValue(newUser.password());
+        credential.setValue(newUser.getPassword());
         credential.setTemporary(false);
         credential.setType(CredentialRepresentation.PASSWORD);
 

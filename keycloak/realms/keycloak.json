@@ -2026,7 +2026,7 @@
   "enabled" : true,
   "sslRequired" : "external",
   "registrationAllowed" : true,
-  "registrationEmailAsUsername" : false,
+  "registrationEmailAsUsername" : true,
   "rememberMe" : false,
   "verifyEmail" : false,
   "loginWithEmailAllowed" : true,
@@ -2287,6 +2287,7 @@
       "security-admin-console" : [ ],
       "admin-cli" : [ ],
       "account-console" : [ ],
+      "playlist-service" : [ ],
       "song-service" : [ {
         "id" : "95abe893-bd77-446f-86b4-b62a54ef77c4",
         "name" : "artist-delete",
@@ -2623,20 +2624,21 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "webAuthnPolicyPasswordlessExtraOrigins" : [ ],
   "users" : [ {
-    "id" : "67a23f8a-877e-47d8-87f5-857475dc311e",
-    "username" : "chien",
-    "firstName" : "chien",
-    "lastName" : "chien",
-    "email" : "chien@gmail.com",
+    "id" : "e0bd202d-bdce-4e8a-9a20-ead81b74a7da",
+    "username" : "an@gmail.com",
+    "email" : "an@gmail.com",
     "emailVerified" : false,
-    "createdTimestamp" : 1713896478132,
+    "attributes" : {
+      "name" : [ "1234" ]
+    },
+    "createdTimestamp" : 1713985023924,
     "enabled" : true,
     "totp" : false,
     "credentials" : [ {
-      "id" : "05d8c8b7-7c4e-4b3f-8153-79855a4323d7",
+      "id" : "dfecc2bf-9b47-442d-b40c-0a25b3849f22",
       "type" : "password",
-      "createdDate" : 1713896478393,
-      "secretData" : "{\"value\":\"VjrKlQTqo73wbShJNrWiSuAKOvWpHg+YZoOCi4ncz2QqD31fLG0OH0nsFigoCqvcyZW+AYmuLh2eTp1I/poI6A==\",\"salt\":\"VGJS+zkAvYw/2FZHoT1Mzw==\",\"additionalParameters\":{}}",
+      "createdDate" : 1713985024234,
+      "secretData" : "{\"value\":\"LyCafOunBU/J5HxtOtqVqxdnbekD8Wp+gsdxCkPcJwGcrCMTPeZkQO/x8JYnlWtIIVpAGNlBtUAPKnTzQMtp6Q==\",\"salt\":\"USqdeA8nDbskZrSiKJ7UXQ==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],
@@ -2645,29 +2647,40 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
-    "id" : "b9478fff-7960-4029-8610-b1d3a8714d85",
-    "username" : "nxc",
-    "firstName" : "Chien",
-    "lastName" : "Xuan",
-    "email" : "ngoxuanchien9a@gmail.com",
+    "id" : "a06d2131-58cc-4789-bfff-03f3c142d664",
+    "username" : "nxc@gmail.com",
+    "email" : "nxc@gmail.com",
     "emailVerified" : false,
-    "createdTimestamp" : 1712655675543,
+    "attributes" : {
+      "name" : [ "chien" ]
+    },
+    "createdTimestamp" : 1713985958374,
     "enabled" : true,
     "totp" : false,
     "credentials" : [ {
-      "id" : "40dd8d53-99b8-46b4-abfd-39f52508e9c8",
+      "id" : "36685235-0f1a-4ea1-828d-e1563f7c8742",
       "type" : "password",
-      "userLabel" : "My password",
-      "createdDate" : 1712655767928,
-      "secretData" : "{\"value\":\"uhjswO4wqnLjTvD9etRDpaaWSnYp+MIViY7PiymDpKj9KiSp2HuL0y0hAlZBaGRiMhPGIkmusVN6j6XVS6HdVQ==\",\"salt\":\"rib4thXrUf70ZLqz0fskZA==\",\"additionalParameters\":{}}",
+      "createdDate" : 1713985958640,
+      "secretData" : "{\"value\":\"cCFM5Dg5JHbZDR5xOgSiNzA12XhNjd4r74KvrPJku+S9yR8sHhtjlyX3x30QhIrVhQbqSC2Nyjx4L92UMRmYJw==\",\"salt\":\"Mdmz1m6JoWCCcdPlfh+j2Q==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-zing-mp3", "admin" ],
-    "clientRoles" : {
-      "song-service" : [ "song-update" ]
-    },
+    "realmRoles" : [ "user", "default-roles-zing-mp3", "admin" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "63cbf095-0d48-4d22-bd7c-8eccc4417520",
+    "username" : "service-account-playlist-service",
+    "emailVerified" : false,
+    "createdTimestamp" : 1713972501790,
+    "enabled" : true,
+    "totp" : false,
+    "serviceAccountClientId" : "playlist-service",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-zing-mp3" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -2838,6 +2851,86 @@
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
+    "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
+  }, {
+    "id" : "802dae95-953a-4bf1-9926-0b8a2e4f411c",
+    "clientId" : "playlist-service",
+    "name" : "",
+    "description" : "",
+    "rootUrl" : "",
+    "adminUrl" : "",
+    "baseUrl" : "",
+    "surrogateAuthRequired" : false,
+    "enabled" : true,
+    "alwaysDisplayInConsole" : false,
+    "clientAuthenticatorType" : "client-secret",
+    "secret" : "Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4",
+    "redirectUris" : [ "/*" ],
+    "webOrigins" : [ "/*" ],
+    "notBefore" : 0,
+    "bearerOnly" : false,
+    "consentRequired" : false,
+    "standardFlowEnabled" : false,
+    "implicitFlowEnabled" : false,
+    "directAccessGrantsEnabled" : true,
+    "serviceAccountsEnabled" : true,
+    "publicClient" : false,
+    "frontchannelLogout" : true,
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "oidc.ciba.grant.enabled" : "false",
+      "oauth2.device.authorization.grant.enabled" : "false",
+      "client.secret.creation.time" : "1713972501",
+      "backchannel.logout.session.required" : "true",
+      "backchannel.logout.revoke.offline.tokens" : "false"
+    },
+    "authenticationFlowBindingOverrides" : { },
+    "fullScopeAllowed" : true,
+    "nodeReRegistrationTimeout" : -1,
+    "protocolMappers" : [ {
+      "id" : "5c632775-daf7-4805-83a3-38577e11e33f",
+      "name" : "Client ID",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "client_id",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "client_id",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "e445dd38-d916-479e-87ea-5807db3b28c7",
+      "name" : "Client Host",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientHost",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientHost",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "6a8ca9a4-2e23-4acb-b6b9-327b373dc6ef",
+      "name" : "Client IP Address",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientAddress",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientAddress",
+        "jsonType.label" : "String"
+      }
+    } ],
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
@@ -3660,6 +3753,14 @@
       "subComponents" : { },
       "config" : {
         "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "saml-user-property-mapper", "oidc-address-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper" ]
+      }
+    } ],
+    "org.keycloak.userprofile.UserProfileProvider" : [ {
+      "id" : "367c35db-f78d-41af-95da-5b98ff149d28",
+      "providerId" : "declarative-user-profile",
+      "subComponents" : { },
+      "config" : {
+        "kc.user.profile.config" : [ "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"name\",\"displayName\":\"${name}\",\"validations\":{\"length\":{\"min\":\"1\",\"max\":\"255\"},\"person-name-prohibited-characters\":{\"error-message\":\"{}\"}},\"annotations\":{},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false}],\"groups\":[{\"name\":\"user-metadata\",\"displayHeader\":\"User metadata\",\"displayDescription\":\"Attributes, which refer to user metadata\"}]}" ]
       }
     } ],
     "org.keycloak.keys.KeyProvider" : [ {

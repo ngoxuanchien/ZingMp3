@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface SongRepository extends JpaRepository<Song, UUID> {
     @NotNull
     Optional<Song> findById(@NotNull UUID id);
+
+    boolean existsByTitle(@NotNull String title);
 }

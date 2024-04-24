@@ -67,7 +67,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
 //                .addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class)
-                .oauth2ResourceServer(spec -> spec
+                .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthConverter)))
                 .sessionManagement(session -> session

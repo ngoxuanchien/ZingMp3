@@ -16,8 +16,6 @@ services:
       KC_DB_PASSWORD: keycloak-secret
     ports:
       - "8080:8080"
-    #      - "8443:8443"
-    #      - "9990:9990"
     depends_on:
       mysql-keycloak:
         condition: service_healthy
@@ -43,16 +41,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    #      timeout: 20s
-    #      retries: 10
     networks:
       - zingmp3-net
     volumes:
       - ./database/mysql-keycloak:/var/lib/mysql
-  #volumes:
-  #  mysql-volume:
-  #    driver: local
-
   mysql-song:
     container_name: mysql-song
     image: mysql
@@ -71,51 +63,42 @@ services:
     networks:
       - zingmp3-net
 
+  mysql-playlist:
+    container_name: mysql-playlist
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playlist_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3308
+    volumes:
+      - ./database/mysql-playlist:/data/mysql
+    ports:
+      - "3308:3308"
+    restart: always
+    networks:
+      - zingmp3-net
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+
   song-service:
     depends_on:
       mysql-song:
         condition: service_healthy
-#      discovery-service:
-#        condition: service_healthy
     container_name: song-service
-#    build:
-#      context: ./song-service
-#      dockerfile: Dockerfile
     image: ngoxuanchien/song-service:latest
     restart: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-song:3306/song_service
-#      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
     networks:
       - zingmp3-net
-#    stdin_open: true
-#    tty: true
-
-#  playlist-service:
-#    depends_on:
-#      - mysql-playlist
-#      - discovery-service
-#    container_name: ngoxuanchien/playlist-service:latest
-#    build:
-#      context: ./playlist-service
-#
-#    image: playlist-service
-#    restart: on-failure
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-playlist:3307/playlist_service
-#    networks:
-#      playlist-service-net:
-#    stdin_open: true
-#    tty: true
 
   discovery-service:
     container_name: discovery-service
     depends_on:
       - mysql-song
-#    build:
-#      context: ./discovery-service
-#      dockerfile: Dockerfile
     image: ngoxuanchien/discovery-service:latest
     restart: always
     ports:
@@ -123,40 +106,23 @@ services:
     networks:
       - zingmp3-net
 
-#  search-service:
-#    container_name: search-service
-#    depends_on:
-##      - mysql-playlist
-##      - mysql-song
-##      - keycloak-mysql
-#      - discovery-service
-#      - song-service
-##      - playlist-service
-##    build: ./search-service
-#    image: ngoxuanchien/search-service:latest
-#    build:
-#      context: ./search-service
-#      dockerfile: Dockerfile
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-##      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
-#    restart: always
-#    networks:
-#      - zingmp3-net
+  playlist-service:
+    depends_on:
+      mysql-playlist:
+        condition: service_healthy
+    container_name: playlist-service
+    image: ngoxuanchien/playlist-service:latest
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - zingmp3-net
 
   api-gateway:
     container_name: api-gateway
     depends_on:
-#      - mysql-song
-#      - keycloak-mysql
-#      - discovery-service
-#      - song-service
-#      - search-service
       mysql-keycloak:
         condition: service_healthy
-#    build:
-#      context: ./api-gateway
-#      dockerfile: Dockerfile
     image: ngoxuanchien/api-gateway:latest
     restart: always
     ports:
@@ -170,13 +136,8 @@ services:
       - keycloak
     container_name: user-service
     image: ngoxuanchien/user-service:latest
-#    build:
-#      context: ./user-service
-#      dockerfile: Dockerfile
     restart: always
     environment:
-#      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
-#      - KEYCLOAK_URL=http://keycloak:8080
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - zingmp3-net

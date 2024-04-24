@@ -1,5 +1,21 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql-playlist:3306/playlist_service
+    url: jdbc:mysql://mysql-playlist:3308/playlist_service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/zing-mp3
 server:
-  port: 8081
+  port: 8084
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+springdoc:
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: alpha
+keycloak:
+  resourceId: playlist-service
+  tokenUrl: http://nxc-hcmus.me:8081/api/auth/token

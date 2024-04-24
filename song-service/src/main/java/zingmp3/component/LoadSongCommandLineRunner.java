@@ -3,12 +3,9 @@ package zingmp3.component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cglib.core.Local;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import zingmp3.model.*;
@@ -21,6 +18,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
@@ -66,41 +64,53 @@ public class LoadSongCommandLineRunner implements CommandLineRunner {
 
 
     private Song convertToSong(JsonNode jsonNode) {
-        return Song.builder()
-                .title(jsonNode.get("title").asText())
-                .alias(jsonNode.get("alias").asText())
-                .isOfficial(jsonNode.get("isOffical").asBoolean())
-                .username(jsonNode.get("username").asText())
-                .artistsNames(jsonNode.get("artistsNames").asText())
-                .artists(convertToArtists(jsonNode.get("artists")))
-                .isWorldWide(jsonNode.get("isWorldWide").asBoolean())
-                .previewInfo(
-                        convertToPreviewInfo(jsonNode.get("previewInfo"))
-                )
-                .thumbnailM(jsonNode.get("thumbnailM").asText())
-                .link(jsonNode.get("link").asText())
-                .thumbnail(jsonNode.get("thumbnail").asText())
-                .duration(jsonNode.get("duration").asInt())
-                .zingChoice(jsonNode.get("zingChoice").asBoolean())
-                .isPrivate(jsonNode.get("isPrivate").asBoolean())
-                .preRelease(jsonNode.get("preRelease").asBoolean())
-                .releaseDate(convertToLocalDateTime(jsonNode.get("releaseDate").asInt()))
-                .distributor(jsonNode.get("distributor").asText())
-                .indicators(convertToIndicator(jsonNode.get("indicators")))
-                .isIndie(jsonNode.get("isIndie").asBoolean())
-                .streamingStatus(jsonNode.get("streamingStatus").asInt())
-                .allowAudioAds(jsonNode.get("allowAudioAds").asBoolean())
-                .hasLyric(jsonNode.get("hasLyric").asBoolean())
-                .userId(jsonNode.get("userid").asInt())
-                .genres(convertToGenres(jsonNode.get("genres")))
-                .composers(convertToComposers(jsonNode.get("composers")))
-                .album(convertToAlbum(jsonNode.get("album")))
-                .isRBT(jsonNode.get("isRBT").asBoolean())
-                .like(jsonNode.get("like").asInt())
-                .listen(jsonNode.get("listen").asInt())
-                .comment(jsonNode.get("comment").asInt())
-                .streaming(convertToStreaming(jsonNode.get("streaming")))
-                .build();
+        if (songRepository.existsByTitle(jsonNode.get("title").asText())) {
+            return null;
+        } else {
+            return songRepository.save(
+                    Song.builder()
+                            .title(jsonNode.get("title").asText())
+                            .alias(jsonNode.get("alias").asText())
+                            .isOfficial(jsonNode.get("isOffical").asBoolean())
+                            .username(jsonNode.get("username").asText())
+                            .artistsNames(jsonNode.get("artistsNames").asText())
+                            .artists(convertToArtists(jsonNode.get("artists")))
+                            .isWorldWide(jsonNode.get("isWorldWide").asBoolean())
+                            .previewInfo(
+                                    convertToPreviewInfo(jsonNode.get("previewInfo"))
+                            )
+                            .thumbnailM(jsonNode.get("thumbnailM").asText())
+                            .link(jsonNode.get("link").asText())
+                            .thumbnail(jsonNode.get("thumbnail").asText())
+                            .duration(jsonNode.get("duration").asInt())
+                            .zingChoice(jsonNode.get("zingChoice").asBoolean())
+                            .isPrivate(jsonNode.get("isPrivate").asBoolean())
+                            .preRelease(jsonNode.get("preRelease").asBoolean())
+                            .releaseDate(convertToLocalDateTime(jsonNode.get("releaseDate").asInt()))
+                            .distributor(jsonNode.get("distributor").asText())
+                            .indicators(convertToIndicator(jsonNode.get("indicators")))
+                            .isIndie(jsonNode.get("isIndie").asBoolean())
+                            .streamingStatus(jsonNode.get("streamingStatus").asInt())
+                            .allowAudioAds(jsonNode.get("allowAudioAds").asBoolean())
+                            .hasLyric(
+                                    jsonNode.get("hasLyric") != null &&
+                                            jsonNode.get("hasLyric").asBoolean())
+                            .userId(jsonNode.get("userid").asInt())
+                            .genres(convertToGenres(jsonNode.get("genres")))
+                            .composers(convertToComposers(jsonNode.get("composers")))
+                            .album(convertToAlbum(jsonNode.get("album")))
+                            .isRBT(jsonNode.get("isRBT").asBoolean())
+                            .like(jsonNode.get("like").asInt())
+                            .listen(jsonNode.get("listen").asInt())
+                            .comment(jsonNode.get("comment").asInt())
+                            .streaming(convertToStreaming(jsonNode.get("streaming")))
+                            .build()
+            );
+        }
+
+
+
+
     }
 
     private Streaming convertToStreaming(JsonNode streaming) {
@@ -152,7 +162,8 @@ public class LoadSongCommandLineRunner implements CommandLineRunner {
                     .alias(composerNode.get("alias").asText())
                     .cover(composerNode.get("cover").asText())
                     .thumbnail(composerNode.get("thumbnail").asText())
-                    .totalFollow(composerNode.get("totalFollow").asInt())
+                    .totalFollow(
+                            composerNode.get("totalFollow") == null ? 0 : composerNode.get("totalFollow").asInt())
                     .build();
 
             if (composerRepository.existsComposerByNameAndAlias(composer.getName(), composer.getAlias())) {
@@ -220,24 +231,50 @@ public class LoadSongCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         boolean run = false;
+        AtomicInteger errorMap = new AtomicInteger();
+        AtomicInteger errorPlaylist = new AtomicInteger();
+        AtomicInteger errorSong = new AtomicInteger();
         if (run) {
-            String response = restTemplate.getForObject("http://localhost:3000/test/getDetailPlaylist/ZWZB96AI", String.class);
-            try {
-                JsonNode jsonNode = objectMapper.readTree(response).get("song").get("items");
-                jsonNode.forEach(songNode -> {
-                    String responseSong = restTemplate.getForObject("http://localhost:3000/test/getFullInfo/" + songNode.get("encodeId").asText(), String.class);
+            String top100 = restTemplate.getForObject("http://localhost:3000/test/getPlaylist", String.class);
+            objectMapper.readTree(top100).forEach(
+                    item -> {
+                        item.get("items").forEach(playlist -> {
+                            try {
+                                String playList = restTemplate.getForObject("http://localhost:3000/test/getDetailPlaylist/" + playlist.get("encodeId").asText(), String.class);
+                                JsonNode jsonNode = objectMapper.readTree(playList).get("song").get("items");
+                                jsonNode.forEach(songNode -> {
+                                    try {
+                                        String responseSong = restTemplate.getForObject("http://localhost:3000/test/getFullInfo/" + songNode.get("encodeId").asText(), String.class);
 
-                    JsonNode song = null;
-                    try {
-                        song = objectMapper.readTree(responseSong);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                                        JsonNode song = null;
+                                        try {
+                                            song = objectMapper.readTree(responseSong);
+                                            convertToSong(song);
+                                        } catch (JsonProcessingException e) {
+                                            errorMap.getAndIncrement();
+                                            System.out.println("Error mapping");
+                                        }
+
+                                    } catch (Exception e) {
+                                        System.out.println("Error song: " + songNode.get("encodeId").asText());
+                                        errorSong.getAndIncrement();
+
+                                    }
+                                });
+                            } catch (Exception e) {
+                                System.out.println("Error playlist: " + playlist.get("encodeId").asText());
+                                errorPlaylist.getAndIncrement();
+                            }
+
+                        });
                     }
-                    songRepository.save(convertToSong(song));
-                });
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+            );
+            System.out.println("Done");
+            System.out.println("Error map: " + errorMap.get());
+            System.out.println("Error playlist: " + errorPlaylist.get());
+            System.out.println("Error song: " + errorSong.get());
+
+
         }
     }
 }

@@ -41,6 +41,10 @@ spring:
             - Path=/api/auth/**, /v3/api-docs/auth-service/**
           filters:
             - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
+        - id: playlist-service
+          uri: lb://playlist-service
+          predicates:
+            - Path=/api/playlist/**, /v3/api-docs/playlist-service
 springdoc:
   swagger-ui:
     enabled: true
@@ -56,3 +60,5 @@ springdoc:
         url: /v3/api-docs/song-service
       - name: user-service
         url: /v3/api-docs/user-service
+      - name: playlist-service
+        url: /v3/api-docs/playlist-service

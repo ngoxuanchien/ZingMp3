@@ -34,10 +34,13 @@
                 "type": "object",
                 "properties": {
                   "client_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "user-service"
                   },
                   "client_secret": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x",
+                    "format": "password"
                   },
                   "grant_type": {
                     "type": "string",
@@ -47,7 +50,8 @@
                     "type": "string"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "password"
                   }
                 }
               }
@@ -108,10 +112,13 @@
                 "type": "object",
                 "properties": {
                   "client_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "user-service"
                   },
                   "client_secret": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x",
+                    "format": "password"
                   },
                   "grant_type": {
                     "type": "string",
@@ -179,10 +186,13 @@
                 "type": "object",
                 "properties": {
                   "client_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "user-service"
                   },
                   "client_secret": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x",
+                    "format": "password"
                   },
                   "token": {
                     "type": "string"
@@ -324,10 +334,13 @@
                 "type": "object",
                 "properties": {
                   "client_id": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "user-service"
                   },
                   "client_secret": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x",
+                    "format": "password"
                   },
                   "refresh_token": {
                     "type": "string"
@@ -357,20 +370,15 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "username": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
                   "email": {
                     "type": "string"
                   },
-                  "firstName": {
-                    "type": "string"
+                  "password": {
+                    "type": "string",
+                    "format": "password"
                   },
-                  "lastName": {
-                      "type": "string"
+                  "name": {
+                    "type": "string"
                   }
                 }
               }

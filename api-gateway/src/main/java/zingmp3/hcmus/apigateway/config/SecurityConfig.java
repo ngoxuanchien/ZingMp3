@@ -38,7 +38,8 @@ public class SecurityConfig {
             "/api/genres/**",
             "/api/artists/**",
             "/api/albums/**",
-            "/api/composers/**"
+            "/api/composers/**",
+            "/api/songs-demo/**"
     };
 
     @Bean
@@ -49,7 +50,7 @@ public class SecurityConfig {
                         exchange.pathMatchers(WHILE_LIST_URL)
                                 .permitAll()
                                 .anyExchange()
-                                .authenticated())
+                                .permitAll())
                 .oauth2ResourceServer(spec -> spec
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
                 );

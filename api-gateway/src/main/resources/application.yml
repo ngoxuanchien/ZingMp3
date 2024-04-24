@@ -35,14 +35,10 @@ spring:
             - Path=/api/auth/**, /v3/api-docs/auth-service/**
           filters:
             - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
-#          metadata:
-#            cors:
-#              allowedOrigins:
-#                - "*"
-#              allowedMethods:
-#                - POST
-#              allowedHeaders: '*'
-#              maxAge: 30
+        - id: playlist-service
+          uri: lb://playlist-service
+          predicates:
+            - Path=/api/playlist/**, /v3/api-docs/playlist-service
     discovery:
       enabled: true
 
@@ -79,4 +75,6 @@ springdoc:
         url: /v3/api-docs/song-service
       - name: user-service
         url: /v3/api-docs/user-service
+      - name: playlist-service
+        url: /v3/api-docs/playlist-service
 
