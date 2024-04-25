@@ -14,5 +14,5 @@ public interface PlaylistRepository extends JpaRepository<Playlist, UUID> {
 //    public List<Playlist> findPlaylistByOwnerId(long ownerId);
 //    public boolean existsByNameIgnoreCase(String name);
 
-    Optional<Playlist> findAllByCreatedBy(UUID userId);
+    List<Playlist> findAllByCreatedBy(UUID userId);
 }
