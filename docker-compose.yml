@@ -45,23 +45,6 @@ services:
       - zingmp3-net
     volumes:
       - ./database/mysql-keycloak:/var/lib/mysql
-  mysql-song:
-    container_name: mysql-song
-    image: mysql
-    environment:
-      MYSQL_ROOT_HOSTS: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: song_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3306
-    ports:
-      - "3306:3306"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      - zingmp3-net
 
   mysql-playlist:
     container_name: mysql-playlist
@@ -83,22 +66,8 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
-  song-service:
-    depends_on:
-      mysql-song:
-        condition: service_healthy
-    container_name: song-service
-    image: ngoxuanchien/song-service:latest
-    restart: always
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - zingmp3-net
-
   discovery-service:
     container_name: discovery-service
-    depends_on:
-      - mysql-song
     image: ngoxuanchien/discovery-service:latest
     restart: always
     ports:
@@ -114,7 +83,18 @@ services:
     image: ngoxuanchien/playlist-service:latest
     restart: always
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      SPRING_R2DBC_SERVER: mysql-playlist
+      SPRING_R2DBC_USERNAME: zingmp3
+      SPRING_R2DBC_PASSWORD: zingmp3
+      SPRING_R2DBC_PORT: 3308
+      SPRING_R2DBC_NAME: playlist_service
+
+      SERVER_HOST: nxc-hcmus.me:8081
+      SERVER_URL: http://nxc-hcmus.me:8081
+
+      EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
+
+      KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
     networks:
       - zingmp3-net
 
@@ -130,7 +110,11 @@ services:
     networks:
       - zingmp3-net
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      SERVER_HOST: nxc-hcmus.me:8081
+      EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
+      KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
+      KEYCLOAK_OPENID-CONNECT: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/
+
   user-service:
     depends_on:
       - keycloak
@@ -142,6 +126,85 @@ services:
     networks:
       - zingmp3-net
 
+  mysql-playback:
+    container_name: mysql-playback
+    image: mysql
+    environment:
+      MYSQL_ROOT_HOSTS: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playback_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3310
+    restart: always
+    ports:
+      - "3310:3310"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+    networks:
+      - zingmp3-net
+
+  playback-service:
+    depends_on:
+      mysql-playback:
+        condition: service_healthy
+    container_name: playback-service
+    image: ngoxuanchien/playback-service:latest
+    restart: always
+    environment:
+      SPRING_R2DBC_SERVER: mysql-playback
+      SPRING_R2DBC_USERNAME: zingmp3
+      SPRING_R2DBC_PASSWORD: zingmp3
+      SPRING_R2DBC_PORT: 3310
+
+      SERVER_HOST: nxc-hcmus.me:8081
+
+      EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
+    volumes:
+      - ./data:/data/
+    networks:
+      - zingmp3-net
+
+  mysql-music:
+    container_name: mysql-music
+    image: mysql
+    environment:
+      MYSQL_ROOT_HOSTS: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: music_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3309
+    restart: always
+    ports:
+      - "3309:3309"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+    networks:
+      - zingmp3-net
+
+  music-service:
+    depends_on:
+      mysql-music:
+        condition: service_healthy
+    container_name: music-service
+    image: ngoxuanchien/music-service:latest
+    restart: always
+    environment:
+      SPRING_R2DBC_SERVER: mysql-music
+      SPRING_R2DBC_USERNAME: zingmp3
+      SPRING_R2DBC_PASSWORD: zingmp3
+      SPRING_R2DBC_PORT: 3309
+      SPRING_R2DBC_NAME: music_service
+
+      SERVER_HOST: nxc-hcmus.me:8081
+      SERVER_URL: http://nxc-hcmus.me:8081
+
+      EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
+
+      KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
+    networks:
+      - zingmp3-net
 networks:
   zingmp3-net:
     name: zingmp3-net

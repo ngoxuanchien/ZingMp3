@@ -1,40 +1,59 @@
 spring:
   application:
     name: playlist-service
-  datasource:
+  r2dbc:
+    url: r2dbc:mysql://${spring.r2dbc.server}:${spring.r2dbc.port}/${spring.r2dbc.name}
+    username: ${SPRING_R2DBC_USERNAME:zingmp3}
+    password: ${SPRING_R2DBC_PASSWORD:zingmp3}
+    server: ${SPRING_R2DBC_SERVER:localhost}
+    port: ${SPRING_R2DBC_PORT:3308}
+    name: ${SPRING_R2DBC_NAME:playlist_service}
+  flyway:
+    enabled: true
+    url: jdbc:mysql://${spring.r2dbc.server}:${spring.r2dbc.port}/${spring.r2dbc.name}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/playlist_service
-    username: zingmp3
-    password: zingmp3
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    baseline-on-migrate: true
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 50
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/zing-mp3
-      client:
-        registration:
-          keycloak:
-            client-id: playlist-service
-            client-secret: Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4
+          issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
 server:
-  port: 8084
+  port: ${SERVER_PORT:0}
+  host: ${SERVER_HOST:localhost:8081}
+  url: ${SERVER_URL:http://localhost:8081}
 springdoc:
   swagger-ui:
     oauth:
-      client-id: playlist-service
-      client-secret: Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4
+      client-id: ${spring.security.oauth2.client.registration.keycloak.client-id}
+      client-secret: ${spring.security.oauth2.client.registration.keycloak.client-secret}
     operations-sorter: method
     tags-sorter: alpha
-keycloak:
-  domain: localhost
-  realm: zing-mp3
-  resourceId: playlist-service
-  tokenUrl: http://${keycloak.domain}:8081/api/auth/token
+  version: 1.0
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: debug
+keycloak:
+  resource-id: playlist-service
+  token-url: ${server.url}/api/auth/token
+
+

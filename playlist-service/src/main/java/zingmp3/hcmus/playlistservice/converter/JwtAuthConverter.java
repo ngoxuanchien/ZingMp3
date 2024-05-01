@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,32 +20,30 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
-    @Value("${keycloak.resourceId}")
+    @Value("${keycloak.resource-id}")
     private String resourceId;
 
     @Override
-    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
-        Collection<GrantedAuthority> authorities = Stream.concat(
-            jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-            extractResourceRoles(jwt).stream()
-        )
+    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
+        Collection<GrantedAuthority> authorities = Stream
+                .concat(jwtGrantedAuthoritiesConverter
+                                .convert(jwt)
+                                .stream(),
+                        extractResourceRoles(jwt)
+                                .stream())
                 .collect(Collectors.toSet());
-        return new JwtAuthenticationToken(
-                jwt,
-                authorities,
-                getPrincipleClaimName(jwt)
-        );
+        return Mono.just(new JwtAuthenticationToken(
+                        jwt,
+                        authorities,
+                        getPrincipleClaimName(jwt)));
     }
 
     private String getPrincipleClaimName(Jwt jwt) {
         String claimName = JwtClaimNames.SUB;
-//        if (principleAttribute != null) {
-//            claimName = principleAttribute;
-//        }
         return jwt.getClaim(claimName);
     }
 

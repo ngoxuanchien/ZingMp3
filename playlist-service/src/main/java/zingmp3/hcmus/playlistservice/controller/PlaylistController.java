@@ -1,18 +1,23 @@
 package zingmp3.hcmus.playlistservice.controller;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import zingmp3.hcmus.playlistservice.dto.playlist.PlaylistCreationDTO;
-import zingmp3.hcmus.playlistservice.dto.playlist.PlaylistDTO;
-import zingmp3.hcmus.playlistservice.dto.playlist.PlaylistInListDTO;
-import zingmp3.hcmus.playlistservice.dto.song.NewSongDTO;
+import org.springframework.web.servlet.function.ServerRequest;
+import org.springframework.web.servlet.function.ServerResponse;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import zingmp3.hcmus.playlistservice.dto.PlaylistDTO;
+import zingmp3.hcmus.playlistservice.entity.PlaylistEntity;
 import zingmp3.hcmus.playlistservice.service.PlaylistService;
 
-import java.security.Principal;
-import java.util.List;
+import java.time.Duration;
 import java.util.UUID;
 
 @RestController
@@ -21,56 +26,57 @@ import java.util.UUID;
 public class PlaylistController {
     private final PlaylistService playlistService;
 
-//    @GetMapping("/{playlistId}")
-//    public ResponseEntity<PlaylistDTO> getPlaylist(@PathVariable long playlistId) {
-//        return ResponseEntity.status(HttpStatus.OK).body(playlistService.getPlaylist(playlistId));
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<PlaylistInListDTO>> getAllPlaylist() {
-//        return ResponseEntity.status(HttpStatus.OK).body(playlistService.getAll());
-//    }
-
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void create(@RequestBody PlaylistCreationDTO playlistDTO) {
-//        playlistService.create(playlistDTO);
-//    }
-
-    @GetMapping("/my-playlist")
-    @SecurityRequirement(name = "Keycloak")
-    public ResponseEntity<List<PlaylistDTO>> getPlaylist(Principal principal) {
-        return ResponseEntity.ok(
-                playlistService.getPlaylist(UUID.fromString(principal.getName())));
+    @GetMapping
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "get All Playlists") })
+    public Flux<PlaylistDTO> getAllPlaylists(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return playlistService.findAll(pageable);
     }
 
+    @GetMapping("/{id}")
     @SecurityRequirement(name = "Keycloak")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "get Playlist by Id") })
+    public Mono<ResponseEntity<PlaylistDTO>> getPlaylistById(@PathVariable String id) {
+        return playlistService.findById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(
+                        ResponseEntity
+                                .notFound()
+                                .build()
+                );
+    }
+
     @PostMapping
-    public ResponseEntity<PlaylistDTO> create(@RequestBody PlaylistDTO playlistDTO) {
-        return ResponseEntity.ok(playlistService.create(playlistDTO));
+    @SecurityRequirement(name = "Keycloak")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "create Playlist") })
+    public Mono<ResponseEntity<PlaylistDTO>> createPlaylist(@RequestBody PlaylistDTO playlistDTO) {
+        return playlistService.create(playlistDTO)
+                .map(ResponseEntity::ok);
     }
 
-//    @PutMapping("/{playlistId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void update(@PathVariable long playlistId, @RequestBody PlaylistCreationDTO playlistDTO) {
-//        playlistService.update(playlistId, playlistDTO);
-//    }
-//
-//    @PostMapping("/{playlistId}/songs")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void addSong(@PathVariable long playlistId, @RequestBody NewSongDTO song) {
-//        playlistService.addSong(playlistId, song.getSongId());
-//    }
-//
-//    @DeleteMapping ("/{playlistId}/songs/{songId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void addSong(@PathVariable long playlistId, @PathVariable long songId) {
-//        playlistService.removeSong(playlistId, songId);
-//    }
-//
-//    @DeleteMapping("/{playlistId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void deletePlaylist(@PathVariable long playlistId) {
-//        playlistService.deletePlaylist(playlistId);
-//    }
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "update Playlist") })
+    @PutMapping("/{id}")
+    @SecurityRequirement(name = "Keycloak")
+    public Mono<ResponseEntity<PlaylistDTO>> updatePlaylist(@PathVariable String id, @RequestBody PlaylistDTO playlistDTO) {
+        return playlistService.update(id, playlistDTO)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(
+                        ResponseEntity
+                                .notFound()
+                                .build()
+                );
+    }
+
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "delete Playlist") })
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Keycloak")
+    public Mono<ResponseEntity<Void>> deletePlaylist(@PathVariable String id) {
+        return playlistService.delete(id)
+                .then(Mono.just(ResponseEntity.ok().build()));
+    }
+
 }

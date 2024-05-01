@@ -42,9 +42,7 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(jwtAuthConverter)
-                        )
-                )
+                                .jwtAuthenticationConverter(jwtAuthConverter)))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );

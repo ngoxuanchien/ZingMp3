@@ -1,38 +1,38 @@
 version: '3.8'
 services:
-#  mysql-playlist:
-#    container_name: mysql-playlist
-#    image: mysql
-#    environment:
-#      MYSQL_HOST: '%'
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: playlist_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3308
-#    volumes:
-#      - ./database/mysql-playlist:/data/mysql
-#    ports:
-#      - "3308:3308"
-#    restart: always
-#    networks:
-#      zingmp3-net:
-
-
-  playlist-service:
-#    depends_on:
-#      - mysql-playlist
-    container_name: playlist-service
-#    image: ngoxuanchien/playlist-service:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: on-failure
+  mysql-playlist:
+    container_name: mysql-playlist
+    image: mysql
     environment:
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-playlist:3308/playlist_service
-      - SPRING_PROFILES_ACTIVE=docker
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playlist_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3308
+    volumes:
+      - ./database/mysql-playlist:/data/mysql
+    ports:
+      - "3308:3308"
+    restart: always
     networks:
-      - zingmp3-net
+      zingmp3-net:
+
+
+#  playlist-service:
+##    depends_on:
+##      - mysql-playlist
+#    container_name: playlist-service
+##    image: ngoxuanchien/playlist-service:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    restart: on-failure
+#    environment:
+##      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-playlist:3308/playlist_service
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - zingmp3-net
 networks:
   zingmp3-net:
     name: zingmp3-net

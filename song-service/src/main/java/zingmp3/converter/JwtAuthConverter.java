@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
@@ -28,17 +28,17 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     private String resourceId;
 
     @Override
-    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
+    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
             jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
             extractResourceRoles(jwt).stream()
         )
                 .collect(Collectors.toSet());
-        return new JwtAuthenticationToken(
+        return Mono.just(new JwtAuthenticationToken(
                 jwt,
                 authorities,
                 getPrincipleClaimName(jwt)
-        );
+        ));
     }
 
     private String getPrincipleClaimName(Jwt jwt) {

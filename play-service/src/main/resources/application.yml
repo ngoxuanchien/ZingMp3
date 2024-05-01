@@ -2,4 +2,4 @@ spring:
   application:
     name: play-service
 server:
-  port: 8080
+  port: 8081

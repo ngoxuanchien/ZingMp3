@@ -18,12 +18,11 @@
 
     <modules>
         <module>discovery-service</module>
-<!--        <module>search-service</module>-->
-        <module>song-service</module>
         <module>api-gateway</module>
         <module>user-service</module>
-<!--        <module>play-service</module>-->
         <module>playlist-service</module>
+        <module>playback-service</module>
+        <module>music-service</module>
     </modules>
 
 

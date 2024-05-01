@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -27,12 +28,11 @@ public class Song {
     private String title;
     private String alias;
     private boolean isOfficial;
-    private String username;
     private String artistsNames;
 
     @JoinColumn(name = "artists")
     @OneToMany
-    private List<Artist> artists;
+    private Set<Artist> artists;
 
     private boolean isWorldWide;
 
@@ -85,25 +85,6 @@ public class Song {
 
     @OneToOne
     private Streaming streaming;
-
-
-//    private String songName;
-//    private String songWriter;
-//    @Column(name = "lyric", length = 10000)
-//    private String lyric;
-//    private String thumbnail;
-//    private String songImage;
-//    private String songFile;
-//    private int duration;
-//    @Builder.Default
-//    private int played = 0;
-//
-//    @Builder.Default
-//    private int liked = 0;
-//
-//    @Builder.Default
-//    private String providedBy = "";
-//    private LocalDateTime releaseDate;
 
     @CreatedDate
     @Column(
