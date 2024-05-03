@@ -12,4 +12,6 @@ public interface PlaylistService {
     Mono<PlaylistDTO> create(PlaylistDTO playlistDTO);
     Mono<PlaylistDTO> update(String id, PlaylistDTO playlistDTO);
     Mono<Void> delete(String id);
+
+    Flux<PlaylistDTO> searchPlaylists(String name, Pageable pageable);
 }

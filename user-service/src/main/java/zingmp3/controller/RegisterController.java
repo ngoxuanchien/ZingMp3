@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import zingmp3.dto.UserRegistrationRecord;
+import zingmp3.dto.UserRegistrationRequest;
 import zingmp3.service.keycloak.KeycloakUserService;
 
 @RestController
@@ -30,7 +30,7 @@ public class RegisterController {
             requestBody = @RequestBody(
                     content = @Content(
                             mediaType = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-                            schema = @Schema(implementation = UserRegistrationRecord.class)
+                            schema = @Schema(implementation = UserRegistrationRequest.class)
                     )
             ),
             responses = {
@@ -39,7 +39,7 @@ public class RegisterController {
             }
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@ModelAttribute UserRegistrationRecord newUser) {
+    public void register(@ModelAttribute UserRegistrationRequest newUser) {
         System.out.println(newUser);
         keycloakUserService.register(newUser);
     }

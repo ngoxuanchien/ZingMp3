@@ -2003,9 +2003,9 @@
   "defaultSignatureAlgorithm" : "RS256",
   "revokeRefreshToken" : false,
   "refreshTokenMaxReuse" : 0,
-  "accessTokenLifespan" : 300,
-  "accessTokenLifespanForImplicitFlow" : 900,
-  "ssoSessionIdleTimeout" : 1800,
+  "accessTokenLifespan" : 86400,
+  "accessTokenLifespanForImplicitFlow" : 10800,
+  "ssoSessionIdleTimeout" : 172800,
   "ssoSessionMaxLifespan" : 36000,
   "ssoSessionIdleTimeoutRememberMe" : 0,
   "ssoSessionMaxLifespanRememberMe" : 0,
@@ -2285,6 +2285,7 @@
         "attributes" : { }
       } ],
       "security-admin-console" : [ ],
+      "music-service" : [ ],
       "admin-cli" : [ ],
       "account-console" : [ ],
       "playlist-service" : [ ],
@@ -2592,6 +2593,7 @@
     "containerId" : "3150923a-85f4-44dc-abd2-acd680304982"
   },
   "requiredCredentials" : [ "password" ],
+  "passwordPolicy" : "length(8)",
   "otpPolicyType" : "totp",
   "otpPolicyAlgorithm" : "HmacSHA1",
   "otpPolicyInitialCounter" : 0,
@@ -2647,6 +2649,43 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
+    "id" : "2f1db0ec-48d2-485b-96e1-22b6c7eecdfe",
+    "username" : "chien11@gmail.com",
+    "email" : "chien11@gmail.com",
+    "emailVerified" : false,
+    "attributes" : {
+      "name" : [ "Chien" ]
+    },
+    "createdTimestamp" : 1714033591279,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "ac09a53f-5fdd-4b4d-a973-c384319de0d5",
+      "type" : "password",
+      "createdDate" : 1714033591610,
+      "secretData" : "{\"value\":\"ecBq4sI0adiYNByA1ctBQy/THtxLguHdZBItGcbRN1j0znC3Ac7IjP27qSnJMzUqAX01TJhMcBZgkRs0kPaBKw==\",\"salt\":\"RPNfrTOD2rp41lYpJer5jQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-zing-mp3" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "988e154c-d45a-4db9-8f7c-520ee1bc3693",
+    "username" : "n@gmail.com",
+    "email" : "n@gmail.com",
+    "emailVerified" : true,
+    "createdTimestamp" : 1714036531473,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-zing-mp3" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "a06d2131-58cc-4789-bfff-03f3c142d664",
     "username" : "nxc@gmail.com",
     "email" : "nxc@gmail.com",
@@ -2697,23 +2736,6 @@
     "realmRoles" : [ "default-roles-zing-mp3" ],
     "clientRoles" : {
       "song-service" : [ "uma_protection" ]
-    },
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "1b81f13e-769c-46ee-bf07-87d6ea8ec6c2",
-    "username" : "service-account-user-service",
-    "emailVerified" : false,
-    "createdTimestamp" : 1713853656794,
-    "enabled" : true,
-    "totp" : false,
-    "serviceAccountClientId" : "user-service",
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-zing-mp3" ],
-    "clientRoles" : {
-      "realm-management" : [ "manage-users", "manage-realm" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
@@ -2851,6 +2873,87 @@
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
+    "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
+  }, {
+    "id" : "40c59243-5c4a-4f8b-ac20-1755b4c4844e",
+    "clientId" : "music-service",
+    "name" : "music service",
+    "description" : "",
+    "rootUrl" : "",
+    "adminUrl" : "",
+    "baseUrl" : "",
+    "surrogateAuthRequired" : false,
+    "enabled" : true,
+    "alwaysDisplayInConsole" : false,
+    "clientAuthenticatorType" : "client-secret",
+    "secret" : "VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7",
+    "redirectUris" : [ "" ],
+    "webOrigins" : [ "" ],
+    "notBefore" : 0,
+    "bearerOnly" : false,
+    "consentRequired" : false,
+    "standardFlowEnabled" : false,
+    "implicitFlowEnabled" : false,
+    "directAccessGrantsEnabled" : true,
+    "serviceAccountsEnabled" : false,
+    "publicClient" : false,
+    "frontchannelLogout" : true,
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "oidc.ciba.grant.enabled" : "false",
+      "client.secret.creation.time" : "1714548333",
+      "backchannel.logout.session.required" : "true",
+      "display.on.consent.screen" : "false",
+      "oauth2.device.authorization.grant.enabled" : "false",
+      "backchannel.logout.revoke.offline.tokens" : "false"
+    },
+    "authenticationFlowBindingOverrides" : { },
+    "fullScopeAllowed" : true,
+    "nodeReRegistrationTimeout" : -1,
+    "protocolMappers" : [ {
+      "id" : "fd92b85c-1540-4764-b499-422b3852bbb9",
+      "name" : "Client IP Address",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientAddress",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientAddress",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "7f2d595c-2dcf-4cc7-995c-381995b3d963",
+      "name" : "Client Host",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientHost",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientHost",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "62d92217-6198-4b0e-b312-5199a1835879",
+      "name" : "Client ID",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "client_id",
+        "introspection.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "client_id",
+        "jsonType.label" : "String"
+      }
+    } ],
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
@@ -3030,6 +3133,7 @@
     "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : true,
     "serviceAccountsEnabled" : true,
+    "authorizationServicesEnabled" : true,
     "publicClient" : false,
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
@@ -3088,7 +3192,48 @@
       }
     } ],
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
-    "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ],
+    "authorizationSettings" : {
+      "allowRemoteResourceManagement" : true,
+      "policyEnforcementMode" : "ENFORCING",
+      "resources" : [ {
+        "name" : "song-read",
+        "ownerManagedAccess" : false,
+        "displayName" : "",
+        "attributes" : { },
+        "_id" : "eaeb8eba-c80c-4f71-b1a1-32196b93b180",
+        "uris" : [ ],
+        "icon_uri" : ""
+      } ],
+      "policies" : [ {
+        "id" : "c4406842-b04c-44ed-a835-6dba69c78247",
+        "name" : "client_admin",
+        "description" : "",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "roles" : "[{\"id\":\"admin\",\"required\":false}]"
+        }
+      }, {
+        "id" : "4bd118a3-d069-496d-a975-780467e12f3c",
+        "name" : "Create Song Permission",
+        "description" : "",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"song-read\"]",
+          "applyPolicies" : "[\"client_admin\"]"
+        }
+      } ],
+      "scopes" : [ {
+        "id" : "00523006-5015-462a-8edb-d2ff3ed50f92",
+        "name" : "get_song",
+        "iconUri" : ""
+      } ],
+      "decisionStrategy" : "UNANIMOUS"
+    }
   }, {
     "id" : "4b900023-b032-42b0-bf44-e1e6bdff6912",
     "clientId" : "user-service",
@@ -3102,15 +3247,15 @@
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x",
-    "redirectUris" : [ "http://localhost:8081/*" ],
-    "webOrigins" : [ "http:localhost:8082/*" ],
+    "redirectUris" : [ "*" ],
+    "webOrigins" : [ "*" ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
     "standardFlowEnabled" : false,
     "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : true,
-    "serviceAccountsEnabled" : true,
+    "serviceAccountsEnabled" : false,
     "publicClient" : false,
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
@@ -4364,17 +4509,22 @@
   "firstBrokerLoginFlow" : "first broker login",
   "attributes" : {
     "cibaBackchannelTokenDeliveryMode" : "poll",
-    "cibaExpiresIn" : "120",
     "cibaAuthRequestedUserHint" : "login_hint",
-    "oauth2DeviceCodeLifespan" : "600",
     "clientOfflineSessionMaxLifespan" : "0",
     "oauth2DevicePollingInterval" : "5",
     "clientSessionIdleTimeout" : "0",
+    "actionTokenGeneratedByUserLifespan.idp-verify-account-via-email" : "",
+    "actionTokenGeneratedByUserLifespan.verify-email" : "",
+    "clientOfflineSessionIdleTimeout" : "0",
+    "actionTokenGeneratedByUserLifespan.execute-actions" : "",
+    "cibaInterval" : "5",
+    "realmReusableOtpCode" : "false",
+    "cibaExpiresIn" : "120",
+    "oauth2DeviceCodeLifespan" : "600",
     "parRequestUriLifespan" : "60",
     "clientSessionMaxLifespan" : "0",
-    "clientOfflineSessionIdleTimeout" : "0",
-    "cibaInterval" : "5",
-    "realmReusableOtpCode" : "false"
+    "shortVerificationUri" : "",
+    "actionTokenGeneratedByUserLifespan.reset-credentials" : ""
   },
   "keycloakVersion" : "24.0.3",
   "userManagedAccessAllowed" : false,

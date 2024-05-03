@@ -53,26 +53,40 @@ public class PlaylistServiceImpl implements PlaylistService {
         return playlistRepository.findAllBy(pageable)
                 .map(playlistMapper::toDTO)
                 .flatMap(playlistDTO -> {
-                    Flux<ArtistDTO> artistFlux = artistService.findAllArtistsByPlaylistId(playlistDTO.getId());
-                    Flux<GenreDTO> genreFlux = genreService.findAllGenresByPlaylistId(playlistDTO.getId());
+                        Flux<ArtistDTO> artistFlux = artistService.findAllArtistsByPlaylistId(playlistDTO.getId());
+                        Flux<GenreDTO> genreFlux = genreService.findAllGenresByPlaylistId(playlistDTO.getId());
 
-                    return Mono.zip(artistFlux.collectList(), genreFlux.collectList())
-                            .map(tuple -> {
-                                playlistDTO.setArtists(new HashSet<>(tuple.getT1()));
-                                playlistDTO.setGenres(new HashSet<>(tuple.getT2()));
-                                return playlistDTO;
-                            });
+                        return Mono.zip(artistFlux.collectList(), genreFlux.collectList())
+                                .map(tuple -> {
+                                        playlistDTO.setArtists(new HashSet<>(tuple.getT1()));
+                                        playlistDTO.setGenres(new HashSet<>(tuple.getT2()));
+                                        return playlistDTO;
+                                });
                 });
     }
 
     @Override
     public Mono<PlaylistDTO> findById(String id) {
         return playlistRepository.findById(id)
-                .map(playlistMapper::toDTO);
+                .map(playlistMapper::toDTO)
+                .flatMap(playlistDTO -> {
+                        Flux<ArtistDTO> artistFlux = artistService.findAllArtistsByPlaylistId(playlistDTO.getId());
+                        Flux<GenreDTO> genreFlux = genreService.findAllGenresByPlaylistId(playlistDTO.getId());
+                        Flux<SongDTO> songFlux = songService.findAllSongByPlaylistId(playlistDTO.getId(), Pageable.unpaged());
+
+                        return Mono.zip(artistFlux.collectList(), genreFlux.collectList(), songFlux.collectList())
+                                .map(tuple -> {
+                                        playlistDTO.setArtists(new HashSet<>(tuple.getT1()));
+                                        playlistDTO.setGenres(new HashSet<>(tuple.getT2()));
+                                        playlistDTO.setSongs(new HashSet<>(tuple.getT3()));
+                                        return playlistDTO;
+                                });
+                });
     }
 
     @Override
     public Mono<PlaylistDTO> create(PlaylistDTO playlistDTO) {
+        System.out.println(playlistDTO.getTitle());
         return saveImage(PlaylistImageDTO
                         .builder()
                         .filePath(playlistDTO.getAliasTitle() + ".jpg")
@@ -81,7 +95,7 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .save(playlistMapper
                                 .toEntity(playlistDTO)
                                 .setAsNew()
-                                .setThumbnail("http://" + host + "/api/playback/image/playlist/" + image.getId()))
+                                .setThumbnail(image.getId()))
                         .map(playlistMapper::toDTO)
                         .flatMap(playlist -> {
                                 Mono<List<GenreDTO>> genresMono = Flux.fromIterable(playlistDTO.getGenres())
@@ -126,5 +140,23 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .flatMap(playlistRepository::delete);
 
 
+    }
+
+    @Override
+    public Flux<PlaylistDTO> searchPlaylists(String name, Pageable pageable) {
+        return playlistRepository
+                .findByTitleContainingIgnoreCase(name, pageable)
+                .map(playlistMapper::toDTO)
+                .flatMap(playlistDTO -> {
+                    Flux<ArtistDTO> artistFlux = artistService.findAllArtistsByPlaylistId(playlistDTO.getId());
+                    Flux<GenreDTO> genreFlux = genreService.findAllGenresByPlaylistId(playlistDTO.getId());
+
+                    return Mono.zip(artistFlux.collectList(), genreFlux.collectList())
+                            .map(tuple -> {
+                                playlistDTO.setArtists(new HashSet<>(tuple.getT1()));
+                                playlistDTO.setGenres(new HashSet<>(tuple.getT2()));
+                                return playlistDTO;
+                            });
+                });
     }
 }

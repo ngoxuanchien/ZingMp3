@@ -2,7 +2,6 @@ package zingmp3.hcmus.playlistservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import jakarta.ws.rs.client.ClientBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +17,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoadData {
 
@@ -62,19 +62,21 @@ public class LoadData {
             String token = tokenResponse.block().getAccess_token();
             System.out.println(token);
 
-            int count = 0;
+            AtomicInteger count = new AtomicInteger();
             Flux.fromIterable(playlistDTOList)
-                    .delayElements(Duration.ofMillis(500)) // Delay of 500ms between requests
-                    .flatMap(playlistDTO -> webClient
-                            .post()
-                            .uri("http://nxc-hcmus.me:8081/api/playlist")
-                            .header("Authorization", "Bearer " + token)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .bodyValue(playlistDTO)
-                            .retrieve()
-                            .bodyToMono(PlaylistDTO.class))
+                    .concatMap(playlistDTO -> webClient
+                                .post()
+                                .uri("http://nxc-hcmus.me:8081/api/playlist")
+                                .header("Authorization", "Bearer " + token)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .bodyValue(playlistDTO)
+                                .retrieve()
+                                .bodyToMono(PlaylistDTO.class)
+                                .doOnNext(playlist -> {
+                                    System.out.println("Playlist " + count.incrementAndGet() + " created: " + playlist.getId());
+                                })
+                    )
                     .blockLast();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

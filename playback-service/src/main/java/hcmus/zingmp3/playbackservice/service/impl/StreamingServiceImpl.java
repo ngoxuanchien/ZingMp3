@@ -31,38 +31,30 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public ResponseEntity<StreamingResponseBody> loadEntireMediaFile(String localMediaFilePath) throws IOException {
         Path filePath = Paths.get(localMediaFilePath);
-        if (!filePath.toFile().exists())
-        {
+        if (!filePath.toFile().exists()) {
             throw new FileNotFoundException("The media file does not exist.");
         }
 
         long fileSize = Files.size(filePath);
         long endPos = fileSize;
-        if (fileSize > 0L)
-        {
+        if (fileSize > 0L) {
             endPos = fileSize - 1;
         }
-        else
-        {
+        else {
             endPos = 0L;
         }
-
         ResponseEntity<StreamingResponseBody> retVal = loadPartialMediaFile(localMediaFilePath, 0, endPos);
 
         return retVal;
     }
 
-    private long safeParseStringValueToLong(String valToParse, long defaultVal)
-    {
+    private long safeParseStringValueToLong(String valToParse, long defaultVal) {
         long retVal = defaultVal;
-        if (StringUtils.hasText(valToParse))
-        {
-            try
-            {
+        if (StringUtils.hasText(valToParse)) {
+            try {
                 retVal = Long.parseLong(valToParse);
             }
-            catch (NumberFormatException ex)
-            {
+            catch (NumberFormatException ex) {
                 // TODO: log the invalid long int val in text format.
                 retVal = defaultVal;
             }
@@ -71,11 +63,9 @@ public class StreamingServiceImpl implements StreamingService {
         return retVal;
     }
 
-    private String numericStringValue(String origVal)
-    {
+    private String numericStringValue(String origVal) {
         String retVal = "";
-        if (StringUtils.hasText(origVal))
-        {
+        if (StringUtils.hasText(origVal)) {
             retVal = origVal.replaceAll("[^0-9]", "");
             System.out.println("Parsed Long Int Value: [" + retVal + "]");
         }
@@ -85,13 +75,10 @@ public class StreamingServiceImpl implements StreamingService {
 
     @Override
     public ResponseEntity<StreamingResponseBody> loadPartialMediaFile(String localMediaFilePath, String rangeValues) throws IOException {
-        if (!StringUtils.hasText(rangeValues))
-        {
+        if (!StringUtils.hasText(rangeValues)) {
             System.out.println("Read all media file content.");
             return loadEntireMediaFile(localMediaFilePath);
-        }
-        else
-        {
+        } else {
             long rangeStart = 0L;
             long rangeEnd = 0L;
 
@@ -151,12 +138,10 @@ public class StreamingServiceImpl implements StreamingService {
                 }
             }
 
-            if (rangeEnd == 0L && fileSize > 0L)
-            {
+            if (rangeEnd == 0L && fileSize > 0L) {
                 rangeEnd = fileSize - 1;
             }
-            if (fileSize < rangeEnd)
-            {
+            if (fileSize < rangeEnd) {
                 rangeEnd = fileSize - 1;
             }
 
@@ -169,6 +154,7 @@ public class StreamingServiceImpl implements StreamingService {
 
     @Override
     public ResponseEntity<StreamingResponseBody> loadPartialMediaFile(String localMediaFilePath, long fileStartPos, long fileEndPos) throws IOException {
+        System.out.println(fileEndPos);
         StreamingResponseBody responseStream;
         Path filePath = Paths.get(localMediaFilePath);
         if (!filePath.toFile().exists())
@@ -229,7 +215,6 @@ public class StreamingServiceImpl implements StreamingService {
             }
             catch (Exception e) {}
         };
-
         return new ResponseEntity<StreamingResponseBody>
                 (responseStream, responseHeaders, HttpStatus.PARTIAL_CONTENT);
     }
@@ -241,6 +226,7 @@ public class StreamingServiceImpl implements StreamingService {
                     .flatMap(streamingFile -> {
                             try {
                                     String filePathString = streamingFile.getPath128kps();
+//                                    String filePathString = "C:\\Users\\ngoxu\\Videos\\2023-12-12 22-28-14.mp4";
                                     ResponseEntity<StreamingResponseBody> retVal = loadPartialMediaFile(filePathString, rangeHeader);
                                     return Mono.just(retVal);
                             } catch (FileNotFoundException e) {

@@ -2,6 +2,7 @@ package zingmp3.hcmus.playlistservice.mapper;
 
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -10,6 +11,9 @@ import zingmp3.hcmus.playlistservice.entity.PlaylistEntity;
 
 @Component
 public class PlaylistMapper {
+    @Value("${playback.image.playlist}")
+    private String imageUrl;
+
     public Flux<PlaylistDTO> toDTO(Flux<PlaylistEntity> entity) {
         return entity.map(this::toDTO);
     }
@@ -29,6 +33,7 @@ public class PlaylistMapper {
     public PlaylistDTO toDTO(PlaylistEntity entity) {
         PlaylistDTO dto = new PlaylistDTO();
         BeanUtils.copyProperties(entity, dto);
+        dto.setThumbnail(imageUrl + dto.getThumbnail());
         return dto;
 
     }

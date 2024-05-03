@@ -60,7 +60,7 @@ public class CrawData {
         playlistCraw.add(playlistId);
 
         try {
-            while (!playlistQueue.isEmpty() && playlistResult.size() < 100) {
+            while (!playlistQueue.isEmpty() && playlistResult.size() < 10) {
                 String id = playlistQueue.poll();
                 Playlist playlist = getPlaylist(id);
 //                if (playlist == null) {

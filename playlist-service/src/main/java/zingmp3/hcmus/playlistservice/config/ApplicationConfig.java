@@ -14,6 +14,7 @@ import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -47,7 +48,14 @@ public class ApplicationConfig  {
     @Bean
     @LoadBalanced
     public WebClient.Builder webClientBuilder() {
-        return WebClient.builder()
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024));
+        final int size = 16 * 1024 * 1024;
+        final ExchangeStrategies strategies = ExchangeStrategies
+                .builder()
+                .codecs(codecs -> codecs.defaultCodecs()
+                        .maxInMemorySize(size))
+                .build();
+        return WebClient
+                .builder()
+                .exchangeStrategies(strategies);
     }
 }

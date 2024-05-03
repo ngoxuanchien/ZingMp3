@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -67,7 +68,7 @@ public class ArtistServiceImpl implements ArtistService {
                                         .save(artistMapper
                                                 .toEntity(artistDTO)
                                                 .setAsNew()
-                                                .setThumbnail("http://" + host + "/api/playback/image/artist/" + image.getId())))
+                                                .setThumbnail(image.getId())))
                                 .onErrorResume(DuplicateKeyException.class, e -> artistRepository
                                         .findByAlias(artistDTO.getAlias()))
                                 .map(artistMapper::toDTO)
@@ -114,6 +115,12 @@ public class ArtistServiceImpl implements ArtistService {
                 .flatMap(songComposerEntity -> artistRepository
                         .findById(songComposerEntity.getComposerId())
                 )
+                .map(artistMapper::toDTO);
+    }
+
+    @Override
+    public Flux<ArtistDTO> searchArtists(String keyword, Pageable pageable) {
+        return artistRepository.findByNameContainingIgnoreCase(keyword, pageable)
                 .map(artistMapper::toDTO);
     }
 

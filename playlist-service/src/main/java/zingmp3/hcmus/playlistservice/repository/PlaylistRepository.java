@@ -13,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface PlaylistRepository extends ReactiveCrudRepository<PlaylistEntity, String> {
     Flux<PlaylistEntity> findAllBy(Pageable pageable);
+    Flux<PlaylistEntity> findByTitleContainingIgnoreCase(String name, Pageable pageable);
 }

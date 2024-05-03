@@ -15,6 +15,8 @@ import hcmus.zingmp3.music_service.service.StreamingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +67,7 @@ public class SongServiceImpl implements SongService {
                         .name(songDTO.getAlias())
                         .build())
                         .flatMap(image -> {
-                            songDTO.setThumbnail("http://" + host + "/api/playback/image/song/" + image.getId());
+                            songDTO.setThumbnail(image.getId());
                             return Mono.just(songDTO);
                         })
                         .flatMap(song -> {
@@ -121,31 +123,31 @@ public class SongServiceImpl implements SongService {
         return songRepository
                 .findById(id)
                 .flatMap(songEntity ->
-                    streamingService
-                            .findById(songEntity.getStreamingId())
-                            .map(streamingDTO -> {
-                                SongDTO result = songMapper.toDTO(songEntity);
-                                result.setStreaming(streamingDTO);
-                                return result;
-                            })
+                        streamingService
+                                .findById(songEntity.getStreamingId())
+                                .map(streamingDTO -> {
+                                    SongDTO result = songMapper.toDTO(songEntity);
+                                    result.setStreaming(streamingDTO);
+                                    return result;
+                                })
                 )
                 .flatMap(songDTO -> {
-                    Mono<List<ArtistDTO>> artistMono = artistService
-                            .findAllArtistBySongId(songDTO.getId())
-                            .collectList();
-                    Mono<List<GenreDTO>> genreMono = genreService
-                            .findBySongId(songDTO.getId())
-                            .collectList();
-                    Mono<List<ArtistDTO>> composerMono = artistService
-                            .findAllComposerBySongId(songDTO.getId())
-                            .collectList();
-                    return Mono.zip(artistMono, genreMono, composerMono)
-                            .map(tuple -> {
-                                songDTO.setArtists(new HashSet<>(tuple.getT1()));
-                                songDTO.setGenres(new HashSet<>(tuple.getT2()));
-                                songDTO.setComposers(new HashSet<>(tuple.getT3()));
-                                return songDTO;
-                            });
+                        Mono<List<ArtistDTO>> artistMono = artistService
+                                .findAllArtistBySongId(songDTO.getId())
+                                .collectList();
+                        Mono<List<GenreDTO>> genreMono = genreService
+                                .findBySongId(songDTO.getId())
+                                .collectList();
+                        Mono<List<ArtistDTO>> composerMono = artistService
+                                .findAllComposerBySongId(songDTO.getId())
+                                .collectList();
+                        return Mono.zip(artistMono, genreMono, composerMono)
+                                .map(tuple -> {
+                                    songDTO.setArtists(new HashSet<>(tuple.getT1()));
+                                    songDTO.setGenres(new HashSet<>(tuple.getT2()));
+                                    songDTO.setComposers(new HashSet<>(tuple.getT3()));
+                                    return songDTO;
+                                });
                 });
     }
 
@@ -158,5 +160,39 @@ public class SongServiceImpl implements SongService {
     @Override
     public Mono<Boolean> existsById(String id) {
         return songRepository.existsById(id);
+    }
+
+    @Override
+    public Flux<SongDTO> searchSongs(String keyword, Pageable pageable) {
+        return songRepository
+                .findAllByTitleContainingIgnoreCase(keyword, pageable)
+                .flatMap(songEntity ->
+                        streamingService
+                                .findById(songEntity.getStreamingId())
+                                .map(streamingDTO -> {
+                                    SongDTO result = songMapper.toDTO(songEntity);
+                                    result.setStreaming(streamingDTO);
+                                    return result;
+                                })
+                )
+                .flatMap(songDTO -> {
+                        Mono<List<ArtistDTO>> artistMono = artistService
+                                .findAllArtistBySongId(songDTO.getId())
+                                .collectList();
+                        Mono<List<GenreDTO>> genreMono = genreService
+                                .findBySongId(songDTO.getId())
+                                .collectList();
+                        Mono<List<ArtistDTO>> composerMono = artistService
+                                .findAllComposerBySongId(songDTO.getId())
+                                .collectList();
+                        return Flux.zip(artistMono, genreMono, composerMono)
+                                .map(tuple -> {
+                                        songDTO.setArtists(new HashSet<>(tuple.getT1()));
+                                        songDTO.setGenres(new HashSet<>(tuple.getT2()));
+                                        songDTO.setComposers(new HashSet<>(tuple.getT3()));
+                                        return songDTO;
+                                });
+                });
+
     }
 }

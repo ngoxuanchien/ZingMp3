@@ -38,12 +38,17 @@ public class ArtistImageServiceImpl implements ArtistImageService {
     @Override
     public Mono<ArtistImageDTO> uploadImage(ArtistImageDTO artistImageDTO) {
         File file = new File("./data/artist/thumbnail/" + artistImageDTO.getFilePath());
-        artistImageDTO.setFilePath(file.getAbsolutePath());
+        if (file.exists()) {
+            artistImageDTO.setFilePath("./data/artist/thumbnail/" + artistImageDTO.getFilePath());
+            return artistImageRepository
+                    .save(artistImageMapper
+                            .toEntity(artistImageDTO)
+                            .setAsNew())
+                    .map(artistImageMapper::toDTO);
+        } else {
+            System.out.println(file.getAbsolutePath());
+            return Mono.empty();
+        }
 
-        return artistImageRepository
-                .save(artistImageMapper
-                        .toEntity(artistImageDTO)
-                        .setAsNew())
-                .map(artistImageMapper::toDTO);
     }
 }

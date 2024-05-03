@@ -25,6 +25,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
+  codec:
+    max-in-memory-size: 1GB
 server:
   port: ${SERVER_PORT:0}
   host: ${SERVER_HOST:localhost:8081}
@@ -55,5 +57,9 @@ logging:
 keycloak:
   resource-id: playlist-service
   token-url: ${server.url}/api/auth/token
+
+playback:
+  image:
+    playlist: ${server.url}/api/playback/image/playlist/
 
 

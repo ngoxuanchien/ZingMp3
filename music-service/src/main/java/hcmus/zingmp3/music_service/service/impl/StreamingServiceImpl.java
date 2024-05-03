@@ -55,7 +55,7 @@ public class StreamingServiceImpl implements StreamingService {
                         streamingRepository
                                 .save(streamingMapper.toEntity(streamingDTO)
                                         .setAsNew()
-                                        .setUrl128kps("http://" + host + "/api/playback/streaming/play/" + streamingFileDTO.getId()))
+                                        .setUrl128kps(streamingFileDTO.getId()))
 //                                        .setUrl320kps(streamingFileDTO.getId()))
                                 .map(streamingMapper::toDTO));
     }

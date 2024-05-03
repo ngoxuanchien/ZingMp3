@@ -38,7 +38,7 @@ public class PlaylistImageServiceImpl implements PlaylistImageService {
     public Mono<PlaylistImageDTO> uploadImage(PlaylistImageDTO playlistImageDTO) {
         File file = new File("./data/playlist/thumbnail/" + playlistImageDTO.getFilePath());
         if (file.exists()) {
-            playlistImageDTO.setFilePath(file.getAbsolutePath());
+            playlistImageDTO.setFilePath("./data/playlist/thumbnail/" + playlistImageDTO.getFilePath());
 
             return playlistImageRepository
                         .save(playlistImageMapper

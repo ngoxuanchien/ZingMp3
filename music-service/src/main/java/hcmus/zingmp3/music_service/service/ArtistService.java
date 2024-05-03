@@ -1,6 +1,7 @@
 package hcmus.zingmp3.music_service.service;
 
 import hcmus.zingmp3.music_service.dto.ArtistDTO;
+import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,4 +15,6 @@ public interface ArtistService {
 
     Flux<ArtistDTO> findAllArtistBySongId(String songId);
     Flux<ArtistDTO> findAllComposerBySongId(String songId);
+
+    Flux<ArtistDTO> searchArtists(String keyword, Pageable pageable);
 }

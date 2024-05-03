@@ -3,12 +3,16 @@ package hcmus.zingmp3.music_service.mapper;
 import hcmus.zingmp3.music_service.dto.ArtistDTO;
 import hcmus.zingmp3.music_service.entity.ArtistEntity;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
 public class ArtistMapper {
+    @Value("${playback.image.artist}")
+    private String imageUrl;
+
     public Flux<ArtistDTO> toDTO(Flux<ArtistEntity> entities) {
         return entities.map(this::toDTO);
     }
@@ -28,6 +32,7 @@ public class ArtistMapper {
     public ArtistDTO toDTO(ArtistEntity entity) {
         ArtistDTO dto = new ArtistDTO();
         BeanUtils.copyProperties(entity, dto);
+        dto.setThumbnail(imageUrl + dto.getThumbnail());
         return dto;
     }
 

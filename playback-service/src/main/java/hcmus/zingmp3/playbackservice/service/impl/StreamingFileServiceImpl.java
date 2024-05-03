@@ -30,7 +30,7 @@ public class StreamingFileServiceImpl implements StreamingFileService {
         File file128kps = new File("./data/song/128/" + streamingFileDTO.getPath128kps());
         File file320kps = new File("./data/song/320/" + streamingFileDTO.getPath320kps());
         if (file128kps.exists()) {
-            streamingFileDTO.setPath128kps(file128kps.getAbsolutePath());
+            streamingFileDTO.setPath128kps("./data/song/128/" + streamingFileDTO.getPath128kps());
         } else {
             streamingFileDTO.setPath128kps(null);
         }

@@ -37,6 +37,18 @@ public class PlaylistController {
         return playlistService.findAll(pageable);
     }
 
+    @GetMapping("/search")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "search Playlists") })
+    public Flux<PlaylistDTO> searchPlaylists(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return playlistService.searchPlaylists(name, pageable);
+    }
+
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Keycloak")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "get Playlist by Id") })

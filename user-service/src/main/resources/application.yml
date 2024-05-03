@@ -19,7 +19,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
 keycloak:
   domain: localhost
   realm: zing-mp3

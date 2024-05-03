@@ -44,7 +44,7 @@ public class SongImageServiceImpl implements SongImageService {
     public Mono<SongImageDTO> uploadImage(SongImageDTO request) {
         File file = new File("./data/song/thumbnail/" + request.getFilePath());
         if (file.exists()) {
-            request.setFilePath(file.getAbsolutePath());
+            request.setFilePath("./data/song/thumbnail/" + request.getFilePath());
 
             return songImageRepository
                     .save(songImageMapper
