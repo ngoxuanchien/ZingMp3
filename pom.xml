@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <parent>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-<!--        <version>3.2.4</version>-->
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-<!--    </parent>-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.4</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
     <groupId>hcmus.zingmp3</groupId>
     <artifactId>zingmp3</artifactId>
@@ -17,18 +17,90 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>zingmp3-proto</module>
         <module>discovery-service</module>
         <module>api-gateway</module>
         <module>user-service</module>
         <module>playlist-service</module>
-        <module>playback-service</module>
+        <module>content-delivery-service</module>
         <module>music-service</module>
-<!--        <module>data-service</module>-->
     </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <reactive.grpc.version>1.2.4</reactive.grpc.version>
+        <reactor.version>3.6.5</reactor.version>
+    </properties>
+
+    <dependencies>
+        <!--        grpc -->
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>${reactor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-server-spring-boot-starter</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-client-spring-boot-starter</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.salesforce.servicelibs</groupId>
+            <artifactId>reactor-grpc-stub</artifactId>
+            <version>${reactive.grpc.version}</version>
+        </dependency>
+    </dependencies>
 
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.1</version>
+            </extension>
+        </extensions>
         <plugins>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <protocArtifact>
+                        com.google.protobuf:protoc:3.22.3:exe:${os.detected.classifier}
+                    </protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <pluginArtifact>
+                        io.grpc:protoc-gen-grpc-java:1.54.0:exe:${os.detected.classifier}
+                    </pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                        <configuration>
+                            <protocPlugins>
+                                <protocPlugin>
+                                    <id>reactor-grpc</id>
+                                    <groupId>com.salesforce.servicelibs</groupId>
+                                    <artifactId>reactor-grpc</artifactId>
+                                    <version>${reactive.grpc.version}</version>
+                                    <mainClass>com.salesforce.reactorgrpc.ReactorGrpcGenerator</mainClass>
+                                </protocPlugin>
+                            </protocPlugins>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>

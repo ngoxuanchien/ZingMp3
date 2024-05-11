@@ -4,41 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hcmus.zingmp3</groupId>
+    <parent>
+        <groupId>hcmus.zingmp3</groupId>
+        <artifactId>zingmp3</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>zingmp3-proto</artifactId>
     <packaging>jar</packaging>
     <name>zingmp3-proto</name>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <reactive.grpc.version>1.2.4</reactive.grpc.version>
-        <reactor.version>3.6.4</reactor.version>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${reactor.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.salesforce.servicelibs</groupId>
-            <artifactId>reactor-grpc-stub</artifactId>
-            <version>${reactive.grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>1.62.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>1.62.2</version>
-        </dependency>
+
     </dependencies>
 
 <!--    <distributionManagement>-->

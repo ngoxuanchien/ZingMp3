@@ -551,7 +551,7 @@
     "totp" : false,
     "credentials" : [ {
       "id" : "f3b7dfda-d9e9-4259-b711-cff6c809f530",
-      "type" : "password",
+      "contentType" : "password",
       "createdDate" : 1713465473216,
       "secretData" : "{\"value\":\"WOc1AC3FD/JMvk83j02rka8BkbRfvHr3myz/KURlyVisiYkDkpb8/ey4R/lzPlpU1OGDg36KtX9pv7VsbtyJSw==\",\"salt\":\"SX9f1kIxfCpK/17SWyBq/w==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
@@ -2638,7 +2638,7 @@
     "totp" : false,
     "credentials" : [ {
       "id" : "dfecc2bf-9b47-442d-b40c-0a25b3849f22",
-      "type" : "password",
+      "contentType" : "password",
       "createdDate" : 1713985024234,
       "secretData" : "{\"value\":\"LyCafOunBU/J5HxtOtqVqxdnbekD8Wp+gsdxCkPcJwGcrCMTPeZkQO/x8JYnlWtIIVpAGNlBtUAPKnTzQMtp6Q==\",\"salt\":\"USqdeA8nDbskZrSiKJ7UXQ==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
@@ -2661,7 +2661,7 @@
     "totp" : false,
     "credentials" : [ {
       "id" : "ac09a53f-5fdd-4b4d-a973-c384319de0d5",
-      "type" : "password",
+      "contentType" : "password",
       "createdDate" : 1714033591610,
       "secretData" : "{\"value\":\"ecBq4sI0adiYNByA1ctBQy/THtxLguHdZBItGcbRN1j0znC3Ac7IjP27qSnJMzUqAX01TJhMcBZgkRs0kPaBKw==\",\"salt\":\"RPNfrTOD2rp41lYpJer5jQ==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
@@ -2698,7 +2698,7 @@
     "totp" : false,
     "credentials" : [ {
       "id" : "36685235-0f1a-4ea1-828d-e1563f7c8742",
-      "type" : "password",
+      "contentType" : "password",
       "createdDate" : 1713985958640,
       "secretData" : "{\"value\":\"cCFM5Dg5JHbZDR5xOgSiNzA12XhNjd4r74KvrPJku+S9yR8sHhtjlyX3x30QhIrVhQbqSC2Nyjx4L92UMRmYJw==\",\"salt\":\"Mdmz1m6JoWCCcdPlfh+j2Q==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
@@ -3209,7 +3209,7 @@
         "id" : "c4406842-b04c-44ed-a835-6dba69c78247",
         "name" : "client_admin",
         "description" : "",
-        "type" : "role",
+        "contentType" : "role",
         "logic" : "POSITIVE",
         "decisionStrategy" : "UNANIMOUS",
         "config" : {
@@ -3219,7 +3219,7 @@
         "id" : "4bd118a3-d069-496d-a975-780467e12f3c",
         "name" : "Create Song Permission",
         "description" : "",
-        "type" : "resource",
+        "contentType" : "resource",
         "logic" : "POSITIVE",
         "decisionStrategy" : "UNANIMOUS",
         "config" : {

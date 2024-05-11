@@ -12,8 +12,10 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import javax.swing.*;
+import java.util.List;
 
 @OpenAPIDefinition(
         servers = {
@@ -42,14 +44,10 @@ public class SwaggerConfig {
         String[] paths = {
                 "/api/music/**"
         };
-        String[] packagedToMatch = {
-                "hcmus.zingmp3.music_service.controller"
-        };
         return GroupedOpenApi.builder()
                 .group("music-service")
                 .addOpenApiCustomizer(openApi -> openApi.info(new io.swagger.v3.oas.models.info.Info().title("Song service API").version(appVersion)))
                 .pathsToMatch(paths)
-                .packagesToScan(packagedToMatch)
                 .build();
     }
 }
