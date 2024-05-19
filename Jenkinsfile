@@ -19,6 +19,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                sh 'docker-compose stop'
+                sh 'docker-compose rm -f'
+                sh 'docker-compose pull'
                 sh 'docker-compose up'
             }
         }
