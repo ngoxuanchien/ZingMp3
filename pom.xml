@@ -32,30 +32,6 @@
         <reactor.version>3.6.5</reactor.version>
     </properties>
 
-    <dependencies>
-        <!--        grpc -->
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${reactor.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.devh</groupId>
-            <artifactId>grpc-server-spring-boot-starter</artifactId>
-            <version>3.0.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>net.devh</groupId>
-            <artifactId>grpc-client-spring-boot-starter</artifactId>
-            <version>3.0.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.salesforce.servicelibs</groupId>
-            <artifactId>reactor-grpc-stub</artifactId>
-            <version>${reactive.grpc.version}</version>
-        </dependency>
-    </dependencies>
-
 
     <build>
         <extensions>

@@ -16,20 +16,28 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-
+        <!--        grpc -->
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>${reactor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-server-spring-boot-starter</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-client-spring-boot-starter</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.salesforce.servicelibs</groupId>
+            <artifactId>reactor-grpc-stub</artifactId>
+            <version>${reactive.grpc.version}</version>
+        </dependency>
     </dependencies>
-
-<!--    <distributionManagement>-->
-<!--        <snapshotRepository>-->
-<!--            <id>zingmp3-proto</id>-->
-<!--            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>zingmp3-proto</id>-->
-<!--            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
-
 
     <build>
         <extensions>
