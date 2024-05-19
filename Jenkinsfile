@@ -6,17 +6,19 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
+                    sh 'mvn clean compile jib:build'
+                }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'mvn test'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'docker-compose up'
             }
         }
     }
