@@ -67,41 +67,6 @@
         </extensions>
         <plugins>
             <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.6.1</version>
-                <configuration>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <protocArtifact>
-                        com.google.protobuf:protoc:3.22.3:exe:${os.detected.classifier}
-                    </protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <pluginArtifact>
-                        io.grpc:protoc-gen-grpc-java:1.54.0:exe:${os.detected.classifier}
-                    </pluginArtifact>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                        </goals>
-                        <configuration>
-                            <protocPlugins>
-                                <protocPlugin>
-                                    <id>reactor-grpc</id>
-                                    <groupId>com.salesforce.servicelibs</groupId>
-                                    <artifactId>reactor-grpc</artifactId>
-                                    <version>${reactive.grpc.version}</version>
-                                    <mainClass>com.salesforce.reactorgrpc.ReactorGrpcGenerator</mainClass>
-                                </protocPlugin>
-                            </protocPlugins>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.0</version>
