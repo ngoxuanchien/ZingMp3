@@ -20,8 +20,18 @@ spring:
     multipart:
       max-file-size: 2GB
       max-request-size: 2GB
+  output:
+    ansi:
+      enabled: always
 server:
   port: ${SERVER_PORT:8082}
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/keystore.p12
+    key-store-password: changeit
+    protocol: TLS
+    enabled-protocols: TLSv1.2
 springdoc:
   swagger-ui:
     oauth:
@@ -40,12 +50,12 @@ springdoc:
 #    prefer-ip-address: true
 #    lease-renewal-interval-in-seconds: 10
 #    lease-expiration-duration-in-seconds: 20
-logging:
-  level:
-    web: debug
-    org:
-      springframework:
-        web: debug
+#logging:
+#  level:
+#    web: debug
+#    org:
+#      springframework:
+#        web: debug
 grpc:
   server:
     port: 9090

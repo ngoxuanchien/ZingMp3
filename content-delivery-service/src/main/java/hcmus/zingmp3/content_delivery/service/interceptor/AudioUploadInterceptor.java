@@ -1,6 +1,6 @@
 package hcmus.zingmp3.content_delivery.service.interceptor;
 
-import hcmus.zingmp3.audio.AudioFileInfo;
+import hcmus.zingmp3.AudioFileInfo;
 import io.grpc.*;
 import net.devh.boot.grpc.server.interceptor.GrpcGlobalServerInterceptor;
 

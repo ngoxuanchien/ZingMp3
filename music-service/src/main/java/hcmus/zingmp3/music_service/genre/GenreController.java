@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/music/genre/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/music/genre", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GenreController {
     private final GenreService genreService;
 

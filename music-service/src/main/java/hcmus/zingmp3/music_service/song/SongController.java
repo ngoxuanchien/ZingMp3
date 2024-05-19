@@ -2,6 +2,7 @@ package hcmus.zingmp3.music_service.song;
 
 import hcmus.zingmp3.music_service.song.model.SongRequest;
 import hcmus.zingmp3.music_service.song.model.SongResponse;
+import hcmus.zingmp3.music_service.song.service.SongService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,11 +22,13 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/music/song/")
+@RequestMapping(value = "/api/music/song")
 public class SongController {
     private final SongService songService;
     @PostMapping(
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+            consumes = {
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+            }
     )
     @RequestBody(
             content = @Content(encoding = {
@@ -35,12 +38,12 @@ public class SongController {
             @Encoding(name = "composers", contentType = MediaType.APPLICATION_JSON_VALUE)
     }))
     public ResponseEntity<SongResponse> createSong(
-            @RequestPart("song") @Valid SongRequest request,
-            @RequestPart(value = "thumbnailFile", required = false) MultipartFile thumbnailFile,
-            @RequestPart(value = "audioFiles", required = false) MultipartFile[] audioFiles,
-            @RequestPart(value = "artists", required = false) Set<String> artists,
-            @RequestPart(value = "genres", required = false) Set<String> genres,
-            @RequestPart(value = "composers", required = false) Set<String> composers
+            @RequestPart(name = "song") @Valid SongRequest request,
+            @RequestPart(name = "thumbnailFile", required = false) MultipartFile thumbnailFile,
+            @RequestPart(name = "audioFiles", required = false) MultipartFile[] audioFiles,
+            @RequestPart(name = "artists", required = false) Set<String> artists,
+            @RequestPart(name = "genres", required = false) Set<String> genres,
+            @RequestPart(name = "composers", required = false) Set<String> composers
     ) {
         request.addAllArtists(artists);
         request.addAllGenres(genres);
@@ -51,7 +54,7 @@ public class SongController {
         return ResponseEntity.ok(songService.createSong(request));
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<SongResponse> getSongById(@PathVariable UUID id) {
         return ResponseEntity.ok(songService.getSongById(id));
     }
@@ -71,7 +74,7 @@ public class SongController {
     }
 
     @PutMapping(
-            value = "{id}",
+            value = "/{id}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     @RequestBody(content = @Content(encoding = {
@@ -97,7 +100,7 @@ public class SongController {
         return ResponseEntity.ok(songService.updateSong(id, request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSong(
             @PathVariable UUID id
     ) {

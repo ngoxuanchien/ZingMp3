@@ -1,6 +1,7 @@
 package hcmus.zingmp3.music_service.song.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import hcmus.zingmp3.music_service.artist.model.ArtistResponse;
 import hcmus.zingmp3.music_service.genre.model.GenreResponse;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SongResponse {
     private UUID id;
     private String title;

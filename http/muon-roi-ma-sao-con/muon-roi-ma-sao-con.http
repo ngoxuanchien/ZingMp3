@@ -1,0 +1,79 @@
+POST /api/music/artist
+host: localhost:8083
+Content-Type: multipart/form-data; multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=artist; filename=son-tung-m-tp.json
+Content-Type: application/json
+
+< son-tung-m-tp.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=thumbnail; filename=son-tung-m-tp.jpg
+Content-Type: image/jpeg
+
+< son-tung-m-tp.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+POST /api/music/genre
+host: localhost:8083
+Content-Type: application/json
+
+{
+  "name": "Việt Nam",
+  "title": "Việt Nam",
+  "alias": "viet-nam"
+}
+
+###
+POST /api/music/genre
+host: localhost:8083
+Content-Type: application/json
+
+{
+  "name": "V-Pop",
+  "title": "V-Pop",
+  "alias": "v-pop"
+}
+
+###
+POST /api/music/song
+host: localhost:8083
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=song; filename=muon-roi-ma-sao-con.json
+Content-Type: application/json
+
+< muon-roi-ma-sao-con.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=thumbnailFile; filename=muon-roi-ma-sao-con.jpg
+Content-Type: image/jpeg
+
+< muon-roi-ma-sao-con.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: audio/mpeg
+Content-Disposition: form-data; name=audioFile; filename=muon-roi-ma-sao-con.mp3
+
+< muon-roi-ma-sao-con.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=artists; filename=artists.json
+Content-Type: application/json
+
+< artists.json
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=genres; filename=genres.json
+Content-Type: application/json
+
+< genres.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=composers; filename=composers.json
+Content-Type: application/json
+
+< composers.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+GET /api/music/song
+host: localhost:8083
+

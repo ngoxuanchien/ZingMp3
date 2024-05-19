@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +56,8 @@ public class Artist {
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "award_id")
     )
-    private List<Award> awards;
+    @Builder.Default
+    private List<Award> awards = new LinkedList<>();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -63,7 +65,8 @@ public class Artist {
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id")
     )
-    private List<Song> songs;
+    @Builder.Default
+    private List<Song> songs = new LinkedList<>();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -71,7 +74,8 @@ public class Artist {
             joinColumns = @JoinColumn(name = "composer_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id")
     )
-    private List<Song> composedSongs;
+    @Builder.Default
+    private List<Song> composedSongs = new LinkedList<>();
 
     private UUID createdBy;
     private LocalDateTime createdAt;

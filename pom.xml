@@ -19,11 +19,11 @@
     <modules>
         <module>zingmp3-proto</module>
         <module>discovery-service</module>
-        <module>api-gateway</module>
         <module>user-service</module>
         <module>playlist-service</module>
         <module>content-delivery-service</module>
         <module>music-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
@@ -105,6 +105,14 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.0</version>
+                <configuration>
+                    <from>
+                        <image>jelastic/maven:3.9.5-openjdk-21</image>
+                    </from>
+                    <to>
+                        <image>registry.hub.docker.com/ngoxuanchien/${artifactId}</image>
+                    </to>
+                </configuration>
             </plugin>
         </plugins>
     </build>

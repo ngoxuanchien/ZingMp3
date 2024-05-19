@@ -1,5 +1,6 @@
 package hcmus.zingmp3.music_service.artist.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.Min;
@@ -43,6 +44,7 @@ public class ArtistRequest {
     @Size(max = 100)
     private String realName;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     @Hidden

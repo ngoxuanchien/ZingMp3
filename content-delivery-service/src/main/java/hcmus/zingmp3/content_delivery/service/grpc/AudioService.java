@@ -1,10 +1,6 @@
 package hcmus.zingmp3.content_delivery.service.grpc;
 
 import hcmus.zingmp3.*;
-import hcmus.zingmp3.audio.AudioFileInfo;
-import hcmus.zingmp3.audio.AudioRequest;
-import hcmus.zingmp3.audio.AudioResponse;
-import hcmus.zingmp3.audio.AudioServiceGrpc;
 import hcmus.zingmp3.content_delivery.exception.NotFoundException;
 import hcmus.zingmp3.content_delivery.model.dto.AudioFileDataDTO;
 import hcmus.zingmp3.content_delivery.model.entity.AudioFileData;

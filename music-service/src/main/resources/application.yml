@@ -66,4 +66,4 @@ grpc:
       address: static://localhost:9090
       negotiationType: plaintext
   server:
-    port: 0
+    port: 9001

@@ -1,7 +1,8 @@
 package hcmus.zingmp3.music_service.song;
 
+import hcmus.zingmp3.AudioFileInfo;
 import hcmus.zingmp3.ImageUploadResponse;
-import hcmus.zingmp3.audio.AudioFileInfo;
+import hcmus.zingmp3.SongId;
 import hcmus.zingmp3.music_service.artist.model.Artist;
 import hcmus.zingmp3.music_service.artist.model.ArtistResponse;
 import hcmus.zingmp3.music_service.audio.*;
@@ -14,6 +15,7 @@ import hcmus.zingmp3.music_service.song.model.Song;
 import hcmus.zingmp3.music_service.song.model.SongRequest;
 import hcmus.zingmp3.music_service.song.model.SongResponse;
 import hcmus.zingmp3.music_service.thumbnail.ThumbnailClientService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-class SongMapper {
+public class SongMapper {
     private final static UUID DEFAULT_THUMBNAIL_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     private final GenreService genreService;
     private final ThumbnailClientService thumbnailClientService;
@@ -176,5 +178,30 @@ class SongMapper {
         });
 
         return audios;
+    }
+
+    @Transactional
+    public hcmus.zingmp3.SongResponse toResponse(Song song) {
+        System.out.println(song.isOfficial());
+        System.out.println(song.isWorldWide());
+        System.out.println();
+        hcmus.zingmp3.SongResponse response = hcmus.zingmp3.SongResponse.newBuilder()
+                .setId(song.getId().toString())
+                .setTitle(song.getTitle())
+                .setAlias(song.getAlias())
+                .setIsOfficial(song.isOfficial())
+                .setIsWorldWide(song.isWorldWide())
+                .setReleaseDate(song.getReleaseDate())
+                .setDistributor(song.getDistributor())
+                .build();
+        System.out.println(response);
+        System.out.println(response.getIsOfficial());
+        return response;
+    }
+
+    public SongId toSongId(Song song) {
+        return SongId.newBuilder()
+                .setId(song.getId().toString())
+                .build();
     }
 }

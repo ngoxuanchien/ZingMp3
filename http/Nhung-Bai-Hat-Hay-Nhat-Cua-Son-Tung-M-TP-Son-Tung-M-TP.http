@@ -1,0 +1,35 @@
+POST /api/playlist
+host: localhost:8080
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=playlist; filename=playlist.json
+Content-Type: application/json
+
+< ./playlist.json
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=thumbnailFile; filename=Nhung-Bai-Hat-Hay-Nhat-Cua-Son-Tung-M-TP-Son-Tung-M-TP.jpg
+Content-Type: image/jpeg
+
+< ./Nhung-Bai-Hat-Hay-Nhat-Cua-Son-Tung-M-TP-Son-Tung-M-TP.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=genres; filename=genres.json
+Content-Type: application/json
+
+< ./genres.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=artists; filename=artists.json
+Content-Type: application/json
+
+< ./artists.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name=songs; filename=songs.json
+Content-Type: application/json
+
+< ./songs.json
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+GET /api/playlist
+host: localhost:8080

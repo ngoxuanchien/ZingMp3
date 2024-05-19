@@ -3,7 +3,6 @@ package hcmus.zingmp3.content_delivery;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,7 +16,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         },
         info = @Info(title = "Song Service API", version = "1.0", description = "API for Song Service")
 )
-@Slf4j
 public class ContentDeliveryServiceApplication {
 
 

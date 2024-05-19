@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/music/artist/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/music/artist", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ArtistController {
 
     private final ArtistService artistService;
@@ -49,7 +49,7 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.createArtist(request));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ArtistResponse> getArtistById(
             @PathVariable @UUID String id
     ) {
@@ -71,7 +71,7 @@ public class ArtistController {
     }
 
     @PutMapping(
-            value = "{id}",
+            value = "/{id}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     @RequestBody(
@@ -91,7 +91,7 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.updateArtist(id, request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteArtist(
             @UUID
             @PathVariable String id

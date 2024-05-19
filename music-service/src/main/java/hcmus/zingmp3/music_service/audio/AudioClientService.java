@@ -1,9 +1,7 @@
 package hcmus.zingmp3.music_service.audio;
 
 import com.google.protobuf.ByteString;
-import hcmus.zingmp3.File;
-import hcmus.zingmp3.UploadStatus;
-import hcmus.zingmp3.audio.*;
+import hcmus.zingmp3.*;
 import io.grpc.Metadata;
 import io.grpc.stub.MetadataUtils;
 import io.grpc.stub.StreamObserver;

@@ -117,27 +117,20 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.4.0</version>
-				<configuration>
-					<from>
-						<image>jelastic/maven:3.9.5-openjdk-21</image>
-					</from>
-					<to>
-						<image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>
-					</to>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.google.cloud.tools</groupId>-->
+<!--				<artifactId>jib-maven-plugin</artifactId>-->
+<!--				<version>3.4.0</version>-->
+<!--				<configuration>-->
+<!--					<from>-->
+<!--						<image>jelastic/maven:3.9.5-openjdk-21</image>-->
+<!--					</from>-->
+<!--					<to>-->
+<!--						<image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>-->
+<!--					</to>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>maven_central</id>
-			<name>Maven Central</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
-		</repository>
-	</repositories>
 
 </project>

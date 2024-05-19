@@ -1,25 +1,14 @@
 spring:
   application:
     name: playlist-service
-  r2dbc:
-    url: r2dbc:mysql://${spring.r2dbc.server}:${spring.r2dbc.port}/${spring.r2dbc.name}
-    username: ${SPRING_R2DBC_USERNAME:zingmp3}
-    password: ${SPRING_R2DBC_PASSWORD:zingmp3}
-    server: ${SPRING_R2DBC_SERVER:localhost}
-    port: ${SPRING_R2DBC_PORT:3308}
-    name: ${SPRING_R2DBC_NAME:playlist_service}
-  flyway:
-    enabled: true
-    url: jdbc:mysql://${spring.r2dbc.server}:${spring.r2dbc.port}/${spring.r2dbc.name}
-    user: ${spring.r2dbc.username}
-    password: ${spring.r2dbc.password}
+  datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    baseline-on-migrate: true
-  data:
-    web:
-      pageable:
-        default-page-size: 10
-        max-page-size: 50
+    url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
+    username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
+    password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
+    server: ${SPRING_DATASOURCE_SERVER:localhost}
+    port: ${SPRING_DATASOURCE_PORT:3308}
+    name: ${SPRING_DATASOURCE_NAME:playlist_service}
   security:
     oauth2:
       resourceserver:
@@ -27,39 +16,26 @@ spring:
           issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
   codec:
     max-in-memory-size: 1GB
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 server:
-  port: ${SERVER_PORT:0}
+  port: ${SERVER_PORT:8080}
   host: ${SERVER_HOST:localhost:8081}
   url: ${SERVER_URL:http://localhost:8081}
 springdoc:
   swagger-ui:
-    oauth:
-      client-id: ${spring.security.oauth2.client.registration.keycloak.client-id}
-      client-secret: ${spring.security.oauth2.client.registration.keycloak.client-secret}
     operations-sorter: method
     tags-sorter: alpha
-  version: 1.0
-eureka:
+#logging:
+#  level:
+#    root: debug
+grpc:
   client:
-    service-url:
-      defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
-    fetch-registry: true
-    register-with-eureka: true
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 20
-logging:
-  level:
-    org:
-      springframework:
-        r2dbc: debug
-keycloak:
-  resource-id: playlist-service
-  token-url: ${server.url}/api/auth/token
-
-playback:
-  image:
-    playlist: ${server.url}/api/playback/image/playlist/
-
+    music:
+      address: static://localhost:9001
+      negotiation-type: plaintext
+  server:
+    port: 9000
 
