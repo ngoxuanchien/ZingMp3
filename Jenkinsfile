@@ -6,6 +6,10 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+                sh 'docker-compose -f keycloak-docker-compose.yml stop'
+                sh 'docker-compose -f keycloak-docker-compose.yml down'
+                sh 'docker-compose -f keycloak-docker-compose.yml up -d'
+
                 sh 'docker-compose -f init-docker-compose.yml stop'
                 sh 'docker-compose -f init-docker-compose.yml rm -f'
                 sh 'docker-compose -f init-docker-compose.yml up -d'
@@ -22,7 +26,6 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn test'
-                echo 'Test'
             }
         }
         stage('Deploy') {
