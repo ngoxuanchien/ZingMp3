@@ -100,9 +100,6 @@ services:
 
   api-gateway:
     container_name: api-gateway
-    depends_on:
-      mysql-keycloak:
-        condition: service_healthy
     image: ngoxuanchien/api-gateway:latest
     restart: always
     ports:
