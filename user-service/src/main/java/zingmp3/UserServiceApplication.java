@@ -23,21 +23,25 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 		info = @Info(title = "User Service API", version = "1.0", description = "API for User Service")
 )
 @SecurityScheme(
-		name = "Keycloak",
-		type = SecuritySchemeType.OAUTH2,
-		flows = @OAuthFlows(
-				password = @OAuthFlow(
-//						tokenUrl = "http://localhost:8080/realms/zing-mp3/protocol/openid-connect/token",
-//						tokenUrl = "http://nxc-hcmus.me:8081/api/auth/token",
-						tokenUrl = "${keycloak.token-url}",
-						refreshUrl = "${keycloak.token-url}",
-						scopes = {
-								@OAuthScope(name = "openid", description = "openid scope")
-						}
-				)
-		)
+		name = "Keycloak"
+		,openIdConnectUrl = "http://localhost:8080/realms/zing-mp3/.well-known/openid-configuration"
+		,type = SecuritySchemeType.OPENIDCONNECT
+		,scheme = "bearer"
+		,in =SecuritySchemeIn.HEADER
+
+//		flows = @OAuthFlows(
+//				password = @OAuthFlow(
+////						tokenUrl = "http://localhost:8080/realms/zing-mp3/protocol/openid-connect/token",
+////						tokenUrl = "http://nxc-hcmus.me:8081/api/auth/token",
+//						tokenUrl = "${keycloak.token-url}",
+//						refreshUrl = "${keycloak.token-url}",
+//						scopes = {
+//								@OAuthScope(name = "openid", description = "openid scope")
+//						}
+//				)
+//		)
 )
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 public class UserServiceApplication {
 
 	public static void main(String[] args) {

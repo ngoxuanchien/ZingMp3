@@ -14,4 +14,9 @@ public class DemoController {
     public String demo() {
         return "Demo";
     }
+
+    @GetMapping("/admin")
+    public String demoAdmin() {
+        return "adminnnnnnn";
+    }
 }

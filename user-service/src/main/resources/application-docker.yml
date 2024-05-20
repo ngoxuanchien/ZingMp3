@@ -1,24 +1,19 @@
-spring:
-  application:
-    name: user-service
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: user-service
-            client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
-      resourceserver:
-        jwt:
-          issuer-uri: http:///keycloak:8080/realms/zing-mp3
-server:
-  port: 8083
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       default-zone: http://discovery-service:8761/eureka
+
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/zing-mp3
+server:
+  port: 8083
 keycloak:
   domain: keycloak
   realm: zing-mp3
@@ -33,5 +28,3 @@ springdoc:
     oauth:
       client-id: ${keycloak.client-id}
       client-secret: ${keycloak.client-secret}
-    operations-sorter: method
-    tags-sorter: alpha

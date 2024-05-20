@@ -1,0 +1,18 @@
+{
+  "realm": "zing-mp3",
+  "auth-server-url": "http://localhost:8080",
+  "resource": "user-service",
+  "credentials": {
+    "secret": "jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x"
+  },
+  "paths": [
+    {
+      "path": "/swagger-ui/*",
+      "enforcement-mode": "DISABLED"
+    },
+    {
+      "path": "/v3/api-docs/*",
+      "enforcement-mode": "DISABLED"
+    }
+  ]
+}
