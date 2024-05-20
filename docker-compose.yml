@@ -113,8 +113,6 @@ services:
       KEYCLOAK_OPENID-CONNECT: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/
 
   user-service:
-    depends_on:
-      - keycloak
     container_name: user-service
     image: ngoxuanchien/user-service:latest
     restart: always
