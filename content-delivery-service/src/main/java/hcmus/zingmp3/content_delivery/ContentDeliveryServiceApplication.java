@@ -18,12 +18,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 )
 public class ContentDeliveryServiceApplication {
 
-
-    public static final String SONG_THUMBNAIL_PATH = "./data/song/thumbnail/";
-    public static final String ARTIST_THUMBNAIL_PATH = "./data/artist/thumbnail/";
-    public static final String PLAYLIST_THUMBNAIL_PATH = "./data/playlist/thumbnail/";
-    public static final String SONG_FILE_PATH = "./data/song/";
-
     public static void main(String[] args) {
         SpringApplication.run(ContentDeliveryServiceApplication.class, args);
     }

@@ -7,7 +7,7 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
     server: ${SPRING_DATASOURCE_SERVER:localhost}
     port: ${SPRING_DATASOURCE_PORT:3310}
-    name: ${SPRING_DATASOURCE_NAME:playback_service}
+    name: ${SPRING_DATASOURCE_NAME:content_delivery}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -24,14 +24,14 @@ spring:
     ansi:
       enabled: always
 server:
-  port: ${SERVER_PORT:8082}
-  ssl:
-    enabled: true
-    key-store-type: PKCS12
-    key-store: classpath:keystore/keystore.p12
-    key-store-password: changeit
-    protocol: TLS
-    enabled-protocols: TLSv1.2
+  port: ${SERVER_PORT:0}
+#  ssl:
+#    enabled: true
+#    key-store-type: PKCS12
+#    key-store: classpath:keystore/keystore.p12
+#    key-store-password: changeit
+#    protocol: TLS
+#    enabled-protocols: TLSv1.2
 springdoc:
   swagger-ui:
     oauth:
@@ -40,16 +40,16 @@ springdoc:
     tags-sorter: alpha
     operations-sorter: method
     groups-order: asc
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
-#    fetch-registry: true
-#    register-with-eureka: true
-#  instance:
-#    prefer-ip-address: true
-#    lease-renewal-interval-in-seconds: 10
-#    lease-expiration-duration-in-seconds: 20
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
 #logging:
 #  level:
 #    web: debug
@@ -58,4 +58,8 @@ springdoc:
 #        web: debug
 grpc:
   server:
-    port: 9090
+    port: ${GRPC_SERVER_PORT:0}
+  client:
+    grpc-server:
+      address: 'discovery:///grpc-server'
+      negotiation-type: plaintext

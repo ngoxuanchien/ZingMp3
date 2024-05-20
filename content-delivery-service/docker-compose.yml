@@ -6,7 +6,7 @@ services:
     environment:
       MYSQL_HOST: '%'
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: playback_service
+      MYSQL_DATABASE: content_delivery
       MYSQL_USER: zingmp3
       MYSQL_PASSWORD: zingmp3
       MYSQL_TCP_PORT: 3310
