@@ -6,6 +6,8 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+                sh 'docker-compose -f init-docker-compose.yml stop'
+                sh 'docker-compose -f init-docker-compose.yml rm -f'
                 sh 'docker-compose -f init-docker-compose.yml up -d'
             }
         }
