@@ -4,6 +4,12 @@ pipeline {
     }
 
     stages {
+        stage('Setup') {
+            steps {
+                sh 'docker-compose -f init-docker-compose.yml up -d'
+            }
+        }
+
         stage('Build') {
             steps {
                 withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {

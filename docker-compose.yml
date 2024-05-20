@@ -46,25 +46,25 @@ services:
     volumes:
       - ./database/mysql-keycloak:/var/lib/mysql
 
-#  mysql-playlist:
-#    container_name: mysql-playlist
-#    image: mysql
-#    environment:
-#      MYSQL_HOST: '%'
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: playlist_service
-#      MYSQL_USER: zingmp3
-#      MYSQL_PASSWORD: zingmp3
-#      MYSQL_TCP_PORT: 3308
-#    volumes:
-#      - ./database/mysql-playlist:/data/mysql
-#    ports:
-#      - "3308:3308"
-#    restart: always
-#    networks:
-#      - zingmp3-net
-#    healthcheck:
-#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+  mysql-playlist:
+    container_name: mysql-playlist
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playlist_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3308
+    volumes:
+      - ./database/mysql-playlist:/data/mysql
+    ports:
+      - "3308:3308"
+    restart: always
+    networks:
+      - zingmp3-net
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
   discovery-service:
     container_name: discovery-service
@@ -165,23 +165,23 @@ services:
 #    networks:
 #      - zingmp3-net
 
-  mysql-music:
-    container_name: mysql-music
-    image: mysql
-    environment:
-      MYSQL_ROOT_HOSTS: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: music_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3309
-    restart: always
-    ports:
-      - "3309:3309"
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      - zingmp3-net
+#  mysql-music:
+#    container_name: mysql-music
+#    image: mysql
+#    environment:
+#      MYSQL_ROOT_HOSTS: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: music_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3309
+#    restart: always
+#    ports:
+#      - "3309:3309"
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      - zingmp3-net
 
 #  music-service:
 #    depends_on:
