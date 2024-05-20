@@ -7,7 +7,7 @@ pipeline {
         stage('Setup') {
             steps {
                 sh 'docker-compose -f keycloak-docker-compose.yml stop'
-                sh 'docker-compose -f keycloak-docker-compose.yml down'
+                sh 'docker-compose -f keycloak-docker-compose.yml rm -f -v'
                 sh 'docker-compose -f keycloak-docker-compose.yml up -d'
 
                 sh 'docker-compose -f init-docker-compose.yml stop'
