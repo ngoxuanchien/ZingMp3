@@ -4,6 +4,17 @@ pipeline {
     }
 
     stages {
+        stage('Check Containers') {
+            steps {
+                script {
+                    def containers = ['keycloak', 'mysql-keycloak', 'mysql-playlist', 'mysql-playback']
+                    for (container in containers) {
+                        sh(script: "if docker ps -a | grep -q ${container}; then echo 'Container ${container} exists.'; else echo 'Container ${container} does not exist.'; fi", returnStdout: true)
+                    }
+                }
+            }
+        }
+
         stage('Setup') {
             steps {
                 sh 'docker-compose -f init-docker-compose.yml stop'
