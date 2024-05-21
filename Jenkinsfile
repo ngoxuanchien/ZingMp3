@@ -15,6 +15,9 @@ pipeline {
 //        }
 
         stage('Build') {
+            agent {
+                label 'nxc-hcmus-2'
+            }
             steps {
                 withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
                     sh 'mvn clean compile jib:build'
@@ -22,19 +25,22 @@ pipeline {
             }
         }
         stage('Test') {
+            agent {
+                label 'nxc-hcmus-2'
+            }
             steps {
                 sh 'mvn test'
             }
             post {
-                agent {
-                    label 'nxc-hcmus-2'
-                }
                 always {
                     junit '**/target/surefire-reports/*.xml'
                 }
             }
         }
         stage('Deploy to QA server') {
+            agent {
+                label 'nxc-hcmus-2'
+            }
             steps {
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
