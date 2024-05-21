@@ -35,6 +35,7 @@ pipeline {
         }
         stage('Deploy to QA server') {
             steps {
+                sh 'docker-compose stop'
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
                 sh 'docker-compose up -d'
@@ -48,6 +49,7 @@ pipeline {
                 label 'nxc-hcmus-1'
             }
             steps {
+                sh 'docker-compose stop'
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
                 sh 'docker-compose up -d'
