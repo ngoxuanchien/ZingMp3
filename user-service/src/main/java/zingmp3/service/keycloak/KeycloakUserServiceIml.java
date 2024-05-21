@@ -1,7 +1,5 @@
 package zingmp3.service.keycloak;
 
-import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +12,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import zingmp3.dto.UserRegistrationRequest;
+import zingmp3.exception.EmailExistException;
 import zingmp3.exception.ForbiddenException;
 import zingmp3.exception.UnauthorizedException;
 
@@ -77,29 +76,34 @@ public class KeycloakUserServiceIml implements KeycloakUserService {
 
         user.setCredentials(List.of(credential));
 
-        try {
+
             Response response = keycloak
                     .realm(realm)
                     .users()
                     .create(user);
 
-            if (Objects.equals(response.getStatus(), 201)) {
-                String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
-                assignRole(keycloak, userId, "user");
-            } else {
-                throw new ForbiddenException("Cannot register user! Try again later");
+//            if (Objects.equals(response.getStatus(), 201)) {
+//                String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+//                assignRole(keycloak, userId, "user");
+//            } else {
+//                log.info(String.valueOf(response.getStatus()));
+//                throw new ForbiddenException("Cannot register user! Try again later");
+//            }
+
+            switch (response.getStatus()) {
+                case 201:
+                    String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+                    assignRole(keycloak, userId, "user");
+                    break;
+                case 409:
+                    log.error(String.valueOf(response.getStatus()));
+                    log.error(response.toString());
+                    throw new EmailExistException("Email already exists!");
+                default:
+                    log.info(String.valueOf(response.getStatus()));
+                    throw new ForbiddenException("Cannot register user! Try again later");
             }
-        } catch (ForbiddenException e) {
-            log.error(e.getMessage());
-            throw new ForbiddenException(e.getMessage());
-        } catch (ProcessingException e) {
-            System.out.println(e.getMessage());
-            throw new UnauthorizedException("Client Unauthorized");
-
-        }
 
 
-
-//        return response;
     }
 }
