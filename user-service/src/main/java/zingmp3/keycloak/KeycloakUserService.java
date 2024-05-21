@@ -1,4 +1,4 @@
-package zingmp3.service.keycloak;
+package zingmp3.keycloak;
 
 import jakarta.ws.rs.core.Response;
 import org.keycloak.representations.idm.UserRepresentation;

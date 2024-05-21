@@ -25,6 +25,11 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
+            post {
+                always {
+                    junit '*/target/surefire-reports/*.xml'
+                }
+            }
         }
         stage('Deploy') {
             steps {
@@ -35,17 +40,12 @@ pipeline {
         }
     }
     post {
-        success {
-            // Gửi thông báo khi build thành công
-            mail to: '20120046@student.hcmus.edu.vn',
-                    subject: "Build Successful",
-                    body: "The build was successful!"
-        }
-        failure {
-            // Gửi thông báo khi build thất bại
-            mail to: '20120046@student.hcmus.edu.vn',
-                    subject: "Build Failed",
-                    body: "The build has failed. Please check the Jenkins console output for more details."
+        always {
+            sh 'docker logout'
+
+            emailext to: "20120046@student.hcmus.edu.vn",
+                    subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
+                    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
         }
     }
 }

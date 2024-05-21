@@ -1,4 +1,4 @@
-package zingmp3.service.keycloak;
+package zingmp3.keycloak;
 
 public interface RoleService {
 

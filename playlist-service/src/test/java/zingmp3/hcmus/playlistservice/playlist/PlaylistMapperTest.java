@@ -4,6 +4,7 @@ import hcmus.zingmp3.SongServiceGrpc;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import zingmp3.hcmus.playlistservice.playlist.model.Playlist;
 import zingmp3.hcmus.playlistservice.playlist.model.PlaylistRequest;
 import zingmp3.hcmus.playlistservice.playlist.model.PlaylistResponse;

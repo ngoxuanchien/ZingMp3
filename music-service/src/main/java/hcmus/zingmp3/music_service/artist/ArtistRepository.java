@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist, UUID> {
     Optional<Artist> findByAlias(String name);
+
 }
