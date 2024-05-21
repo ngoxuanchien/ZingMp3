@@ -23,30 +23,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                try {
-                    sh 'mvn test'
-
-                    publishHTML target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: false,
-                            keepAll: true,
-                            reportDir: 'build/reports/tests/test',
-                            reportFiles: 'index.html',
-                            reportName: 'Unit Test Report'
-                    ]
-                } catch (err) {
-                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-                    throw err
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/TEST-*.xml'
                 }
             }
-//            steps {
-//                sh 'mvn test'
-//            }
-//            post {
-//                always {
-//                    junit '**/target/surefire-reports/*.xml'
-//                }
-//            }
 
 
         }
