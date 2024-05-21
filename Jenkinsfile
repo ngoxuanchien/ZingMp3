@@ -34,4 +34,18 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            // Gửi thông báo khi build thành công
+            mail to: '20120046@student.hcmus.edu.vn',
+                    subject: "Build Successful",
+                    body: "The build was successful!"
+        }
+        failure {
+            // Gửi thông báo khi build thất bại
+            mail to: '20120046@student.hcmus.edu.vn',
+                    subject: "Build Failed",
+                    body: "The build has failed. Please check the Jenkins console output for more details."
+        }
+    }
 }
