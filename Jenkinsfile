@@ -12,7 +12,7 @@ pipeline {
                             sh 'mvn clean compile jib:build'
                         }
                     } else {
-                        sh 'mvn clean compile'
+                        sh 'mvn clean install'
                     }
                 }
             }
@@ -27,71 +27,43 @@ pipeline {
                 }
             }
         }
-        script {
-            if (env.BRANCH_NAME == 'master') {
-                stage('Deploy to QA server') {
-                    steps {
-                        sh 'docker-compose stop'
-                        sh 'docker-compose rm -s -f'
-                        sh 'docker-compose pull'
-                        sh 'docker-compose up -d'
-                        sh 'docker image prune -f'
-                        sh 'docker system prune -f'
-                    }
-                }
+        stage('Deploy to QA server') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'master') {
 
-                stage('Deploy to PROD server') {
-                    agent {
-                        label 'nxc-hcmus-1'
-                    }
-                    steps {
                         sh 'docker-compose stop'
                         sh 'docker-compose rm -s -f'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
+
+                    } else {
+                        echo 'skip deploy'
                     }
                 }
             }
         }
-//        stage('Deploy to QA server') {
-//            steps {
-//                script {
-//                    if (env.BRANCH_NAME == 'master') {
-//
-//                        sh 'docker-compose stop'
-//                        sh 'docker-compose rm -s -f'
-//                        sh 'docker-compose pull'
-//                        sh 'docker-compose up -d'
-//                        sh 'docker image prune -f'
-//                        sh 'docker system prune -f'
-//
-//                    } else {
-//                        echo 'skip deploy'
-//                    }
-//                }
-//            }
-//        }
-//        stage('Deploy to PROD server') {
-//            agent {
-//                label 'nxc-hcmus-1'
-//            }
-//            steps {
-//                script {
-//                    if (env.BRANCH_NAME == 'master') {
-//                        sh 'docker-compose stop'
-//                        sh 'docker-compose rm -s -f'
-//                        sh 'docker-compose pull'
-//                        sh 'docker-compose up -d'
-//                        sh 'docker image prune -f'
-//                        sh 'docker system prune -f'
-//                    } else {
-//                        echo 'skip deploy'
-//                    }
-//                }
-//            }
-//        }
+        stage('Deploy to PROD server') {
+            agent {
+                label 'nxc-hcmus-1'
+            }
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'docker-compose stop'
+                        sh 'docker-compose rm -s -f'
+                        sh 'docker-compose pull'
+                        sh 'docker-compose up -d'
+                        sh 'docker image prune -f'
+                        sh 'docker system prune -f'
+                    } else {
+                        echo 'skip deploy'
+                    }
+                }
+            }
+        }
     }
     post {
         always {
