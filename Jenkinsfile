@@ -3,6 +3,10 @@ pipeline {
         label 'nxc-hcmus-2'
     }
 
+//    environment {
+//        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+//    }
+
     stages {
 //        stage('Setup') {
 //            steps {
@@ -16,9 +20,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
-                    sh 'mvn clean compile jib:build'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
+                            sh 'mvn clean compile jib:build'
+                        }
+                    } else {
+                        sh 'mvn clean compile'
+                    }
                 }
+
+
             }
         }
         stage('Test') {
@@ -35,12 +47,22 @@ pipeline {
         }
         stage('Deploy to QA server') {
             steps {
-                sh 'docker-compose stop'
-                sh 'docker-compose rm -s -f'
-                sh 'docker-compose pull'
-                sh 'docker-compose up -d'
-                sh 'docker image prune -f'
-                sh 'docker system prune -f'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+
+                        sh 'docker-compose stop'
+                        sh 'docker-compose rm -s -f'
+                        sh 'docker-compose pull'
+                        sh 'docker-compose up -d'
+                        sh 'docker image prune -f'
+                        sh 'docker system prune -f'
+
+                    } else {
+                        echo 'skip deploy'
+                    }
+                }
+
+
 
             }
         }
@@ -49,12 +71,18 @@ pipeline {
                 label 'nxc-hcmus-1'
             }
             steps {
-                sh 'docker-compose stop'
-                sh 'docker-compose rm -s -f'
-                sh 'docker-compose pull'
-                sh 'docker-compose up -d'
-                sh 'docker image prune -f'
-                sh 'docker system prune -f'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'docker-compose stop'
+                        sh 'docker-compose rm -s -f'
+                        sh 'docker-compose pull'
+                        sh 'docker-compose up -d'
+                        sh 'docker image prune -f'
+                        sh 'docker system prune -f'
+                    } else {
+                        echo 'skip deploy'
+                    }
+                }
             }
         }
     }
