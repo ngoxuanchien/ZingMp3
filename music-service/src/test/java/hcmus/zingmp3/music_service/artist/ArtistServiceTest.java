@@ -1,20 +1,14 @@
 package hcmus.zingmp3.music_service.artist;
 
-import hcmus.zingmp3.music_service.MusicServiceApplication;
 import hcmus.zingmp3.music_service.artist.model.Artist;
 import hcmus.zingmp3.music_service.artist.model.ArtistRequest;
 import hcmus.zingmp3.music_service.artist.model.ArtistResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -24,10 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-//@ExtendWith(MockitoExtension.class)
-//@SpringBootTest(classes = MusicServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ActiveProfiles("test")
-//@AutoConfigureMockMvc
 public class ArtistServiceTest {
 
     @InjectMocks

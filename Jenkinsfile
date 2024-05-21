@@ -4,15 +4,15 @@ pipeline {
     }
 
     stages {
-        stage('Setup') {
-            steps {
-                sh 'docker-compose -f keycloak-docker-compose.yml rm -s -f -v'
-                sh 'docker-compose -f keycloak-docker-compose.yml up -d'
-
-                sh 'docker-compose -f init-docker-compose.yml rm -s -f'
-                sh 'docker-compose -f init-docker-compose.yml up -d'
-            }
-        }
+//        stage('Setup') {
+//            steps {
+//                sh 'docker-compose -f keycloak-docker-compose.yml rm -s -f -v'
+//                sh 'docker-compose -f keycloak-docker-compose.yml up -d'
+//
+//                sh 'docker-compose -f init-docker-compose.yml rm -s -f'
+//                sh 'docker-compose -f init-docker-compose.yml up -d'
+//            }
+//        }
 
         stage('Build') {
             steps {
@@ -41,11 +41,11 @@ pipeline {
     }
     post {
         always {
-            sh 'docker logout'
-
-            emailext to: "20120046@student.hcmus.edu.vn",
-                    subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-                    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
+            mail to: '20120046@student.hcmus.edu.vn',
+            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
+            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
         }
+
+
     }
 }
