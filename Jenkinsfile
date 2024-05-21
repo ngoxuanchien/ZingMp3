@@ -26,6 +26,9 @@ pipeline {
                 sh 'mvn test'
             }
             post {
+                agent {
+                    label 'nxc-hcmus-2'
+                }
                 always {
                     junit '**/target/surefire-reports/*.xml'
                 }
