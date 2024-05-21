@@ -43,7 +43,9 @@ pipeline {
         }
         stage('Deploy to PROD server') {
             agent {
-                label 'agent 1'
+                label 'nxc-hcmus-1'
+            }
+            steps {
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
                 sh 'docker-compose up -d'
