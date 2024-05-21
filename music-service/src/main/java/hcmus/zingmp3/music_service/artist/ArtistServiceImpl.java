@@ -3,6 +3,7 @@ package hcmus.zingmp3.music_service.artist;
 import hcmus.zingmp3.music_service.artist.model.Artist;
 import hcmus.zingmp3.music_service.artist.model.ArtistRequest;
 import hcmus.zingmp3.music_service.artist.model.ArtistResponse;
+import hcmus.zingmp3.music_service.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ArtistServiceImpl implements ArtistService {
+
     private final ArtistRepository artistRepository;
     private final ArtistMapper artistMapper;
 
@@ -26,7 +28,7 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public ArtistResponse getArtistById(String id) {
         Artist artist = artistRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new RuntimeException("Artist not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Artist not found with id: " + id));
         return artistMapper.toDTO(artist);
     }
 
@@ -39,7 +41,7 @@ public class ArtistServiceImpl implements ArtistService {
     public ArtistResponse updateArtist(String id, ArtistRequest request) {
         UUID uuid = UUID.fromString(id);
         artistRepository.findById(uuid)
-                .orElseThrow(() -> new RuntimeException("Artist not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Artist not found with id: " + id));
         Artist newArtist = artistMapper.toEntity(request);
         newArtist.setId(uuid);
         return artistMapper.toDTO(artistRepository.save(newArtist));
@@ -49,14 +51,8 @@ public class ArtistServiceImpl implements ArtistService {
     public void deleteArtist(String id) {
         UUID uuid = UUID.fromString(id);
         artistRepository.findById(uuid)
-                .orElseThrow(() -> new RuntimeException("Artist not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Artist not found with id: " + id));
         artistRepository.deleteById(uuid);
-    }
-
-    @Override
-    public Artist getById(String id) {
-        return artistRepository.findById(UUID.fromString(id))
-                .orElse(null);
     }
 
     @Override

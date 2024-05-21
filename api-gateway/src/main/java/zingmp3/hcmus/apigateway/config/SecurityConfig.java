@@ -25,24 +25,19 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/api/auth/**",
-            "/api/songs/**",
+            "/api/music/**",
             "/api/register/**",
-            "/api/genres/**",
-            "/api/artists/**",
-            "/api/albums/**",
-            "/api/composers/**",
-            "/api/songs-demo/**"
+            "/images/**"
     };
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-//                .authorizeExchange(exchange -> exchange.anyExchange().permitAll())
-                .authorizeExchange(exchange ->
-                        exchange.pathMatchers(WHILE_LIST_URL)
-                                .permitAll()
-                                .anyExchange()
-                                .permitAll())
+                .authorizeExchange(exchange -> exchange
+                        .pathMatchers(WHILE_LIST_URL)
+                            .permitAll()
+                        .anyExchange()
+                            .authenticated())
                 .oauth2ResourceServer(spec -> spec
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
                 );

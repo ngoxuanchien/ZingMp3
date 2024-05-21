@@ -15,8 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
         servers = {
-                @Server(url = "/", description = "Default Server URL"),
-                @Server(url = "${server.url}", description = "Production server")
+                @Server(url = "/", description = "Default Server URL")
         },
         info = @Info(title = "Song Service API", version = "1.0", description = "API for Song Service")
 )

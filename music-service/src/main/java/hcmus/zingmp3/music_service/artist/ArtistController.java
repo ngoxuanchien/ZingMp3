@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class ArtistController {
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
+    @SecurityRequirement(name = "Keycloak")
     @RequestBody(
             content = @Content(encoding = {
             @Encoding(name = "artist", contentType = MediaType.APPLICATION_JSON_VALUE),
@@ -70,6 +72,7 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.getAllArtists(pageable));
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping(
             value = "/{id}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -91,6 +94,7 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.updateArtist(id, request));
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteArtist(
             @UUID

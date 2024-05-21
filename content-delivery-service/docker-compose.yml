@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  mysql-playback:
-    container_name: mysql-playback
+  mysql_content_delivery:
+    container_name: mysql_content_delivery
     image: mysql
     environment:
       MYSQL_HOST: '%'
@@ -11,7 +11,7 @@ services:
       MYSQL_PASSWORD: zingmp3
       MYSQL_TCP_PORT: 3310
     volumes:
-      - ../database/mysql-playback-service:/data/mysql
+      - ../database/mysql_content_delivery:/data/mysql
     ports:
       - "3310:3310"
     restart: always

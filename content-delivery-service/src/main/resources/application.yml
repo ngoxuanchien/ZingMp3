@@ -25,6 +25,7 @@ spring:
       enabled: always
 server:
   port: ${SERVER_PORT:0}
+  gateway-url: ${GATEWAY_URL:http://localhost:8081}
 #  ssl:
 #    enabled: true
 #    key-store-type: PKCS12

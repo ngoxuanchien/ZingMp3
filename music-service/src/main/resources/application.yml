@@ -20,6 +20,16 @@ spring:
     multipart:
       max-file-size: 2GB
       max-request-size: 2GB
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
+      client:
+        registration:
+          keycloak:
+            client-id: ${KEYCLOAK_CLIENT_ID:music-service}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET:VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7}
 #  security:
 #    oauth2:
 #      client:
@@ -31,9 +41,7 @@ spring:
 #        jwt:
 #          issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
 server:
-  port: ${SERVER_PORT:8083}
-  host: ${SERVER_HOST:localhost:8081}
-  url: ${SERVER_URL:http://localhost:8081}
+  port: ${SERVER_PORT:0}
 springdoc:
   swagger-ui:
     tags-sorter: alpha
@@ -45,7 +53,7 @@ springdoc:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
+      defaultZone: http://${EUREKA_SERVER:localhost}:${EUREKA_PORT:8761}/eureka/
     fetch-registry: true
     register-with-eureka: true
   instance:
@@ -53,17 +61,12 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
 keycloak:
-  resource-id: ${spring.security.oauth2.client.registration.keycloak.client-id}
-  token-url: ${server.url}/api/auth/token
-playback:
-  streaming-url: ${server.url}/api/playback/streaming/play/
-  image:
-    song: ${server.url}/api/playback/image/song/
-    artist: ${server.url}/api/playback/image/artist/
+  resource-id: "music-service"
+  token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/auth/realms/zing-mp3/protocol/openid-connect/token}
 grpc:
   client:
-    content-delivery:
-      address: static://localhost:9090
+    content-delivery-service:
+      address: discovery:///content-delivery-service
       negotiationType: plaintext
   server:
-    port: 9001
+    port: ${GRPC_SERVER_PORT:0}

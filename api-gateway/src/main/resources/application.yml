@@ -31,10 +31,10 @@ spring:
             - Path=/api/auth/**, /v3/api-docs/auth-service/**
           filters:
             - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
-        - id: playback-service
-          uri: lb://playback-service
+        - id: content-delivery-service
+          uri: lb://content-delivery-service
           predicates:
-              - Path=/api/playback/**, /v3/api-docs/playback-service/**
+              - Path=/api/content-delivery/**, /v3/api-docs/content-delivery/**, /images/**
         - id: playlist-service
           uri: lb://playlist-service
           predicates:

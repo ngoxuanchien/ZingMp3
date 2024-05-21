@@ -44,7 +44,7 @@ public class ArtistRequest {
     @Size(max = 100)
     private String realName;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     @Hidden

@@ -12,7 +12,6 @@ import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -20,15 +19,14 @@ import java.util.concurrent.CountDownLatch;
 
 import static hcmus.zingmp3.Constants.IMAGE_META_KEY;
 
-
 @Service
 @Slf4j
 public class ThumbnailClientService {
-    @GrpcClient(value = "content-delivery")
-    private ImageUploadServiceGrpc.ImageUploadServiceStub asynchronousClient;
+    @GrpcClient(value = "content-delivery-service")
+    ImageUploadServiceGrpc.ImageUploadServiceStub asynchronousClient;
 
-    @GrpcClient(value = "content-delivery")
-    private ImageUploadServiceGrpc.ImageUploadServiceBlockingStub synchronousClient;
+    @GrpcClient(value = "content-delivery-service")
+    ImageUploadServiceGrpc.ImageUploadServiceBlockingStub synchronousClient;
 
     public ImageUploadResponse getOrCreateIfNotExist(final MultipartFile multipartFile, String object) {
         InputStream inputStream;

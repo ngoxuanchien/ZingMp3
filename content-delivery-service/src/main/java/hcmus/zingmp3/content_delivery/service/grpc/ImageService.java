@@ -93,7 +93,7 @@ public class ImageService extends ImageUploadServiceGrpc.ImageUploadServiceImplB
                 responseObserver.onNext(ImageUploadResponse
                         .newBuilder()
                         .setStatus(UploadStatus.SUCCESS)
-                        .setUrl("http://localhost:8082/images/" + imageFileDataDTO.getPath() + imageFileDataDTO.getName())
+                        .setUrl(imageFileDataDTO.getUrl())
                         .setId(String.valueOf(imageFileDataDTO.getId()))
                         .build());
 

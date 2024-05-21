@@ -16,6 +16,5 @@ public interface ArtistService {
     List<ArtistResponse> getAllArtists(Pageable pageable);
     ArtistResponse updateArtist(String id, ArtistRequest request);
     void deleteArtist(String id);
-    Artist getById(String id);
     Artist getOrCreateByAlias(String alias);
 }
