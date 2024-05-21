@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'nxc-hcmus-1'
+        label 'nxc-hcmus-2'
     }
 
     stages {
@@ -27,7 +27,7 @@ pipeline {
             }
             post {
                 always {
-                    junit '**/target/surefire-reports/TEST-*.xml'
+                    junit testResults: '**/target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
                 }
             }
 
@@ -43,18 +43,18 @@ pipeline {
 
             }
         }
-//        stage('Deploy to PROD server') {
-//            agent {
-//                label 'nxc-hcmus-1'
-//            }
-//            steps {
-//                sh 'docker-compose rm -s -f'
-//                sh 'docker-compose pull'
-//                sh 'docker-compose up -d'
-//                sh 'docker image prune -f'
-//                sh 'docker system prune -f'
-//            }
-//        }
+        stage('Deploy to PROD server') {
+            agent {
+                label 'nxc-hcmus-1'
+            }
+            steps {
+                sh 'docker-compose rm -s -f'
+                sh 'docker-compose pull'
+                sh 'docker-compose up -d'
+                sh 'docker image prune -f'
+                sh 'docker system prune -f'
+            }
+        }
     }
     post {
         always {
