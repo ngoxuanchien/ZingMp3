@@ -3,21 +3,7 @@ pipeline {
         label 'nxc-hcmus-2'
     }
 
-//    environment {
-//        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-//    }
-
     stages {
-//        stage('Setup') {
-//            steps {
-//                sh 'docker-compose -f keycloak-docker-compose.yml rm -s -f -v'
-//                sh 'docker-compose -f keycloak-docker-compose.yml up -d'
-//
-//                sh 'docker-compose -f init-docker-compose.yml rm -s -f'
-//                sh 'docker-compose -f init-docker-compose.yml up -d'
-//            }
-//        }
-
         stage('Build') {
             steps {
                 script {
@@ -29,8 +15,6 @@ pipeline {
                         sh 'mvn clean compile'
                     }
                 }
-
-
             }
         }
         stage('Test') {
@@ -42,49 +26,72 @@ pipeline {
                     junit testResults: '**/target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
                 }
             }
-
-
         }
-        stage('Deploy to QA server') {
-            steps {
-                script {
-                    if (env.BRANCH_NAME == 'master') {
-
+        script {
+            if (env.BRANCH_NAME == 'master') {
+                stage('Deploy to QA server') {
+                    steps {
                         sh 'docker-compose stop'
                         sh 'docker-compose rm -s -f'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
-
-                    } else {
-                        echo 'skip deploy'
                     }
                 }
 
-
-
-            }
-        }
-        stage('Deploy to PROD server') {
-            agent {
-                label 'nxc-hcmus-1'
-            }
-            steps {
-                script {
-                    if (env.BRANCH_NAME == 'master') {
+                stage('Deploy to PROD server') {
+                    agent {
+                        label 'nxc-hcmus-1'
+                    }
+                    steps {
                         sh 'docker-compose stop'
                         sh 'docker-compose rm -s -f'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
-                    } else {
-                        echo 'skip deploy'
                     }
                 }
             }
         }
+//        stage('Deploy to QA server') {
+//            steps {
+//                script {
+//                    if (env.BRANCH_NAME == 'master') {
+//
+//                        sh 'docker-compose stop'
+//                        sh 'docker-compose rm -s -f'
+//                        sh 'docker-compose pull'
+//                        sh 'docker-compose up -d'
+//                        sh 'docker image prune -f'
+//                        sh 'docker system prune -f'
+//
+//                    } else {
+//                        echo 'skip deploy'
+//                    }
+//                }
+//            }
+//        }
+//        stage('Deploy to PROD server') {
+//            agent {
+//                label 'nxc-hcmus-1'
+//            }
+//            steps {
+//                script {
+//                    if (env.BRANCH_NAME == 'master') {
+//                        sh 'docker-compose stop'
+//                        sh 'docker-compose rm -s -f'
+//                        sh 'docker-compose pull'
+//                        sh 'docker-compose up -d'
+//                        sh 'docker image prune -f'
+//                        sh 'docker system prune -f'
+//                    } else {
+//                        echo 'skip deploy'
+//                    }
+//                }
+//            }
+//        }
     }
     post {
         always {
