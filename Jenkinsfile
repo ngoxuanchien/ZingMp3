@@ -15,9 +15,6 @@ pipeline {
 //        }
 
         stage('Build') {
-            agent {
-                label 'nxc-hcmus-2'
-            }
             steps {
                 withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
                     sh 'mvn clean compile jib:build'
@@ -25,22 +22,32 @@ pipeline {
             }
         }
         stage('Test') {
-            agent {
-                label 'nxc-hcmus-2'
-            }
-            steps {
+//            steps {
+//                sh 'mvn test'
+//            }
+//            post {
+//                always {
+//                    junit '**/target/surefire-reports/*.xml'
+//                }
+//            }
+
+            try {
                 sh 'mvn test'
-            }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                }
+
+                publishHTML target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'build/reports/tests/test',
+                        reportFiles: 'index.html',
+                        reportName: 'Unit Test Report'
+                ]
+            } catch (err) {
+                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+                throw err
             }
         }
         stage('Deploy to QA server') {
-            agent {
-                label 'nxc-hcmus-2'
-            }
             steps {
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
@@ -51,9 +58,6 @@ pipeline {
             }
         }
         stage('Deploy to PROD server') {
-            agent {
-                label 'nxc-hcmus-1'
-            }
             steps {
                 sh 'docker-compose rm -s -f'
                 sh 'docker-compose pull'
