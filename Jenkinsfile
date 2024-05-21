@@ -22,6 +22,23 @@ pipeline {
             }
         }
         stage('Test') {
+            steps {
+                try {
+                    sh 'mvn test'
+
+                    publishHTML target: [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: 'build/reports/tests/test',
+                            reportFiles: 'index.html',
+                            reportName: 'Unit Test Report'
+                    ]
+                } catch (err) {
+                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+                    throw err
+                }
+            }
 //            steps {
 //                sh 'mvn test'
 //            }
@@ -31,21 +48,7 @@ pipeline {
 //                }
 //            }
 
-            try {
-                sh 'mvn test'
 
-                publishHTML target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'build/reports/tests/test',
-                        reportFiles: 'index.html',
-                        reportName: 'Unit Test Report'
-                ]
-            } catch (err) {
-                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-                throw err
-            }
         }
         stage('Deploy to QA server') {
             steps {
