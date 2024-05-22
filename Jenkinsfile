@@ -31,14 +31,11 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-
-                        sh 'docker-compose stop'
-                        sh 'docker-compose rm -s -f'
+                        sh 'docker-compose down -v'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
-
                     } else {
                         echo 'skip deploy'
                     }
@@ -52,8 +49,7 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-                        sh 'docker-compose stop'
-                        sh 'docker-compose rm -s -f'
+                        sh 'docker-compose down'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'

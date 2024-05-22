@@ -57,7 +57,6 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public Artist getOrCreateByAlias(String alias) {
-        System.out.println(Artist.builder().alias(alias).build());
         return artistRepository.findByAlias(alias)
                 .orElseGet(() -> artistRepository.save(Artist.builder().alias(alias).build()));
     }

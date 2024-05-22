@@ -48,6 +48,7 @@ public class ArtistRequest {
     private LocalDate birthday;
 
     @Hidden
+    @Builder.Default
     private Set<String> awards = new HashSet<>();
 
     @JsonIgnore
@@ -57,6 +58,7 @@ public class ArtistRequest {
         if (awards == null) {
             return;
         }
+
         this.awards.addAll(awards);
     }
 
