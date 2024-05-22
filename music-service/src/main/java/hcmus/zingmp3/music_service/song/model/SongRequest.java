@@ -32,11 +32,14 @@ public class SongRequest {
     private boolean isOfficial;
 
     @Hidden
+    @Builder.Default
     private Set<String> artists = new HashSet<>();
 
     @Hidden
+    @Builder.Default
     private Set<String> genres = new HashSet<>();
 
+    @Builder.Default
     @Hidden
     private Set<String> composers = new HashSet<>();
 
@@ -70,6 +73,7 @@ public class SongRequest {
     @JsonIgnore
     private MultipartFile thumbnailFile;
 
+    @Builder.Default
     @JsonIgnore
     private Set<MultipartFile> audioFiles = new HashSet<>();
 

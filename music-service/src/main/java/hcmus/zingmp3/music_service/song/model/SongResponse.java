@@ -9,9 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @Builder
@@ -24,9 +22,12 @@ public class SongResponse {
     private String alias;
     private boolean isOfficial;
     @JsonIgnoreProperties("songs")
-    private Set<ArtistResponse> artists;
-    private Set<GenreResponse> genres;
-    private Set<ArtistResponse> composers;
+    @Builder.Default
+    private Set<ArtistResponse> artists = new HashSet<>();
+    @Builder.Default
+    private Set<GenreResponse> genres = new HashSet<>();
+    @Builder.Default
+    private Set<ArtistResponse> composers = new HashSet<>();
     private boolean isWorldWide;
     private String thumbnail;
     private boolean isPrivate;
@@ -36,5 +37,6 @@ public class SongResponse {
     private int likes;
     private int listen;
     private int comment;
-    private Map<Long, String> streaming;
+    @Builder.Default
+    private Map<Long, String> streaming = new HashMap<>();
 }

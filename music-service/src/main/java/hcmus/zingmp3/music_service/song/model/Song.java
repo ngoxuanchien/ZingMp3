@@ -68,10 +68,13 @@ public class Song {
 
     private boolean hasLyric;
 
+    @Builder.Default
     private int likes = 0;
 
+    @Builder.Default
     private int listen = 0;
 
+    @Builder.Default
     private int comment = 0;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

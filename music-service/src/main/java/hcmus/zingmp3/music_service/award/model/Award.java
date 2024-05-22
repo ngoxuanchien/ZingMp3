@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -30,5 +31,6 @@ public class Award {
             joinColumns = @JoinColumn(name = "award_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_id")
     )
-    private List<Artist> artists;
+    @Builder.Default
+    private List<Artist> artists = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package hcmus.zingmp3.music_service.genre;
 
+import com.google.api.Http;
 import hcmus.zingmp3.music_service.genre.model.GenreRequest;
 import hcmus.zingmp3.music_service.genre.model.GenreResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,11 @@ public class GenreController {
     public ResponseEntity<GenreResponse> createGenre(
             @RequestBody @Valid GenreRequest request
     ) {
-        return ResponseEntity.ok(genreService.createGenre(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(genreService.createGenre(request));
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<GenreResponse> getGenreById(
-            @org.hibernate.validator.constraints.UUID
             @PathVariable UUID id
     ) {
         return ResponseEntity.ok(genreService.getGenreById(id));
@@ -62,7 +63,7 @@ public class GenreController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(
-            @org.hibernate.validator.constraints.UUID @PathVariable UUID id
+            @PathVariable UUID id
     ) {
         genreService.deleteGenre(id);
         return ResponseEntity.noContent().build();

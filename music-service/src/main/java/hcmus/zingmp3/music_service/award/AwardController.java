@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,14 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/music/award/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/music/award", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AwardController {
     private final AwardService awardService;
 
     @PostMapping
     public ResponseEntity<AwardResponse> createAward(@RequestBody @Valid AwardRequest request) {
-        return ResponseEntity.ok(awardService.createAward(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(awardService.createAward(request));
     }
 
     @GetMapping
@@ -42,7 +44,7 @@ public class AwardController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AwardResponse> getAwardById(@PathVariable @org.hibernate.validator.constraints.UUID UUID id) {
+    public ResponseEntity<AwardResponse> getAwardById(@PathVariable UUID id) {
         return ResponseEntity.ok(awardService.getAwardById(id));
     }
 
@@ -52,7 +54,7 @@ public class AwardController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAward(@PathVariable @org.hibernate.validator.constraints.UUID UUID id) {
+    public ResponseEntity<Void> deleteAward(@PathVariable UUID id) {
         awardService.deleteAward(id);
         return ResponseEntity.noContent().build();
     }

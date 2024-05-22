@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -95,6 +96,36 @@ class ArtistControllerTest {
         mockMvc.perform(get("/api/music/artist/" + id)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
+                                   .status()
+                                   .isOk())
+                .andExpect(MockMvcResultMatchers
+                                   .content()
+                                   .json(objectMapper.writeValueAsString(artistResponse)))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void ArtistController_UpdateArtist_ReturnOk() throws Exception {
+        UUID id = ARTIST_IDS.getFirst();
+        ArtistRequest artistRequest = ARTIST_REQUESTS.get(1);
+        ArtistResponse artistResponse = ARTIST_RESPONSES.get(1);
+        artistResponse.setId(id);
+
+        MockMultipartFile artist = new MockMultipartFile("artist", "artist.json", "application/json", objectMapper.writeValueAsBytes(artistRequest));
+        MockMultipartFile awards = new MockMultipartFile("awards", "awards.json", "application/json", objectMapper.writeValueAsBytes(new String[]{"award1", "award2"}));
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "thumbnail", "image/png", new byte[0]);
+
+        given(artistService.updateArtist(ArgumentMatchers.any(), ArgumentMatchers.any()))
+                .willAnswer(invocation -> artistResponse);
+
+        ResultActions resultActions = mockMvc
+                .perform(multipart(
+                        HttpMethod.PUT, "/api/music/artist/" + id)
+                                .file(artist)
+                                .file(awards)
+                                .file(thumbnail));
+
+        resultActions.andExpect(MockMvcResultMatchers
                                    .status()
                                    .isOk())
                 .andExpect(MockMvcResultMatchers

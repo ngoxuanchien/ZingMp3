@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.*;
 @RequestMapping(value = "/api/music/song")
 public class SongController {
     private final SongService songService;
+
     @PostMapping(
             consumes = {
                     MediaType.MULTIPART_FORM_DATA_VALUE
@@ -51,7 +53,7 @@ public class SongController {
         request.addAudioFiles(audioFiles);
         request.setThumbnailFile(thumbnailFile);
 
-        return ResponseEntity.ok(songService.createSong(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(songService.createSong(request));
     }
 
     @GetMapping(value = "/{id}")

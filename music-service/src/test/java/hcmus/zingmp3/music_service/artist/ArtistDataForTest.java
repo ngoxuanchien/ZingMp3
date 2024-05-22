@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ArtistDataForTest {
-    static final List<UUID> ARTIST_IDS = IntStream.rangeClosed(1, 10)
+    public static final List<UUID> ARTIST_IDS = IntStream.rangeClosed(1, 10)
             .mapToObj(i -> UUID.randomUUID())
             .collect(Collectors.toList());
 
-    static final List<ArtistRequest> ARTIST_REQUESTS = IntStream.rangeClosed(1, 10)
+    public static final List<ArtistRequest> ARTIST_REQUESTS = IntStream.rangeClosed(1, 10)
             .mapToObj(i -> ArtistRequest.builder()
                     .name("Artist " + i)
                     .alias("alias-" + i)
@@ -27,7 +27,7 @@ public class ArtistDataForTest {
                     .build())
             .collect(Collectors.toList());
 
-    static final List<Artist> BEFORE_SAVE_ARTISTS = IntStream.rangeClosed(1, 10)
+    public static final List<Artist> BEFORE_SAVE_ARTISTS = IntStream.rangeClosed(1, 10)
             .mapToObj(i -> Artist.builder()
                     .name("Artist " + i)
                     .alias("alias-" + i)
@@ -39,7 +39,7 @@ public class ArtistDataForTest {
                     .build())
             .collect(Collectors.toList());
 
-    static final List<Artist> AFTER_SAVE_ARTISTS = IntStream.rangeClosed(1, 10)
+    public static final List<Artist> AFTER_SAVE_ARTISTS = IntStream.rangeClosed(1, 10)
             .mapToObj(i -> Artist.builder()
                     .id(ARTIST_IDS.get(i - 1))
                     .name("Artist " + i)
@@ -52,7 +52,7 @@ public class ArtistDataForTest {
                     .build())
             .collect(Collectors.toList());
 
-    static final List<ArtistResponse> ARTIST_RESPONSES = IntStream.rangeClosed(1, 10)
+    public static final List<ArtistResponse> ARTIST_RESPONSES = IntStream.rangeClosed(1, 10)
             .mapToObj(i -> ArtistResponse.builder()
                     .id(ARTIST_IDS.get(i - 1))
                     .name("Artist " + i)
