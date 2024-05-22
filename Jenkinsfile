@@ -32,6 +32,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         sh 'docker-compose down -v'
+                        sh 'rm -rf ./database'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
