@@ -23,8 +23,8 @@ eureka:
 springdoc:
   swagger-ui:
     oauth:
-      client-id: ${keycloak.client-id}
-      client-secret: ${keycloak.client-secret}
+      client-id: user-service
+      client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
     operations-sorter: method
     tags-sorter: alpha
 
