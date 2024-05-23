@@ -1,11 +1,11 @@
 package hcmus.zingmp3.content_delivery.service.interceptor;
 
-import hcmus.zingmp3.ImageFileInfo;
+import hcmus.zingmp3.content_delivery_service.ImageFileInfo;
 import io.grpc.*;
 import net.devh.boot.grpc.server.interceptor.GrpcGlobalServerInterceptor;
 
-import static hcmus.zingmp3.Constants.IMAGE_META_CONTEXT;
-import static hcmus.zingmp3.Constants.IMAGE_META_KEY;
+import static hcmus.zingmp3.content_delivery.Constants.IMAGE_META_CONTEXT;
+import static hcmus.zingmp3.content_delivery.Constants.IMAGE_META_KEY;
 
 @GrpcGlobalServerInterceptor
 public class ImageUploadInterceptor implements ServerInterceptor {

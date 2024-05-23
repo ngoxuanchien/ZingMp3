@@ -1,8 +1,8 @@
 package hcmus.zingmp3.music_service.song;
 
-import hcmus.zingmp3.AudioFileInfo;
-import hcmus.zingmp3.ImageUploadResponse;
-import hcmus.zingmp3.SongId;
+import hcmus.zingmp3.music_service.AudioFileInfo;
+import hcmus.zingmp3.music_service.ImageUploadResponse;
+import hcmus.zingmp3.music_service.SongId;
 import hcmus.zingmp3.music_service.artist.model.Artist;
 import hcmus.zingmp3.music_service.artist.model.ArtistResponse;
 import hcmus.zingmp3.music_service.audio.*;
@@ -181,11 +181,11 @@ public class SongMapper {
     }
 
     @Transactional
-    public hcmus.zingmp3.SongResponse toResponse(Song song) {
+    public hcmus.zingmp3.music_service.SongResponse toResponse(Song song) {
         System.out.println(song.isOfficial());
         System.out.println(song.isWorldWide());
         System.out.println();
-        hcmus.zingmp3.SongResponse response = hcmus.zingmp3.SongResponse.newBuilder()
+        hcmus.zingmp3.music_service.SongResponse response = hcmus.zingmp3.music_service.SongResponse.newBuilder()
                 .setId(song.getId().toString())
                 .setTitle(song.getTitle())
                 .setAlias(song.getAlias())

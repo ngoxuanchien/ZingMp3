@@ -23,23 +23,7 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
   ### MySQL content delivery service
-  mysql-content_delivery:
-    container_name: mysql-content_delivery
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: content_delivery
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3310
-    volumes:
-      - ../database/mysql-content_delivery:/data/mysql
-    ports:
-      - "3310:3310"
-    restart: always
-    networks:
-      zingmp3-net:
+
 networks:
   zingmp3-net:
     name: zingmp3-net

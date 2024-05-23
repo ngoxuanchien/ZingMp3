@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+
+package hcmus.zingmp3.content_delivery_service;
+
+message ArtistRequest {
+  string alias = 1;
+}
+
+message ArtistResponse {
+  string id = 1;
+}
+
+service ArtistService {
+  rpc getArtistByAlias(ArtistRequest) returns (ArtistResponse);
+}

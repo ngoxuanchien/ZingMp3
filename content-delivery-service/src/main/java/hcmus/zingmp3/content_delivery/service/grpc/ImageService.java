@@ -1,12 +1,11 @@
 package hcmus.zingmp3.content_delivery.service.grpc;
 
-
-import hcmus.zingmp3.*;
 import hcmus.zingmp3.content_delivery.exception.NotFoundException;
 import hcmus.zingmp3.content_delivery.model.dto.ImageFileDataDTO;
 import hcmus.zingmp3.content_delivery.model.enums.ObjectType;
 import hcmus.zingmp3.content_delivery.service.ImageFileDataService;
 import hcmus.zingmp3.content_delivery.service.component.UUIDValidator;
+import hcmus.zingmp3.content_delivery_service.*;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import static hcmus.zingmp3.Constants.IMAGE_META_CONTEXT;
+import static hcmus.zingmp3.content_delivery.Constants.IMAGE_META_CONTEXT;
 
 @GrpcService
 @RequiredArgsConstructor

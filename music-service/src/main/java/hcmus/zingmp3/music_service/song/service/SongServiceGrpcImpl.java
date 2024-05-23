@@ -1,12 +1,11 @@
 package hcmus.zingmp3.music_service.song.service;
 
-import hcmus.zingmp3.SongAlias;
-import hcmus.zingmp3.SongId;
-import hcmus.zingmp3.SongResponse;
-import hcmus.zingmp3.SongServiceGrpc;
+import hcmus.zingmp3.music_service.SongAlias;
+import hcmus.zingmp3.music_service.SongId;
+import hcmus.zingmp3.music_service.SongResponse;
+import hcmus.zingmp3.music_service.SongServiceGrpc;
 import hcmus.zingmp3.music_service.song.SongMapper;
 import hcmus.zingmp3.music_service.song.SongRepository;
-import hcmus.zingmp3.music_service.song.model.Song;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;

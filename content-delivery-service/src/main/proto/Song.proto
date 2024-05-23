@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "Artist.proto";
+import "Genre.proto";
+
+package hcmus.zingmp3.content_delivery_service;
+
+message SongAlias {
+  string alias = 1;
+}
+
+message SongId {
+  string id = 1;
+
+}
+
+message SongResponse {
+  string id = 1;
+  string title = 2;
+  string alias = 3;
+  bool isOfficial = 4;
+  string artistNames = 5;
+  repeated ArtistResponse artists = 6;
+  repeated GenreResponse genres = 7;
+  repeated ArtistResponse composers = 8;
+  bool isWorldWide = 9;
+  int32 releaseDate = 10;
+  string distributor = 11;
+}
+
+service SongService {
+  rpc getSongById(SongId) returns (SongResponse);
+  rpc getSongIdByAlias(SongAlias) returns (SongId);
+}

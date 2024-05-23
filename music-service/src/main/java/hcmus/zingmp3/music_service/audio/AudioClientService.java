@@ -1,7 +1,7 @@
 package hcmus.zingmp3.music_service.audio;
 
 import com.google.protobuf.ByteString;
-import hcmus.zingmp3.*;
+import hcmus.zingmp3.music_service.*;
 import io.grpc.Metadata;
 import io.grpc.stub.MetadataUtils;
 import io.grpc.stub.StreamObserver;
@@ -15,7 +15,8 @@ import java.io.InputStream;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
-import static hcmus.zingmp3.Constants.AUDIO_META_KEY;
+import static hcmus.zingmp3.music_service.Constants.AUDIO_META_KEY;
+
 
 @Service
 @Slf4j
