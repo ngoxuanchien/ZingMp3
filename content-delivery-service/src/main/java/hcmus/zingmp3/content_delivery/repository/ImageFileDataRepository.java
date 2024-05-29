@@ -1,6 +1,6 @@
 package hcmus.zingmp3.content_delivery.repository;
 
-import hcmus.zingmp3.content_delivery.model.entity.ImageFileData;
+import hcmus.zingmp3.content_delivery.thumbnail.ImageFileData;
 import hcmus.zingmp3.content_delivery.model.enums.ObjectType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package hcmus.zingmp3.award;
+
+message AwardGrpcId {
+  string id = 1;
+}
+
+message AwardGrpcRequest {
+  string name = 1;
+}
+
+message AwardGrpcResponse {
+  string id = 1;
+  string name = 2;
+}
+
+service AwardService {
+  rpc getById(AwardGrpcId) returns (AwardGrpcResponse);
+  rpc getOrCreateAward(AwardGrpcRequest) returns (AwardGrpcResponse);
+}

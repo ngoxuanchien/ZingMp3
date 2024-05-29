@@ -1,0 +1,88 @@
+[
+  {
+    "namespace": "hcmus.zingmp3.artist.model",
+    "type": "record",
+    "name": "ArtistAvro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "alias",
+        "type": "string"
+      },
+      {
+        "name": "playlistId",
+        "type": "string"
+      },
+      {
+        "name": "thumbnail",
+        "type": "string"
+      },
+      {
+        "name": "totalFollow",
+        "type": "int"
+      },
+      {
+        "name": "sortBiography",
+        "type": "string"
+      },
+      {
+        "name": "biography",
+        "type": "string"
+      },
+      {
+        "name": "national",
+        "type": "string"
+      },
+      {
+        "name": "realName",
+        "type": "string"
+      },
+      {
+        "name": "birthday",
+        "type": "string"
+      },
+      {
+        "name": "awards",
+        "type": {
+          "type": "array",
+          "items": {
+            "name": "award",
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "songs",
+        "type": {
+          "type": "array",
+          "items": {
+            "name": "song",
+            "type": "string"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "namespace": "hcmus.zingmp3.artist.model",
+    "type": "record",
+    "name": "ArtistEvent",
+    "fields": [
+      {
+        "name": "eventType",
+        "type": "string"
+      },
+      {
+        "name": "artist",
+        "type": "hcmus.zingmp3.artist.model.ArtistAvro"
+      }
+    ]
+  }
+]

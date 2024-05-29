@@ -3,7 +3,7 @@ package hcmus.zingmp3.content_delivery.service.impl;
 import hcmus.zingmp3.content_delivery.service.component.FileDataService;
 import hcmus.zingmp3.content_delivery.exception.NotFoundException;
 import hcmus.zingmp3.content_delivery.model.dto.ImageFileDataDTO;
-import hcmus.zingmp3.content_delivery.model.entity.ImageFileData;
+import hcmus.zingmp3.content_delivery.thumbnail.ImageFileData;
 import hcmus.zingmp3.content_delivery.model.mapper.ImageFileDataMapper;
 import hcmus.zingmp3.content_delivery.repository.ImageFileDataRepository;
 import hcmus.zingmp3.content_delivery.service.ImageFileDataService;

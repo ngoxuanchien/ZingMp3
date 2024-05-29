@@ -5,7 +5,8 @@ import hcmus.zingmp3.content_delivery.model.dto.ImageFileDataDTO;
 import hcmus.zingmp3.content_delivery.model.enums.ObjectType;
 import hcmus.zingmp3.content_delivery.service.ImageFileDataService;
 import hcmus.zingmp3.content_delivery.service.component.UUIDValidator;
-import hcmus.zingmp3.content_delivery_service.*;
+import hcmus.zingmp3.proto.ImageFileInfo;
+import hcmus.zingmp3.proto.*;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import static hcmus.zingmp3.content_delivery.Constants.IMAGE_META_CONTEXT;
+import static hcmus.zingmp3.content_delivery.grpc.Constants.IMAGE_META_CONTEXT;
 
 @GrpcService
 @RequiredArgsConstructor
@@ -31,11 +32,12 @@ public class ImageService extends ImageUploadServiceGrpc.ImageUploadServiceImplB
 
     @Override
     public StreamObserver<ImageUploadRequest> getOrCreateIfNotExist(StreamObserver<ImageUploadResponse> responseObserver) {
+
         ImageFileInfo imageFileInfo = IMAGE_META_CONTEXT.get();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         return new StreamObserver<>() {
             @Override
-            public void onNext(ImageUploadRequest imageUploadRequest) {
+            public void onNext(hcmus.zingmp3.proto.ImageUploadRequest imageUploadRequest) {
                 try {
                     imageUploadRequest.getFile().getContent().writeTo(byteArrayOutputStream);
                 } catch (IOException e) {
@@ -89,9 +91,9 @@ public class ImageService extends ImageUploadServiceGrpc.ImageUploadServiceImplB
                     return;
                 }
 
-                responseObserver.onNext(ImageUploadResponse
+                responseObserver.onNext(hcmus.zingmp3.proto.ImageUploadResponse
                         .newBuilder()
-                        .setStatus(UploadStatus.SUCCESS)
+                        .setStatus(hcmus.zingmp3.proto.UploadStatus.SUCCESS)
                         .setUrl(imageFileDataDTO.getUrl())
                         .setId(String.valueOf(imageFileDataDTO.getId()))
                         .build());

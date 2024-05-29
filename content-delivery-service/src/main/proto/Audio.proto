@@ -4,7 +4,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/empty.proto";
 import "Image.proto";
-package hcmus.zingmp3.content_delivery_service;
+package hcmus.zingmp3.proto;
 
 message AudioRequest {
   File file = 1;

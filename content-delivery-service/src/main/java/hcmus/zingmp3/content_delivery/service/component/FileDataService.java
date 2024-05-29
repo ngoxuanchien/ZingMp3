@@ -1,7 +1,7 @@
 package hcmus.zingmp3.content_delivery.service.component;
 
 import hcmus.zingmp3.content_delivery.model.entity.AudioFileData;
-import hcmus.zingmp3.content_delivery.model.entity.ImageFileData;
+import hcmus.zingmp3.content_delivery.thumbnail.ImageFileData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

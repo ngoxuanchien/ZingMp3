@@ -1,7 +1,7 @@
 package hcmus.zingmp3.content_delivery.model.mapper;
 
 import hcmus.zingmp3.content_delivery.model.dto.ImageFileDataDTO;
-import hcmus.zingmp3.content_delivery.model.entity.ImageFileData;
+import hcmus.zingmp3.content_delivery.thumbnail.ImageFileData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

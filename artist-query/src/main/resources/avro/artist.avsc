@@ -1,0 +1,102 @@
+[
+  {
+    "namespace": "hcmus.zingmp3.artist.dto",
+    "type": "record",
+    "name": "ArtistAvro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "default": ""
+      },
+      {
+        "name": "alias",
+        "type": "string"
+      },
+      {
+        "name": "playlistId",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "thumbnail",
+        "type": "string"
+      },
+      {
+        "name": "totalFollow",
+        "type": "int"
+      },
+      {
+        "name": "sortBiography",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "biography",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "national",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "realName",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "birthday",
+        "type": ["string", "null"]
+      },
+      {
+        "name": "awards",
+        "type": [
+          {
+            "type": "array",
+            "items": "string",
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "songs",
+        "type": [
+          {
+            "type": "array",
+            "items": "string",
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "composedSongs",
+        "type": [
+          {
+            "type": "array",
+            "items": "string",
+            "default": []
+          },
+          "null"
+        ]
+      }
+    ]
+  },
+  {
+    "namespace": "hcmus.zingmp3.artist.dto",
+    "type": "record",
+    "name": "ArtistEvent",
+    "fields": [
+      {
+        "name": "eventType",
+        "type": "string"
+      },
+      {
+        "name": "artist",
+        "type": "hcmus.zingmp3.artist.dto.ArtistAvro"
+      }
+    ]
+  }
+]

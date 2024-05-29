@@ -23,21 +23,24 @@ spring:
   output:
     ansi:
       enabled: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.issuer-uri}
+    client:
+      registration:
+        keycloak:
+          client-id: ${keycloak.client-id}
+          client-secret: ${keycloak.client-secret}
 server:
   port: ${SERVER_PORT:0}
-  gateway-url: ${GATEWAY_URL:http://localhost:8081}
-#  ssl:
-#    enabled: true
-#    key-store-type: PKCS12
-#    key-store: classpath:keystore/keystore.p12
-#    key-store-password: changeit
-#    protocol: TLS
-#    enabled-protocols: TLSv1.2
+  gateway-url: ${GATEWAY_URL:http://localhost:8080}
 springdoc:
   swagger-ui:
     oauth:
-      client-id: ${spring.security.oauth2.client.registration.keycloak.client-id}
-      client-secret: ${spring.security.oauth2.client.registration.keycloak.client-secret}
+      client-id: ${spring.security.client.registration.keycloak.client-id}
+      client-secret: ${spring.security.client.registration.keycloak.client-secret}
     tags-sorter: alpha
     operations-sorter: method
     groups-order: asc
@@ -46,21 +49,21 @@ eureka:
     fetch-registry: false
     register-with-eureka: true
     service-url:
-      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
+      defaultZone: http://${eureka.server}:${eureka.port}/eureka/
+  server: ${EUREKA_SERVER:localhost}
+  port: ${EUREKA_PORT:8761}
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
-#logging:
-#  level:
-#    web: debug
-#    org:
-#      springframework:
-#        web: debug
 grpc:
   server:
     port: ${GRPC_SERVER_PORT:0}
-#  client:
-#    grpc-server:
-#      address: 'discovery:///grpc-server'
-#      negotiation-type: plaintext
+keycloak:
+  jwks:
+    url: ${KEYCLOAK_JWKS_URL:http://localhost:8080/auth/realms/zingmp3/protocol/openid-connect/certs}
+  resource-id: ${KEYCLOAK_RESOURCE_ID:content-delivery-service}
+  token-url: ${KEYCLOAK_TOKEN_URL:http://localhost:8080/auth/realms/zingmp3/protocol/openid-connect/token}
+  client-id: ${KEYCLOAK_CLIENT_ID:content-delivery-service}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:kLslvNH80lW75sR066RE0LEQuW6K5pqr}
+  issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/auth/realms/zingmp3}
