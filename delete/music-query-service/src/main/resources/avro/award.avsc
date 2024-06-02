@@ -1,0 +1,33 @@
+[
+  {
+    "namespace": "hcmus.zingmp3.award.model",
+    "type": "record",
+    "name": "AwardAvro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "namespace": "hcmus.zingmp3.award.model",
+    "type": "record",
+    "name": "AwardEvent",
+    "fields": [
+      {
+        "name": "eventType",
+        "type": "string",
+        "default": ""
+      },
+      {
+        "name": "award",
+        "type": "hcmus.zingmp3.award.model.AwardAvro"
+      }
+    ]
+  }
+]

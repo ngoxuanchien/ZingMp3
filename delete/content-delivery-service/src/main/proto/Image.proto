@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+package hcmus.zingmp3.image;
+
+enum UploadStatus {
+  SUCCESS = 0;
+  FAILED = 1;
+}
+
+message File {
+  bytes content = 1;
+}
+
+message ImageUploadRequest {
+  File file = 1;
+}
+
+message ImageFileInfo {
+  string id = 1;
+  string object = 2;
+  string name = 3;
+  string originalName = 4;
+  string contentType = 6;
+  int64 size = 7;
+  string url = 8;
+}
+
+message ImageUploadResponse {
+  string url = 1;
+  UploadStatus status = 2;
+  string id = 3;
+}
+
+service ImageUploadService {
+  rpc getById(ImageFileInfo) returns (ImageFileInfo) {}
+  rpc getOrCreateIfNotExist(stream ImageUploadRequest) returns (ImageUploadResponse) {}
+}

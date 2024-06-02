@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8036029337381472132L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SongAvro\",\"namespace\":\"hcmus.zingmp3.song\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"alias\",\"type\":\"string\"},{\"name\":\"title\",\"type\":\"string\"},{\"name\":\"isOfficial\",\"type\":\"boolean\"},{\"name\":\"duration\",\"type\":\"long\"},{\"name\":\"artists\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"genres\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"composers\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"isWorldWide\",\"type\":\"boolean\"},{\"name\":\"thumbnail\",\"type\":\"string\"},{\"name\":\"isPrivate\",\"type\":\"boolean\"},{\"name\":\"releaseDate\",\"type\":\"long\"},{\"name\":\"distributor\",\"type\":\"string\"},{\"name\":\"hasLyric\",\"type\":\"boolean\"},{\"name\":\"audios\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"likes\",\"type\":\"long\"},{\"name\":\"listen\",\"type\":\"long\"},{\"name\":\"comment\",\"type\":\"long\"}]}");
+  private static final long serialVersionUID = -8667018723839843900L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SongAvro\",\"namespace\":\"hcmus.zingmp3.song\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"alias\",\"type\":\"string\"},{\"name\":\"title\",\"type\":\"string\"},{\"name\":\"isOfficial\",\"type\":\"boolean\"},{\"name\":\"duration\",\"type\":\"int\"},{\"name\":\"artists\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"genres\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"composers\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"isWorldWide\",\"type\":\"boolean\"},{\"name\":\"thumbnail\",\"type\":\"string\"},{\"name\":\"isPrivate\",\"type\":\"boolean\"},{\"name\":\"releaseDate\",\"type\":\"int\"},{\"name\":\"distributor\",\"type\":\"string\"},{\"name\":\"hasLyric\",\"type\":\"boolean\"},{\"name\":\"audios\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]},{\"name\":\"likes\",\"type\":\"int\"},{\"name\":\"listen\",\"type\":\"int\"},{\"name\":\"comment\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -55,20 +55,20 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
   @Deprecated public java.lang.CharSequence alias;
   @Deprecated public java.lang.CharSequence title;
   @Deprecated public boolean isOfficial;
-  @Deprecated public long duration;
+  @Deprecated public int duration;
   @Deprecated public java.util.List<java.lang.CharSequence> artists;
   @Deprecated public java.util.List<java.lang.CharSequence> genres;
   @Deprecated public java.util.List<java.lang.CharSequence> composers;
   @Deprecated public boolean isWorldWide;
   @Deprecated public java.lang.CharSequence thumbnail;
   @Deprecated public boolean isPrivate;
-  @Deprecated public long releaseDate;
+  @Deprecated public int releaseDate;
   @Deprecated public java.lang.CharSequence distributor;
   @Deprecated public boolean hasLyric;
   @Deprecated public java.util.List<java.lang.CharSequence> audios;
-  @Deprecated public long likes;
-  @Deprecated public long listen;
-  @Deprecated public long comment;
+  @Deprecated public int likes;
+  @Deprecated public int listen;
+  @Deprecated public int comment;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -98,7 +98,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * @param listen The new value for listen
    * @param comment The new value for comment
    */
-  public SongAvro(java.lang.CharSequence id, java.lang.CharSequence alias, java.lang.CharSequence title, java.lang.Boolean isOfficial, java.lang.Long duration, java.util.List<java.lang.CharSequence> artists, java.util.List<java.lang.CharSequence> genres, java.util.List<java.lang.CharSequence> composers, java.lang.Boolean isWorldWide, java.lang.CharSequence thumbnail, java.lang.Boolean isPrivate, java.lang.Long releaseDate, java.lang.CharSequence distributor, java.lang.Boolean hasLyric, java.util.List<java.lang.CharSequence> audios, java.lang.Long likes, java.lang.Long listen, java.lang.Long comment) {
+  public SongAvro(java.lang.CharSequence id, java.lang.CharSequence alias, java.lang.CharSequence title, java.lang.Boolean isOfficial, java.lang.Integer duration, java.util.List<java.lang.CharSequence> artists, java.util.List<java.lang.CharSequence> genres, java.util.List<java.lang.CharSequence> composers, java.lang.Boolean isWorldWide, java.lang.CharSequence thumbnail, java.lang.Boolean isPrivate, java.lang.Integer releaseDate, java.lang.CharSequence distributor, java.lang.Boolean hasLyric, java.util.List<java.lang.CharSequence> audios, java.lang.Integer likes, java.lang.Integer listen, java.lang.Integer comment) {
     this.id = id;
     this.alias = alias;
     this.title = title;
@@ -153,20 +153,20 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
     case 1: alias = (java.lang.CharSequence)value$; break;
     case 2: title = (java.lang.CharSequence)value$; break;
     case 3: isOfficial = (java.lang.Boolean)value$; break;
-    case 4: duration = (java.lang.Long)value$; break;
+    case 4: duration = (java.lang.Integer)value$; break;
     case 5: artists = (java.util.List<java.lang.CharSequence>)value$; break;
     case 6: genres = (java.util.List<java.lang.CharSequence>)value$; break;
     case 7: composers = (java.util.List<java.lang.CharSequence>)value$; break;
     case 8: isWorldWide = (java.lang.Boolean)value$; break;
     case 9: thumbnail = (java.lang.CharSequence)value$; break;
     case 10: isPrivate = (java.lang.Boolean)value$; break;
-    case 11: releaseDate = (java.lang.Long)value$; break;
+    case 11: releaseDate = (java.lang.Integer)value$; break;
     case 12: distributor = (java.lang.CharSequence)value$; break;
     case 13: hasLyric = (java.lang.Boolean)value$; break;
     case 14: audios = (java.util.List<java.lang.CharSequence>)value$; break;
-    case 15: likes = (java.lang.Long)value$; break;
-    case 16: listen = (java.lang.Long)value$; break;
-    case 17: comment = (java.lang.Long)value$; break;
+    case 15: likes = (java.lang.Integer)value$; break;
+    case 16: listen = (java.lang.Integer)value$; break;
+    case 17: comment = (java.lang.Integer)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -239,7 +239,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'duration' field.
    * @return The value of the 'duration' field.
    */
-  public java.lang.Long getDuration() {
+  public java.lang.Integer getDuration() {
     return duration;
   }
 
@@ -247,7 +247,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'duration' field.
    * @param value the value to set.
    */
-  public void setDuration(java.lang.Long value) {
+  public void setDuration(java.lang.Integer value) {
     this.duration = value;
   }
 
@@ -351,7 +351,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'releaseDate' field.
    * @return The value of the 'releaseDate' field.
    */
-  public java.lang.Long getReleaseDate() {
+  public java.lang.Integer getReleaseDate() {
     return releaseDate;
   }
 
@@ -359,7 +359,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'releaseDate' field.
    * @param value the value to set.
    */
-  public void setReleaseDate(java.lang.Long value) {
+  public void setReleaseDate(java.lang.Integer value) {
     this.releaseDate = value;
   }
 
@@ -415,7 +415,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'likes' field.
    * @return The value of the 'likes' field.
    */
-  public java.lang.Long getLikes() {
+  public java.lang.Integer getLikes() {
     return likes;
   }
 
@@ -423,7 +423,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'likes' field.
    * @param value the value to set.
    */
-  public void setLikes(java.lang.Long value) {
+  public void setLikes(java.lang.Integer value) {
     this.likes = value;
   }
 
@@ -431,7 +431,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'listen' field.
    * @return The value of the 'listen' field.
    */
-  public java.lang.Long getListen() {
+  public java.lang.Integer getListen() {
     return listen;
   }
 
@@ -439,7 +439,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'listen' field.
    * @param value the value to set.
    */
-  public void setListen(java.lang.Long value) {
+  public void setListen(java.lang.Integer value) {
     this.listen = value;
   }
 
@@ -447,7 +447,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'comment' field.
    * @return The value of the 'comment' field.
    */
-  public java.lang.Long getComment() {
+  public java.lang.Integer getComment() {
     return comment;
   }
 
@@ -455,7 +455,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'comment' field.
    * @param value the value to set.
    */
-  public void setComment(java.lang.Long value) {
+  public void setComment(java.lang.Integer value) {
     this.comment = value;
   }
 
@@ -495,20 +495,20 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
     private java.lang.CharSequence alias;
     private java.lang.CharSequence title;
     private boolean isOfficial;
-    private long duration;
+    private int duration;
     private java.util.List<java.lang.CharSequence> artists;
     private java.util.List<java.lang.CharSequence> genres;
     private java.util.List<java.lang.CharSequence> composers;
     private boolean isWorldWide;
     private java.lang.CharSequence thumbnail;
     private boolean isPrivate;
-    private long releaseDate;
+    private int releaseDate;
     private java.lang.CharSequence distributor;
     private boolean hasLyric;
     private java.util.List<java.lang.CharSequence> audios;
-    private long likes;
-    private long listen;
-    private long comment;
+    private int likes;
+    private int listen;
+    private int comment;
 
     /** Creates a new Builder */
     private Builder() {
@@ -834,7 +834,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'duration' field.
       * @return The value.
       */
-    public java.lang.Long getDuration() {
+    public java.lang.Integer getDuration() {
       return duration;
     }
 
@@ -843,7 +843,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'duration'.
       * @return This builder.
       */
-    public hcmus.zingmp3.song.SongAvro.Builder setDuration(long value) {
+    public hcmus.zingmp3.song.SongAvro.Builder setDuration(int value) {
       validate(fields()[4], value);
       this.duration = value;
       fieldSetFlags()[4] = true;
@@ -1104,7 +1104,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'releaseDate' field.
       * @return The value.
       */
-    public java.lang.Long getReleaseDate() {
+    public java.lang.Integer getReleaseDate() {
       return releaseDate;
     }
 
@@ -1113,7 +1113,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'releaseDate'.
       * @return This builder.
       */
-    public hcmus.zingmp3.song.SongAvro.Builder setReleaseDate(long value) {
+    public hcmus.zingmp3.song.SongAvro.Builder setReleaseDate(int value) {
       validate(fields()[11], value);
       this.releaseDate = value;
       fieldSetFlags()[11] = true;
@@ -1258,7 +1258,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'likes' field.
       * @return The value.
       */
-    public java.lang.Long getLikes() {
+    public java.lang.Integer getLikes() {
       return likes;
     }
 
@@ -1267,7 +1267,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'likes'.
       * @return This builder.
       */
-    public hcmus.zingmp3.song.SongAvro.Builder setLikes(long value) {
+    public hcmus.zingmp3.song.SongAvro.Builder setLikes(int value) {
       validate(fields()[15], value);
       this.likes = value;
       fieldSetFlags()[15] = true;
@@ -1296,7 +1296,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'listen' field.
       * @return The value.
       */
-    public java.lang.Long getListen() {
+    public java.lang.Integer getListen() {
       return listen;
     }
 
@@ -1305,7 +1305,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'listen'.
       * @return This builder.
       */
-    public hcmus.zingmp3.song.SongAvro.Builder setListen(long value) {
+    public hcmus.zingmp3.song.SongAvro.Builder setListen(int value) {
       validate(fields()[16], value);
       this.listen = value;
       fieldSetFlags()[16] = true;
@@ -1334,7 +1334,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'comment' field.
       * @return The value.
       */
-    public java.lang.Long getComment() {
+    public java.lang.Integer getComment() {
       return comment;
     }
 
@@ -1343,7 +1343,7 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'comment'.
       * @return This builder.
       */
-    public hcmus.zingmp3.song.SongAvro.Builder setComment(long value) {
+    public hcmus.zingmp3.song.SongAvro.Builder setComment(int value) {
       validate(fields()[17], value);
       this.comment = value;
       fieldSetFlags()[17] = true;
@@ -1377,20 +1377,20 @@ public class SongAvro extends org.apache.avro.specific.SpecificRecordBase implem
         record.alias = fieldSetFlags()[1] ? this.alias : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.title = fieldSetFlags()[2] ? this.title : (java.lang.CharSequence) defaultValue(fields()[2]);
         record.isOfficial = fieldSetFlags()[3] ? this.isOfficial : (java.lang.Boolean) defaultValue(fields()[3]);
-        record.duration = fieldSetFlags()[4] ? this.duration : (java.lang.Long) defaultValue(fields()[4]);
+        record.duration = fieldSetFlags()[4] ? this.duration : (java.lang.Integer) defaultValue(fields()[4]);
         record.artists = fieldSetFlags()[5] ? this.artists : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[5]);
         record.genres = fieldSetFlags()[6] ? this.genres : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[6]);
         record.composers = fieldSetFlags()[7] ? this.composers : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[7]);
         record.isWorldWide = fieldSetFlags()[8] ? this.isWorldWide : (java.lang.Boolean) defaultValue(fields()[8]);
         record.thumbnail = fieldSetFlags()[9] ? this.thumbnail : (java.lang.CharSequence) defaultValue(fields()[9]);
         record.isPrivate = fieldSetFlags()[10] ? this.isPrivate : (java.lang.Boolean) defaultValue(fields()[10]);
-        record.releaseDate = fieldSetFlags()[11] ? this.releaseDate : (java.lang.Long) defaultValue(fields()[11]);
+        record.releaseDate = fieldSetFlags()[11] ? this.releaseDate : (java.lang.Integer) defaultValue(fields()[11]);
         record.distributor = fieldSetFlags()[12] ? this.distributor : (java.lang.CharSequence) defaultValue(fields()[12]);
         record.hasLyric = fieldSetFlags()[13] ? this.hasLyric : (java.lang.Boolean) defaultValue(fields()[13]);
         record.audios = fieldSetFlags()[14] ? this.audios : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[14]);
-        record.likes = fieldSetFlags()[15] ? this.likes : (java.lang.Long) defaultValue(fields()[15]);
-        record.listen = fieldSetFlags()[16] ? this.listen : (java.lang.Long) defaultValue(fields()[16]);
-        record.comment = fieldSetFlags()[17] ? this.comment : (java.lang.Long) defaultValue(fields()[17]);
+        record.likes = fieldSetFlags()[15] ? this.likes : (java.lang.Integer) defaultValue(fields()[15]);
+        record.listen = fieldSetFlags()[16] ? this.listen : (java.lang.Integer) defaultValue(fields()[16]);
+        record.comment = fieldSetFlags()[17] ? this.comment : (java.lang.Integer) defaultValue(fields()[17]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

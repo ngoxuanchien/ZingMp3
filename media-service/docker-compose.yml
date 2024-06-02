@@ -1,0 +1,21 @@
+services:
+  mysql-image:
+    container_name: mysql-image
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: image_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3333
+    volumes:
+      - ../database/image_service:/data/mysql
+    ports:
+      - "3333:3333"
+    restart: always
+    networks:
+      zingmp3-net:
+networks:
+  zingmp3-net:
+    name: zingmp3-net

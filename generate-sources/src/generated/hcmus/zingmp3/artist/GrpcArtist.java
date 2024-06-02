@@ -47,13 +47,13 @@ public final class GrpcArtist {
       "\rsortBiography\030\007 \001(\t\022\021\n\tbiography\030\010 \001(\t\022" +
       "\020\n\010national\030\t \001(\t\022\020\n\010realName\030\n \001(\t\022\020\n\010b" +
       "irthday\030\013 \001(\t\022\016\n\006awards\030\014 \003(\t\022\r\n\005songs\030\r" +
-      " \003(\t\022\025\n\rcomposedSongs\030\016 \003(\t2\337\001\n\021ArtistGr" +
-      "pcService\022b\n\rgetArtistById\022\'.hcmus.zingm" +
-      "p3.artist.ArtistGrpcRequest\032(.hcmus.zing" +
-      "mp3.artist.ArtistGrpcResponse\022f\n\021getOrCr" +
-      "eateArtist\022\'.hcmus.zingmp3.artist.Artist" +
-      "GrpcRequest\032(.hcmus.zingmp3.artist.Artis" +
-      "tGrpcResponseB\002P\001b\006proto3"
+      " \003(\t\022\025\n\rcomposedSongs\030\016 \003(\t2\333\001\n\rArtistSe" +
+      "rvice\022b\n\rgetArtistById\022\'.hcmus.zingmp3.a" +
+      "rtist.ArtistGrpcRequest\032(.hcmus.zingmp3." +
+      "artist.ArtistGrpcResponse\022f\n\021getOrCreate" +
+      "Artist\022\'.hcmus.zingmp3.artist.ArtistGrpc" +
+      "Request\032(.hcmus.zingmp3.artist.ArtistGrp" +
+      "cResponseB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
