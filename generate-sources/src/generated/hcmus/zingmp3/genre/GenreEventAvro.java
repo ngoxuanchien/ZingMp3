@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class GenreEventAvro extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 7703217487021623529L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"GenreEventAvro\",\"namespace\":\"hcmus.zingmp3.genre\",\"fields\":[{\"name\":\"eventType\",\"type\":\"string\"},{\"name\":\"genre\",\"type\":{\"type\":\"record\",\"name\":\"GenreAvro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"title\",\"type\":\"string\"},{\"name\":\"alias\",\"type\":\"string\"},{\"name\":\"createdBy\",\"type\":\"string\"},{\"name\":\"createdAt\",\"type\":\"long\"},{\"name\":\"modifiedBy\",\"type\":\"string\"},{\"name\":\"modifiedAt\",\"type\":\"long\"},{\"name\":\"songs\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"]}]}}]}");
+  private static final long serialVersionUID = -6963921210801505688L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"GenreEventAvro\",\"namespace\":\"hcmus.zingmp3.genre\",\"fields\":[{\"name\":\"eventType\",\"type\":\"string\"},{\"name\":\"genre\",\"type\":{\"type\":\"record\",\"name\":\"GenreAvro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"title\",\"type\":\"string\"},{\"name\":\"alias\",\"type\":\"string\"},{\"name\":\"createdBy\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"createdAt\",\"type\":\"long\"},{\"name\":\"modifiedBy\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"modifiedAt\",\"type\":\"long\"},{\"name\":\"songs\",\"type\":[{\"type\":\"array\",\"items\":\"string\",\"default\":[]},\"null\"],\"default\":[]}]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
