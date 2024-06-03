@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package hcmus.zingmp3.image;
+
+message ImageGrpcRequest {
+  string id = 1;
+}
+
+message ImageGrpcResponse {
+  string id = 1;
+  string url = 2;
+}
+
+service ImageService {
+  rpc GetImage(ImageGrpcRequest) returns (ImageGrpcResponse);
+}

@@ -1,8 +1,8 @@
 package hcmus.zingmp3.core.web.handler;
 
 import hcmus.zingmp3.common.domain.exception.AliasIsExistsException;
+import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,10 +13,24 @@ import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public ErrorMessage resourceNotFound(
+            final ResourceNotFoundException e
+    ) {
+        return new ErrorMessage(
+                e.getMessage(),
+                NOT_FOUND,
+                null,
+                ZonedDateTime.now()
+        );
+    }
 
     @ExceptionHandler(AliasIsExistsException.class)
     @ResponseStatus(BAD_REQUEST)

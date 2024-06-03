@@ -1,4 +1,4 @@
-package hcmus.zingmp3.config;
+package hcmus.zingmp3.core.web.config.converter;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Map;
@@ -63,6 +62,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         if (jwt.getClaim("resource_access") == null) {
             return realmRoles
                     .stream()
+                    .map(String::toUpperCase)
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                     .collect(Collectors.toSet());
         }
@@ -71,6 +71,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         if (resourceAccess.get(resourceId) == null) {
             return realmRoles
                     .stream()
+                    .map(String::toUpperCase)
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                     .collect(Collectors.toSet());
         }
@@ -82,6 +83,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return Stream.concat(
                 realmRoles
                         .stream()
+                        .map(String::toUpperCase)
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role)),
                 resourceRoles
                         .stream()

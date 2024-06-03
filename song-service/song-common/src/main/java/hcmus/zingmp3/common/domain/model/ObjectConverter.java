@@ -1,4 +1,4 @@
-package com.example.common.domain.model;
+package hcmus.zingmp3.common.domain.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;

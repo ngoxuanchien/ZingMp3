@@ -1,4 +1,4 @@
-package hcmus.mp3.model;
+package hcmus.mp3.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.example.common.domain.aggregate;
+package hcmus.zingmp3.common.domain.aggregate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -8,11 +8,11 @@ services:
       MYSQL_DATABASE: artist_service
       MYSQL_USER: zingmp3
       MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3311
+      MYSQL_TCP_PORT: 3336
     volumes:
       - ./database/artist_service:/data/mysql
     ports:
-      - "3311:3311"
+      - "3336:3336"
     restart: always
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]

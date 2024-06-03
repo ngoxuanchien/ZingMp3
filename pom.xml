@@ -21,10 +21,6 @@
         <module>discovery-service</module>
         <module>user-service</module>
         <module>playlist-service</module>
-        <module>content-delivery-service</module>
-        <module>music-service</module>
-        <module>music-command-service</module>
-        <module>music-query-service</module>
         <module>api-gateway</module>
     </modules>
 
@@ -52,7 +48,7 @@
                         <image>jelastic/maven:3.9.5-openjdk-21</image>
                     </from>
                     <to>
-                        <image>registry.hub.docker.com/ngoxuanchien/${artifactId}</image>
+                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>
                     </to>
                 </configuration>
             </plugin>

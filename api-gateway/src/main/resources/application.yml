@@ -31,18 +31,18 @@ spring:
             - Path=/api/auth/**, /v3/api-docs/auth-service/**
           filters:
             - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
-        - id: content-delivery-service
-          uri: lb://content-delivery-service
+        - id: image-service
+          uri: lb://image-service
           predicates:
-              - Path=/api/content-delivery/**, /v3/api-docs/content-delivery/**, /images/**
-        - id: playlist-service
-          uri: lb://playlist-service
+              - Path=/api/images/**, /v3/api-docs/images/**, /thumbnail/**
+        - id: artist-service
+          uri: lb://artist-core
           predicates:
-            - Path=/api/playlist/**, /v3/api-docs/playlist-service/**
-        - id: music-service
-          uri: lb://music-service
+            - Path=/api/artists/**, /v3/api-docs/artist-service/**
+        - id: song-service
+          uri: lb://song-core
           predicates:
-            - Path=/api/music/**, /v3/api-docs/music-service/**
+            - Path=/api/songs/**, /v3/api-docs/song-service/**, /api/genres/**
     discovery:
       enabled: true
 
@@ -67,14 +67,14 @@ logging:
 #    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info
 #    org.springframework.cloud.gateway: info
 server:
-  port: 8081
+  port: 8080
   host: ${SERVER_HOST:localhost:8081}
 springdoc:
   swagger-ui:
     enabled: true
     oauth:
-      client-id: user-service
-      client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
+      client-id: music-service
+      client-secret: VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7
     operations-sorter: method
     tags-sorter: alpha
 #    urls:

@@ -1,2 +1,9 @@
-package hcmus.mp3.repository;public class AudioRepository {
+package hcmus.mp3.repository;
+
+import hcmus.mp3.domain.model.Audio;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface AudioRepository extends JpaRepository<Audio, UUID> {
 }

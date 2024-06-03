@@ -1,4 +1,4 @@
-package hcmus.zingmp3.core.config;
+package hcmus.zingmp3.config;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;

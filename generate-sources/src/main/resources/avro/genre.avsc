@@ -1,0 +1,70 @@
+[
+  {
+    "namespace": "hcmus.zingmp3.genre",
+    "type": "record",
+    "name": "GenreAvro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "alias",
+        "type": "string"
+      },
+      {
+        "name": "createdBy",
+        "type": ["null", "string"],
+        "default": null
+      },
+      {
+        "name": "createdAt",
+        "type": "long"
+      },
+      {
+        "name": "modifiedBy",
+        "type": ["null", "string"],
+        "default": null
+      },
+      {
+        "name": "modifiedAt",
+        "type": "long"
+      },
+      {
+        "name": "songs",
+        "type": [
+          {
+            "type": "array",
+            "items": "string",
+            "default": []
+          },
+          "null"
+        ],
+        "default": []
+      }
+    ]
+  },
+  {
+    "namespace": "hcmus.zingmp3.genre",
+    "type": "record",
+    "name": "GenreEventAvro",
+    "fields": [
+      {
+        "name": "eventType",
+        "type": "string"
+      },
+      {
+        "name": "genre",
+        "type": "hcmus.zingmp3.genre.GenreAvro"
+      }
+    ]
+  }
+]

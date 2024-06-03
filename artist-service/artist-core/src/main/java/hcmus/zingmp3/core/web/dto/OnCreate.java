@@ -1,2 +1,4 @@
-package hcmus.zingmp3.core.web.dto;public interface OnCreate {
+package hcmus.zingmp3.core.web.dto;
+
+public interface OnCreate {
 }

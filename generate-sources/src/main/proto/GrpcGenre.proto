@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package hcmus.zingmp3.genre;
+
+message GenreGrpcRequest {
+  string id = 1;
+  string alias = 2;
+  string name = 3;
+  string title = 4;
+  repeated string songs = 5;
+}
+
+message GenreGrpcResponse {
+  string id = 1;
+  string alias = 2;
+  string name = 3;
+  string title = 4;
+  repeated string songs = 5;
+}
+
+service GenreService {
+  rpc getGenreById(GenreGrpcRequest) returns (GenreGrpcResponse);
+}
+

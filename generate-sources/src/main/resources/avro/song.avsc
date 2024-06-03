@@ -1,0 +1,132 @@
+[
+  {
+    "namespace": "hcmus.zingmp3.song",
+    "type": "record",
+    "name": "SongAvro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "alias",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "isOfficial",
+        "type": "boolean"
+      },
+      {
+        "name": "duration",
+        "type": "int"
+      },
+      {
+        "name": "artists",
+        "type": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "genres",
+        "type": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "composers",
+        "type": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "isWorldWide",
+        "type": "boolean"
+      },
+      {
+        "name": "thumbnail",
+        "type": "string"
+      },
+      {
+        "name": "isPrivate",
+        "type": "boolean"
+      },
+      {
+        "name": "releaseDate",
+        "type": "int"
+      },
+      {
+        "name": "distributor",
+        "type": "string"
+      },
+      {
+        "name": "hasLyric",
+        "type": "boolean"
+      },
+      {
+        "name": "audios",
+        "type": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "null"
+        ]
+      },
+      {
+        "name": "likes",
+        "type": "int"
+      },
+      {
+        "name": "listen",
+        "type": "int"
+      },
+      {
+        "name": "comment",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "namespace": "hcmus.zingmp3.song",
+    "name": "SongEventAvro",
+    "type": "record",
+    "fields": [
+      {
+        "name": "eventType",
+        "type": "string"
+      },
+      {
+        "name": "song",
+        "type": "hcmus.zingmp3.song.SongAvro"
+      }
+    ]
+  }
+]

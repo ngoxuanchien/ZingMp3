@@ -1,1 +1,71 @@
-spring.application.name=media-service
+spring:
+  application:
+    name: content-delivery-service
+  datasource:
+    url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
+    username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
+    password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
+    server: ${SPRING_DATASOURCE_SERVER:localhost}
+    port: ${SPRING_DATASOURCE_PORT:3334}
+    name: ${SPRING_DATASOURCE_NAME:audio_service}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  threads:
+    virtual:
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
+  output:
+    ansi:
+      enabled: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.issuer-uri}
+    client:
+      registration:
+        keycloak:
+          client-id: ${keycloak.client-id}
+          client-secret: ${keycloak.client-secret}
+server:
+  port: ${SERVER_PORT:8080}
+  gateway-url: ${GATEWAY_URL:http://localhost:8080}
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${spring.security.client.registration.keycloak.client-id}
+      client-secret: ${spring.security.client.registration.keycloak.client-secret}
+    tags-sorter: alpha
+    operations-sorter: method
+    groups-order: asc
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${eureka.server}:${eureka.port}/eureka/
+  server: ${EUREKA_SERVER:localhost}
+  port: ${EUREKA_PORT:8761}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+grpc:
+  server:
+    port: ${GRPC_SERVER_PORT:0}
+keycloak:
+  jwks:
+    url: ${KEYCLOAK_JWKS_URL:http://localhost:8080/auth/realms/zingmp3/protocol/openid-connect/certs}
+  resource-id: ${KEYCLOAK_RESOURCE_ID:content-delivery-service}
+  token-url: ${KEYCLOAK_TOKEN_URL:http://localhost:8080/auth/realms/zingmp3/protocol/openid-connect/token}
+  client-id: ${KEYCLOAK_CLIENT_ID:content-delivery-service}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:kLslvNH80lW75sR066RE0LEQuW6K5pqr}
+  issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/auth/realms/zingmp3}
+media:
+  url: 1234

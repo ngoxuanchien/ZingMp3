@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
         servers = {
                 @Server(url = "/", description = "Default Server URL")
         },
-        info = @Info(title = "Artist Service API", version = "1.0", description = "API for Artist Service")
+        info = @Info(title = "Song Service API", version = "1.0", description = "API for Song Service")
 )
 @SecurityScheme(
         name = "Keycloak",
@@ -37,11 +37,12 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi awardOpenAPI(@Value("1") String appVersion) {
         String[] paths = {
-                "/api/artists/**"
+                "/api/songs/**",
+                "/api/genres/**",
         };
         return GroupedOpenApi.builder()
-                .group("artist-service")
-                .addOpenApiCustomizer(openApi -> openApi.info(new io.swagger.v3.oas.models.info.Info().title("Artist service API").version(appVersion)))
+                .group("song-service")
+                .addOpenApiCustomizer(openApi -> openApi.info(new io.swagger.v3.oas.models.info.Info().title("Song service API").version(appVersion)))
                 .pathsToMatch(paths)
                 .build();
     }

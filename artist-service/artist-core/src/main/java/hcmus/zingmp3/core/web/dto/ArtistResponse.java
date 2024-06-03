@@ -1,2 +1,16 @@
-package hcmus.zingmp3.core.web.dto;public record ArtistResponse() {
+package hcmus.zingmp3.core.web.dto;
+
+import hcmus.zingmp3.common.domain.model.ArtistStatus;
+
+import java.util.UUID;
+
+public record ArtistResponse(
+        UUID id,
+        String alias,
+        String thumbnail,
+        String name,
+        String realName,
+        ArtistStatus status,
+        UUID userId
+) {
 }

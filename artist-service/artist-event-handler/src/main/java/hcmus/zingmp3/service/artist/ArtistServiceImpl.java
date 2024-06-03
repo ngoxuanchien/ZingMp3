@@ -1,2 +1,18 @@
-package hcmus.zingmp3.service.artist;public class ArtistServiceImpl {
+package hcmus.zingmp3.service.artist;
+
+import hcmus.zingmp3.common.domain.model.Artist;
+import hcmus.zingmp3.common.repository.ArtistRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ArtistServiceImpl implements ArtistService {
+    private final ArtistRepository repository;
+    @Override
+    public Artist create(
+            final Artist artist
+    ) {
+        return repository.save(artist);
+    }
 }

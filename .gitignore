@@ -35,9 +35,10 @@ build/
 /database
 /data
 /out
-/data-service
+/delete/data-service
 
 *.env
 *.gitignore
 /elastic-search/config/
 /elastic-search/data/
+/delete/

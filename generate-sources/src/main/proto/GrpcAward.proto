@@ -4,12 +4,10 @@ option java_multiple_files = true;
 
 package hcmus.zingmp3.award;
 
-message AwardGrpcId {
-  string id = 1;
-}
 
 message AwardGrpcRequest {
   string name = 1;
+  string id = 2;
 }
 
 message AwardGrpcResponse {
@@ -18,6 +16,6 @@ message AwardGrpcResponse {
 }
 
 service AwardService {
-  rpc getById(AwardGrpcId) returns (AwardGrpcResponse);
+  rpc getById(AwardGrpcRequest) returns (AwardGrpcResponse);
   rpc getOrCreateAward(AwardGrpcRequest) returns (AwardGrpcResponse);
 }

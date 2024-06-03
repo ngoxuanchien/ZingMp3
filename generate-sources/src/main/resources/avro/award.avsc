@@ -11,6 +11,17 @@
       {
         "name": "name",
         "type": "string"
+      },
+      {
+        "name": "artists",
+        "type": [
+          {
+            "type": "array",
+            "items": "string"
+          },
+          "null"
+        ],
+        "default": []
       }
     ]
   },

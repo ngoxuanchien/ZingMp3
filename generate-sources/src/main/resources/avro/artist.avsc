@@ -87,7 +87,7 @@
   {
     "namespace": "hcmus.zingmp3.artist",
     "type": "record",
-    "name": "ArtistEvent",
+    "name": "ArtistEventAvro",
     "fields": [
       {
         "name": "eventType",

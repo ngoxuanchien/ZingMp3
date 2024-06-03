@@ -1,2 +1,4 @@
-package hcmus.zingmp3.core.web.dto;public class OnUpdate {
+package hcmus.zingmp3.core.web.dto;
+
+public interface OnUpdate {
 }

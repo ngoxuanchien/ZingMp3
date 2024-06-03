@@ -11,7 +11,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/play")
-public class StreamAudioController {
+public class PlaAudioController {
     private final AudioStreamService audioStreamService;
 
     @GetMapping("/{audio-id}")
