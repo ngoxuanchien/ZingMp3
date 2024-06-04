@@ -25,9 +25,13 @@
         </dependency>
         <dependency>
             <groupId>hcmus.zingmp3</groupId>
+            <artifactId>generate-sources</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>hcmus.zingmp3</groupId>
             <artifactId>song-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

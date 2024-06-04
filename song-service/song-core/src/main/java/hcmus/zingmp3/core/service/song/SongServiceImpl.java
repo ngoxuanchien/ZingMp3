@@ -123,6 +123,7 @@ public class SongServiceImpl implements SongService {
 
         Song song = getById(request.id());
         merge(song, request);
+        song.setGenres(genres);
 
         update(song);
 

@@ -16,6 +16,7 @@
 
     <modules>
         <module>song-common</module>
+        <module>song-core</module>
     </modules>
 
 </project>

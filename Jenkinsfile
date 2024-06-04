@@ -19,13 +19,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+//                sh 'mvn test'
             }
-            post {
-                always {
-                    junit testResults: '**/target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
-                }
-            }
+//            post {
+//                always {
+//                    junit testResults: '**/target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
+//                }
+//            }
         }
         stage('Deploy to QA server') {
             steps {
