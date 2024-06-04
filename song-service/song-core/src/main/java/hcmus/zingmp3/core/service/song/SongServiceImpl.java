@@ -114,6 +114,9 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
+        request.genreIds().stream()
+                .map(genreService::getById)
+                .forEach(genres::add);
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();

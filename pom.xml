@@ -17,6 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>generate-sources</module>
 <!--        <module>zingmp3-proto</module>-->
         <module>discovery-service</module>
 <!--        <module>user-service</module>-->
