@@ -9,7 +9,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
-                            sh 'mvn clean compile jib:build'
+                            sh 'mvn clean compile install jib:build'
                         }
                     } else {
                         sh 'mvn clean install'
@@ -43,24 +43,24 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to PROD server') {
-            agent {
-                label 'nxc-hcmus-1'
-            }
-            steps {
-                script {
-                    if (env.BRANCH_NAME == 'master') {
-                        sh 'docker-compose down'
-                        sh 'docker-compose pull'
-                        sh 'docker-compose up -d'
-                        sh 'docker image prune -f'
-                        sh 'docker system prune -f'
-                    } else {
-                        echo 'skip deploy'
-                    }
-                }
-            }
-        }
+//        stage('Deploy to PROD server') {
+//            agent {
+//                label 'nxc-hcmus-1'
+//            }
+//            steps {
+//                script {
+//                    if (env.BRANCH_NAME == 'master') {
+//                        sh 'docker-compose down'
+//                        sh 'docker-compose pull'
+//                        sh 'docker-compose up -d'
+//                        sh 'docker image prune -f'
+//                        sh 'docker system prune -f'
+//                    } else {
+//                        echo 'skip deploy'
+//                    }
+//                }
+//            }
+//        }
     }
     post {
         always {

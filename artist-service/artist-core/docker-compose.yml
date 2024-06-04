@@ -204,12 +204,12 @@ services:
       - kafka2
       - kafka3
     ports:
-      - "8082:8082"
+      - "8081:8081"
     environment:
       SECURITY_PROTOCOL: PLAINTEXT
       SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8082
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     networks:
       zingmp3-net:
   mysql-artist:
@@ -264,8 +264,8 @@ services:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
       SPRING_DATASOURCE_SERVER: mysql-image
-      SPRING_DATASOURCE_PORT: 3333
-      SPRING_DATASOURCE_NAME: image_service
+      SPRING_DATASOURCE_PORT: 3334
+      SPRING_DATASOURCE_NAME: audio_service
       SERVER_PORT: 0
 
       EUREKA_SERVER: discovery-service
@@ -309,8 +309,6 @@ services:
     restart: always
     networks:
       zingmp3-net:
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
   artist-core:
     container_name: artist-core
@@ -318,7 +316,7 @@ services:
     depends_on:
       mysql-artist:
         condition: service_healthy
-    #    restart: always
+#    restart: always
     networks:
       zingmp3-net:
     environment:
@@ -353,7 +351,7 @@ services:
         condition: service_healthy
     networks:
       zingmp3-net:
-    #    restart: always
+#    restart: always
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3

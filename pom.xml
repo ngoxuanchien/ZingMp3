@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+<!--    <parent>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+<!--        <version>3.2.4</version>-->
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+<!--    </parent>-->
 
     <groupId>hcmus.zingmp3</groupId>
     <artifactId>zingmp3</artifactId>
@@ -19,9 +19,12 @@
     <modules>
 <!--        <module>zingmp3-proto</module>-->
         <module>discovery-service</module>
-        <module>user-service</module>
-        <module>playlist-service</module>
+<!--        <module>user-service</module>-->
+<!--        <module>playlist-service</module>-->
+        <module>media-service</module>
+        <module>image-service</module>
         <module>api-gateway</module>
+        <module>artist-service</module>
     </modules>
 
     <properties>
@@ -31,26 +34,29 @@
     </properties>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>kr.motd.maven</groupId>
-                <artifactId>os-maven-plugin</artifactId>
-                <version>1.6.1</version>
-            </extension>
-        </extensions>
+<!--        <extensions>-->
+<!--            <extension>-->
+<!--                <groupId>kr.motd.maven</groupId>-->
+<!--                <artifactId>os-maven-plugin</artifactId>-->
+<!--                <version>1.6.1</version>-->
+<!--            </extension>-->
+<!--        </extensions>-->
         <plugins>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
-                    <from>
-                        <image>jelastic/maven:3.9.5-openjdk-21</image>
-                    </from>
-                    <to>
-                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>
-                    </to>
+                    <skip>true</skip>
                 </configuration>
+<!--                <configuration>-->
+<!--                    <from>-->
+<!--                        <image>jelastic/maven:3.9.5-openjdk-21</image>-->
+<!--                    </from>-->
+<!--                    <to>-->
+<!--                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>-->
+<!--                    </to>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

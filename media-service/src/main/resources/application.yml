@@ -68,4 +68,4 @@ keycloak:
   client-secret: ${KEYCLOAK_CLIENT_SECRET:kLslvNH80lW75sR066RE0LEQuW6K5pqr}
   issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/auth/realms/zingmp3}
 media:
-  url: 1234
+  url: ${MEDIA_URL:http://localhost:8080}

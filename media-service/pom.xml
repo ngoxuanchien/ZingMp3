@@ -8,7 +8,7 @@
         <version>3.3.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>hcmus.mp3</groupId>
+    <groupId>hcmus.zingmp3</groupId>
     <artifactId>media-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>media-service</name>
@@ -53,6 +53,13 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.1</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -64,6 +71,19 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <from>
+                        <image>jelastic/maven:3.9.5-openjdk-21</image>
+                    </from>
+                    <to>
+                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>
