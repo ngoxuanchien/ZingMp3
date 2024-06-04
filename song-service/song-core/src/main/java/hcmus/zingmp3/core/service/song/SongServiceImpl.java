@@ -4,6 +4,7 @@ import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.song.SongQueryService;
+import hcmus.zingmp3.core.service.genre.GenreService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import hcmus.zingmp3.core.web.dto.mapper.SongMapper;
@@ -25,6 +26,8 @@ public class SongServiceImpl implements SongService {
     private final SongQueryService queryService;
 
     private final SongCommandService commandService;
+
+    private final GenreService genreService;
 
     private final SongMapper mapper;
 
@@ -80,6 +83,9 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
+        request.genreIds().stream()
+                .map(genreService::getById)
+                .forEach(genres::add);
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();

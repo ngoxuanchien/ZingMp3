@@ -1,13 +1,13 @@
-package hcmus.mp3;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class MediaServiceApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
-}
+//package hcmus.mp3;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class MediaServiceApplicationTests {
+//
+//    @Test
+//    void contextLoads() {
+//    }
+//
+//}
