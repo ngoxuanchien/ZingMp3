@@ -9,7 +9,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         withDockerRegistry(credentialsId: 'dockerhub-ngoxuanchien', url: 'https://index.docker.io/v1/') {
-//                            sh 'mvn clean compile install -DskipTests jib:build'
+                            sh 'mvn clean compile install -DskipTests jib:build'
                             echo 'Build docker image success'
                         }
                     } else {
@@ -34,9 +34,9 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         sh 'docker-compose down -v'
-//                        sh 'rm -rf ./database'
-//                        sh 'docker-compose pull'
-//                        sh 'docker-compose up -d'
+                        sh 'rm -rf ./database'
+                        sh 'docker-compose pull'
+                        sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
                     } else {
