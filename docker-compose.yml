@@ -269,6 +269,8 @@ services:
     restart: unless-stopped
     networks:
       zingmp3-net:
+    volumes:
+      - ./data/images:/data/images
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
