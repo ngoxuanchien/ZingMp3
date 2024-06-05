@@ -4,13 +4,16 @@ import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.song.SongQueryService;
+import hcmus.zingmp3.core.service.artist.ArtistService;
 import hcmus.zingmp3.core.service.genre.GenreService;
+import hcmus.zingmp3.core.service.media.MediaService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import hcmus.zingmp3.core.web.dto.mapper.SongMapper;
+import hcmus.zingmp3.media.MediaGrpcRequest;
+import hcmus.zingmp3.media.MediaGrpcResponse;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +30,11 @@ public class SongServiceImpl implements SongService {
 
     private final SongCommandService commandService;
 
+    private final MediaService mediaService;
+
     private final GenreService genreService;
+
+    private final ArtistService artistService;
 
     private final SongMapper mapper;
 
@@ -77,9 +84,19 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the artist exists or not
         Set<UUID> artistIds = new HashSet<>();
+        request.artistIds()
+                .stream()
+                .map(artistService::getById)
+                .map(artist -> UUID.fromString(artist.getId()))
+                .forEach(artistIds::add);
 
         // todo: check the composer exists or not
         Set<UUID> composerIds = new HashSet<>();
+        request.composerIds()
+                .stream()
+                .map(artistService::getById)
+                .map(artist -> UUID.fromString(artist.getId()))
+                .forEach(composerIds::add);
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
@@ -89,6 +106,11 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();
+        request.mediaIds()
+                .stream()
+                .map(mediaService::getById)
+                .map(media -> UUID.fromString(media.getId()))
+                .forEach(mediaIds::add);
 
         Song song = mapper.toEntity(request);
         song.setArtistIds(artistIds);
@@ -108,9 +130,19 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the artist exists or not
         Set<UUID> artistIds = new HashSet<>();
+        request.artistIds()
+                .stream()
+                .map(artistService::getById)
+                .map(artist -> UUID.fromString(artist.getId()))
+                .forEach(artistIds::add);
 
         // todo: check the composer exists or not
         Set<UUID> composerIds = new HashSet<>();
+        request.composerIds()
+                .stream()
+                .map(artistService::getById)
+                .map(artist -> UUID.fromString(artist.getId()))
+                .forEach(composerIds::add);
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
@@ -120,10 +152,18 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();
+        request.mediaIds()
+                .stream()
+                .map(mediaService::getById)
+                .map(media -> UUID.fromString(media.getId()))
+                .forEach(mediaIds::add);
 
         Song song = getById(request.id());
         merge(song, request);
         song.setGenres(genres);
+        song.setArtistIds(artistIds);
+        song.setComposerIds(composerIds);
+        song.setMediaIds(mediaIds);
 
         update(song);
 

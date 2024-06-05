@@ -22,13 +22,6 @@
     </modules>
 
     <build>
-<!--        <extensions>-->
-<!--            <extension>-->
-<!--                <groupId>kr.motd.maven</groupId>-->
-<!--                <artifactId>os-maven-plugin</artifactId>-->
-<!--                <version>1.6.1</version>-->
-<!--            </extension>-->
-<!--        </extensions>-->
         <plugins>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
@@ -37,14 +30,6 @@
                 <configuration>
                     <skip>true</skip>
                 </configuration>
-<!--                <configuration>-->
-<!--                    <from>-->
-<!--                        <image>jelastic/maven:3.9.5-openjdk-21</image>-->
-<!--                    </from>-->
-<!--                    <to>-->
-<!--                        <image>registry.hub.docker.com/ngoxuanchien/${project.artifactId}</image>-->
-<!--                    </to>-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

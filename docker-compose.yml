@@ -247,11 +247,28 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
+  mysql-song:
+    container_name: mysql-song
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: song_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3337
+    volumes:
+      - ./database/song_service:/var/lib/mysql
+    ports:
+      - "3337:3337"
+    restart: always
+    networks:
+      zingmp3-net:
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+
   api-gateway:
     container_name: api-gateway
-    depends_on:
-      keycloak:
-        condition: service_healthy
     image: ngoxuanchien/api-gateway:latest
     restart: always
     ports:

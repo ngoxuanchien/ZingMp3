@@ -11,6 +11,7 @@ import hcmus.zingmp3.core.web.dto.ArtistResponse;
 import hcmus.zingmp3.core.web.dto.mapper.ArtistMapper;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,19 @@ public class ArtistServiceImpl implements ArtistService {
     private final ArtistMapper artistMapper;
     private final ImageClientService imageClient;
 
-
     @Override
     public void create(Artist object) {
         commandService.create(object);
+    }
+
+    @Override
+    public void update(Artist object) {
+        commandService.update(object);
+    }
+
+    @Override
+    public void delete(Artist object) {
+        commandService.delete(object);
     }
 
     @Override
@@ -54,16 +64,6 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public List<Artist> getAll() {
         return queryService.getAll();
-    }
-
-    @Override
-    public void update(Artist object) {
-        commandService.update(object);
-    }
-
-    @Override
-    public void delete(Artist object) {
-        commandService.delete(object);
     }
 
     @Override

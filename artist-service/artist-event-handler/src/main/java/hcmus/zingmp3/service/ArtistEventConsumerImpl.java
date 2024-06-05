@@ -2,12 +2,10 @@ package hcmus.zingmp3.service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import hcmus.zingmp3.common.events.Event;
 import hcmus.zingmp3.handler.EventHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

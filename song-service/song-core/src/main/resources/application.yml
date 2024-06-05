@@ -46,18 +46,22 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
-topic:
-  name: ${KAFKA_TOPIC:artist-service}
 grpc:
   client:
     image-service:
       address: discovery:///image-service
       negotiation-type: plaintext
+    artist-service:
+      address: discovery:///artist-core
+      negotiation-type: plaintext
+    media-service:
+      address: discovery:///media-service
+      negotiation-type: plaintext
   server:
     port: ${GRPC_SERVER_PORT:0}
 kafka:
   topic:
-    name: ${KAFKA_TOPIC:artist-service}
+    name: ${KAFKA_TOPIC:song-service}
 keycloak:
   resource-id: music-service
   token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/auth/realms/zing-mp3/protocol/openid-connect/token}

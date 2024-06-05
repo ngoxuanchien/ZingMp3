@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Genre {
     @Id
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @GeneratedValue
+//    @GeneratedValue
     private UUID id;
 
     @Column

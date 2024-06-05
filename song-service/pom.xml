@@ -7,6 +7,7 @@
     <groupId>hcmus.zingmp3</groupId>
     <artifactId>song-service</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -17,6 +18,7 @@
     <modules>
         <module>song-common</module>
         <module>song-core</module>
+        <module>song-event-handler</module>
     </modules>
 
 </project>

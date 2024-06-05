@@ -15,4 +15,14 @@ public class ArtistServiceImpl implements ArtistService {
     ) {
         return repository.save(artist);
     }
+
+    @Override
+    public Artist update(Artist artist) {
+        return repository.save(artist);
+    }
+
+    @Override
+    public void delete(Artist artist) {
+        repository.delete(artist);
+    }
 }

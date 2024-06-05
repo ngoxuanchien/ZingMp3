@@ -4,6 +4,7 @@ import hcmus.zingmp3.common.domain.model.SongStatus;
 import jakarta.persistence.SecondaryTable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
@@ -66,19 +67,19 @@ public record SongRequest(
                 message = "ReleaseDate must not be null",
                 groups = {OnUpdate.class}
         )
-        int releaseDate,
+        Integer releaseDate,
 
         @Null(
                 message = "Listen must be null",
                 groups = {OnCreate.class}
         )
-        int listen,
+        Integer listen,
 
         @Null(
                 message = "Liked must be null",
                 groups = {OnCreate.class}
         )
-        int liked,
+        Integer liked,
 
         @Length(
                 min = 1,

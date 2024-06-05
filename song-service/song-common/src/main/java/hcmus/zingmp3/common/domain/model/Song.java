@@ -19,7 +19,7 @@ public class Song {
 
     @Id
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @GeneratedValue
+//    @GeneratedValue
     private UUID id;
 
     @Column(unique = true)
