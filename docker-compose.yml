@@ -54,7 +54,7 @@ services:
     #      keycloak:
     #        condition: service_healthy
     image: ngoxuanchien/api-gateway:latest
-    restart: always
+    restart: unless-stopped
     ports:
       - "8081:8081"
     networks:
@@ -69,7 +69,7 @@ services:
   user-service:
     container_name: user-service
     image: ngoxuanchien/user-service:latest
-    restart: always
+    restart: unless-stopped
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
@@ -78,7 +78,7 @@ services:
   discovery-service:
     container_name: discovery-service
     image: ngoxuanchien/discovery-service:latest
-    restart: always
+    restart: unless-stopped
     ports:
       - "8761:8761"
     networks:
@@ -94,6 +94,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+    restart: unless-stopped
     networks:
       zingmp3-net:
   zoo2:
@@ -106,6 +107,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2182
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+    restart: unless-stopped
     networks:
       zingmp3-net:
   zoo3:
@@ -118,6 +120,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2183
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+    restart: unless-stopped
     networks:
       zingmp3-net:
 
@@ -142,6 +145,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+    restart: unless-stopped
     networks:
       zingmp3-net:
 
@@ -166,6 +170,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+    restart: unless-stopped
     networks:
       zingmp3-net:
 
@@ -190,6 +195,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+    restart: unless-stopped
     networks:
       zingmp3-net:
 
@@ -213,6 +219,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8082
     networks:
       zingmp3-net:
+    restart: unless-stopped
   mysql-artist:
     container_name: mysql-artist
     image: mysql
@@ -259,6 +266,7 @@ services:
       mysql-image:
         condition: service_healthy
     image: ngoxuanchien/image-service
+    restart: unless-stopped
     networks:
       zingmp3-net:
     environment:
@@ -281,6 +289,7 @@ services:
     image: ngoxuanchien/media-service
     networks:
       zingmp3-net:
+    restart: unless-stopped
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -319,7 +328,7 @@ services:
     depends_on:
       mysql-artist:
         condition: service_healthy
-    #    restart: always
+    restart: unless-stopped
     networks:
       zingmp3-net:
     environment:
@@ -354,7 +363,7 @@ services:
         condition: service_healthy
     networks:
       zingmp3-net:
-    #    restart: always
+    restart: unless-stopped
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
