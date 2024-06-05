@@ -23,7 +23,7 @@ message ArtistGrpcResponse {
 }
 
 service ArtistService {
-  rpc existsArtist(ArtistGrpcRequest) returns (ArtistGrpcResponse);
+  rpc isExist(ArtistGrpcRequest) returns (ArtistGrpcResponse);
   rpc getArtistById(ArtistGrpcRequest) returns (ArtistGrpcResponse);
   rpc getOrCreateArtist(ArtistGrpcRequest) returns (ArtistGrpcResponse);
 }

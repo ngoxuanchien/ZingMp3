@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'nxc-hcmus-2'
+        label 'nxc-hcmus-1'
     }
 
     stages {
@@ -32,12 +32,8 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-                        sh 'docker-compose -f init-docker-compose.yml down -v'
-                        sh 'rm -rf ./database'
-                        sh 'docker-compose -f init-docker-compose.yml pull'
-                        sh 'docker-compose -f init-docker-compose.yml up -d'
-
                         sh 'docker-compose down -v'
+                        sh 'rm -rf ./database'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
