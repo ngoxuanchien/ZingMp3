@@ -37,7 +37,7 @@ server:
   port: ${SERVER_PORT:0}
   url: ${GATEWAY_URL:http://localhost:8080}
 image:
-  url: http://localhost:8080/thumbnail/
+  url: ${IMAGE_URL:http://localhost:8080/thumbnail/}
 springdoc:
   swagger-ui:
     oauth:

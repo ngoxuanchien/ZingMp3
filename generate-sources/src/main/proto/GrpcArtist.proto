@@ -8,34 +8,18 @@ message ArtistGrpcRequest {
   string id = 1;
   string alias = 2;
   string name = 3;
-  string playlistId = 4;
-  string thumbnail = 5;
-  int32 totalFollow = 6;
-  string sortBiography = 7;
-  string biography = 8;
-  string national = 9;
-  string realName = 10;
-  string birthday = 11;
-  repeated string awards = 12;
-  repeated string songs = 13;
-  repeated string composedSongs = 14;
+  string thumbnailId = 4;
+  string realName = 5;
+  string status = 6;
 }
 
 message ArtistGrpcResponse {
   string id = 1;
   string alias = 2;
   string name = 3;
-  string playlistId = 4;
-  string thumbnail = 5;
-  int32 totalFollow = 6;
-  string sortBiography = 7;
-  string biography = 8;
-  string national = 9;
-  string realName = 10;
-  string birthday = 11;
-  repeated string awards = 12;
-  repeated string songs = 13;
-  repeated string composedSongs = 14;
+  string thumbnailId = 4;
+  string realName = 5;
+  string status = 6;
 }
 
 service ArtistService {
