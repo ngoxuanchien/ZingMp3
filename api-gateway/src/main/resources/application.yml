@@ -67,7 +67,7 @@ logging:
 #    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info
 #    org.springframework.cloud.gateway: info
 server:
-  port: 8080
+  port: ${SERVER_PORT:8081}
   host: ${SERVER_HOST:localhost:8081}
 springdoc:
   swagger-ui:

@@ -60,6 +60,7 @@ services:
     networks:
       zingmp3-net:
     environment:
+      SERVER_PORT: 8081
       SERVER_HOST: nxc-hcmus.me:8081
       EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
       KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
