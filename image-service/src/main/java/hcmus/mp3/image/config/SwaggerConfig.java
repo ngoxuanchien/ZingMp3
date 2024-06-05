@@ -40,7 +40,7 @@ public class SwaggerConfig {
                 "/api/images/**"
         };
         return GroupedOpenApi.builder()
-                .group("artist-service")
+                .group("image-service")
                 .addOpenApiCustomizer(openApi -> openApi.info(new io.swagger.v3.oas.models.info.Info().title("Image service API").version(appVersion)))
                 .pathsToMatch(paths)
                 .build();
