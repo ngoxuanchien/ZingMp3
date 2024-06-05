@@ -254,10 +254,10 @@ services:
     ports:
       - "3333:3333"
     restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
     networks:
       zingmp3-net:
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
   image-service:
     container_name: image-service
