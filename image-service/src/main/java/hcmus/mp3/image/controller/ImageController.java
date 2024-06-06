@@ -2,7 +2,9 @@ package hcmus.mp3.image.controller;
 
 import hcmus.mp3.image.dto.ImageResponseDto;
 import hcmus.mp3.image.service.ImageService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,7 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponseDto> uploadImage(
             @RequestPart("image") MultipartFile image
     ) {
@@ -39,9 +41,9 @@ public class ImageController {
         return ResponseEntity.ok(imageService.getAllImages());
     }
 
-    @PostMapping("/{image-id}")
+    @PutMapping(value = "/{image-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponseDto> updateImage(
-            @PathVariable UUID imageId,
+            @PathVariable("image-id") UUID imageId,
             @RequestPart("image") MultipartFile image
     ) {
         return ResponseEntity.status(ACCEPTED)

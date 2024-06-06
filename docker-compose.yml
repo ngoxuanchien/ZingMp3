@@ -381,7 +381,7 @@ services:
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
 
-      GATEWAY_URL: http://localhost:8080
+      GATEWAY_URL: http://nxc-hcmus.me:8081
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
 
@@ -400,5 +400,56 @@ services:
       SPRING_DATASOURCE_SERVER: mysql-artist
       SPRING_DATASOURCE_PORT: 3336
       SPRING_DATASOURCE_NAME: artist_service
+
+      BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+
+  song-core:
+    container_name: song-core
+    image: ngoxuanchien/song-core
+    depends_on:
+      mysql-song:
+        condition: service_healthy
+    restart: always
+    networks:
+      zingmp3-net:
+    environment:
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-song
+      SPRING_DATASOURCE_PORT: 3337
+      SPRING_DATASOURCE_NAME: song_service
+      SERVER_PORT: 0
+
+      GRPC_SERVER_PORT: 0
+
+      KEYCLOAK_PORT: 8080
+      KEYCLOAK_SERVER: localhost
+      KEYCLOAK_CLIENT_ID: music-service
+      KEYCLOAK_CLIENT_SECRET: VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7
+      KEYCLOAK_TOKEN_URL: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/token
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/zing-mp3
+
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: discovery-service
+
+      GATEWAY_URL: http://nxc-hcmus.me:8081
+
+      BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+
+  song-event-handler:
+    container_name: song-event-handler
+    image: ngoxuanchien/song-event-handler
+    depends_on:
+      mysql-song:
+        condition: service_healthy
+    networks:
+      zingmp3-net:
+    restart: always
+    environment:
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-song
+      SPRING_DATASOURCE_PORT: 3337
+      SPRING_DATASOURCE_NAME: song_service
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
