@@ -18,14 +18,12 @@
 
     <modules>
         <module>generate-sources</module>
-<!--        <module>zingmp3-proto</module>-->
         <module>discovery-service</module>
-<!--        <module>user-service</module>-->
-<!--        <module>playlist-service</module>-->
         <module>media-service</module>
         <module>image-service</module>
         <module>api-gateway</module>
         <module>artist-service</module>
+        <module>song-service</module>
     </modules>
 
     <properties>
