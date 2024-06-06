@@ -34,7 +34,7 @@ spring:
         - id: image-service
           uri: lb://image-service
           predicates:
-              - Path=/api/images/**, /v3/api-docs/images/**, /thumbnail/**
+            - Path=/api/images/**, /v3/api-docs/image-service/**, /thumbnail/**
         - id: artist-service
           uri: lb://artist-core
           predicates:
@@ -45,7 +45,6 @@ spring:
             - Path=/api/songs/**, /v3/api-docs/song-service/**, /api/genres/**
     discovery:
       enabled: true
-
 eureka:
   client:
     service-url:
@@ -56,6 +55,7 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
+    ip-address: ${HOST_IP:localhost}
 logging:
   level:
     root: info

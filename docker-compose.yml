@@ -1,6 +1,8 @@
 networks:
   zingmp3-net:
     name: zingmp3-net
+    driver: overlay
+    external: true
 
 services:
 
@@ -299,6 +301,8 @@ services:
       - "8761:8761"
     networks:
       zingmp3-net:
+    environment:
+      HOST_IP: 192.168.1.17
 
   image-service:
     container_name: image-service
@@ -371,7 +375,7 @@ services:
       KEYCLOAK_SERVER: localhost
       KEYCLOAK_CLIENT_ID: music-service
       KEYCLOAK_CLIENT_SECRET: VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7
-      KEYCLOAK_TOKEN_URL: http://localhost:8081/api/auth/token
+      KEYCLOAK_TOKEN_URL: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/token
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/zing-mp3
 
       EUREKA_PORT: 8761

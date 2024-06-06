@@ -10,12 +10,13 @@ eureka:
     lease-expiration-duration-in-seconds: 20
     status-page-url-path: /actuator/info
     health-check-url-path: /actuator/health
+    ip-address: ${HOST_IP:localhost}
   client:
     register-with-eureka: false
     healthcheck:
       enabled: true
     fetch-registry: false
     service-url:
-        defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_SERVICE-URL:http://localhost:8761/eureka/}
   server:
     enable-self-preservation: false
