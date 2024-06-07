@@ -3,7 +3,6 @@ networks:
     name: zingmp3-net
 
 services:
-
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:24.0.3
@@ -314,13 +313,15 @@ services:
       zingmp3-net:
     volumes:
       - ./data/images:/data/images
+    ports:
+      - "8001:8001"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
       SPRING_DATASOURCE_SERVER: mysql-image
       SPRING_DATASOURCE_PORT: 3333
       SPRING_DATASOURCE_NAME: image_service
-      SERVER_PORT: 0
+      SERVER_PORT: 8001
 
       EUREKA_SERVER: discovery-service
       EUREKA_PORT: 8761
@@ -336,6 +337,8 @@ services:
     networks:
       zingmp3-net:
     restart: always
+    ports:
+      - "8002:8002"
     volumes:
       - ./data/audio:/data/audio
     environment:
@@ -344,7 +347,7 @@ services:
       SPRING_DATASOURCE_SERVER: mysql-media
       SPRING_DATASOURCE_PORT: 3334
       SPRING_DATASOURCE_NAME: media_service
-      SERVER_PORT: 0
+      SERVER_PORT: 8002
 
       EUREKA_SERVER: discovery-service
       EUREKA_PORT: 8761
@@ -359,6 +362,8 @@ services:
       mysql-artist:
         condition: service_healthy
     restart: always
+    ports:
+      - "8003:8003"
     networks:
       zingmp3-net:
     environment:
@@ -367,7 +372,7 @@ services:
       SPRING_DATASOURCE_SERVER: mysql-artist
       SPRING_DATASOURCE_PORT: 3336
       SPRING_DATASOURCE_NAME: artist_service
-      SERVER_PORT: 0
+      SERVER_PORT: 8003
 
       GRPC_SERVER_PORT: 0
 
@@ -394,6 +399,8 @@ services:
         condition: service_healthy
     networks:
       zingmp3-net:
+    ports:
+      - "8004:8004"
     restart: always
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
@@ -405,6 +412,7 @@ services:
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
 
       HOST_IP: 192.168.1.17
+      SERVER_PORT: 8004
   song-core:
     container_name: song-core
     image: ngoxuanchien/song-core
@@ -412,6 +420,8 @@ services:
       mysql-song:
         condition: service_healthy
     restart: always
+    ports:
+      - "8005:8005"
     networks:
       zingmp3-net:
     environment:
@@ -420,7 +430,7 @@ services:
       SPRING_DATASOURCE_SERVER: mysql-song
       SPRING_DATASOURCE_PORT: 3337
       SPRING_DATASOURCE_NAME: song_service
-      SERVER_PORT: 0
+      SERVER_PORT: 8005
 
       GRPC_SERVER_PORT: 0
 
@@ -447,6 +457,8 @@ services:
     networks:
       zingmp3-net:
     restart: always
+    ports:
+      - "8006:8006"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -456,3 +468,4 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       HOST_IP: 192.168.1.17
+      SERVER_PORT: 8006
