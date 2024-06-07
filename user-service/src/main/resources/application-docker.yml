@@ -16,6 +16,7 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
+    ip-address: 192.168.1.21
   client:
     service-url:
       default-zone: http://discovery-service:8761/eureka

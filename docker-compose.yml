@@ -284,6 +284,7 @@ services:
       KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
       KEYCLOAK_OPENID-CONNECT: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/
 
+      HOST_IP: 192.168.1.17
   user-service:
     container_name: user-service
     image: ngoxuanchien/user-service:latest
@@ -326,6 +327,7 @@ services:
       EUREKA_SERVER: discovery-service
       EUREKA_PORT: 8761
       IMAGE_URL: http://nxc-hcmus.me:8081/thumbnail/
+      HOST_IP: 192.168.1.17
 
   media-service:
     container_name: media-service
@@ -350,7 +352,7 @@ services:
       EUREKA_PORT: 8761
       GATEWAY_URL: http://nxc-hcmus.me:8081
       MEDIA_URL: http://nxc-hcmus.me:8081/api/play/
-
+      HOST_IP: 192.168.1.17
 
   artist-core:
     container_name: artist-core
@@ -385,6 +387,7 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
 
+      HOST_IP: 192.168.1.17
   artist-event-handler:
     container_name: artist-event-handler
     image: ngoxuanchien/artist-event-handler
@@ -403,6 +406,7 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
 
+      HOST_IP: 192.168.1.17
   song-core:
     container_name: song-core
     image: ngoxuanchien/song-core
@@ -435,7 +439,7 @@ services:
       GATEWAY_URL: http://nxc-hcmus.me:8081
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
-
+      HOST_IP: 192.168.1.17
   song-event-handler:
     container_name: song-event-handler
     image: ngoxuanchien/song-event-handler
@@ -453,3 +457,4 @@ services:
       SPRING_DATASOURCE_NAME: song_service
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+      HOST_IP: 192.168.1.17

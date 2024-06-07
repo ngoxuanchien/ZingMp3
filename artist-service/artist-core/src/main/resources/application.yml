@@ -51,7 +51,7 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
-    ip-address: ${SERVER_HOST:localhost}
+    ip-address: ${HOST_IP:localhost}
 topic:
   name: ${KAFKA_TOPIC:artist-service}
 grpc:

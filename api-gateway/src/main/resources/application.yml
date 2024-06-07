@@ -72,7 +72,6 @@ logging:
 #    org.springframework.cloud.gateway: info
 server:
   port: ${SERVER_PORT:8081}
-  host: ${SERVER_HOST:localhost:8081}
 springdoc:
   swagger-ui:
     enabled: true
