@@ -2,7 +2,6 @@ package hcmus.mp3.web.controller;
 
 import hcmus.mp3.service.media.AudioService;
 import hcmus.mp3.web.dto.AudioResponseDto;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,16 +1,16 @@
 services:
-  mysql-audio:
-    container_name: mysql-audio
+  mysql-media:
+    container_name: mysql-media
     image: mysql
     environment:
       MYSQL_HOST: '%'
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: audio_service
+      MYSQL_DATABASE: media_service
       MYSQL_USER: zingmp3
       MYSQL_PASSWORD: zingmp3
       MYSQL_TCP_PORT: 3334
     volumes:
-      - ../database/audio_service:/data/mysql
+      - ../database/media_service:/data/mysql
     ports:
       - "3334:3334"
     restart: always

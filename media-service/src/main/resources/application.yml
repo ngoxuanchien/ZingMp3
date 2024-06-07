@@ -1,13 +1,13 @@
 spring:
   application:
-    name: content-delivery-service
+    name: media-service
   datasource:
     url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
     username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
     password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
     server: ${SPRING_DATASOURCE_SERVER:localhost}
     port: ${SPRING_DATASOURCE_PORT:3334}
-    name: ${SPRING_DATASOURCE_NAME:audio_service}
+    name: ${SPRING_DATASOURCE_NAME:media_service}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -34,7 +34,7 @@ spring:
           client-id: ${keycloak.client-id}
           client-secret: ${keycloak.client-secret}
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:0}
   gateway-url: ${GATEWAY_URL:http://localhost:8080}
 springdoc:
   swagger-ui:
@@ -46,12 +46,10 @@ springdoc:
     groups-order: asc
 eureka:
   client:
-    fetch-registry: false
-    register-with-eureka: true
     service-url:
-      defaultZone: http://${eureka.server}:${eureka.port}/eureka/
-  server: ${EUREKA_SERVER:localhost}
-  port: ${EUREKA_PORT:8761}
+      defaultZone: http://${EUREKA_SERVER:localhost}:${EUREKA_PORT:8761}/eureka/
+    fetch-registry: true
+    register-with-eureka: true
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
