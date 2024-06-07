@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-                        sh 'sudo aa-remove-unknown'
+//                        sh 'sudo aa-remove-unknown'
                         sh 'docker-compose down -v'
 //                        sh 'rm -rf ./database'
                         sh 'docker-compose pull'
