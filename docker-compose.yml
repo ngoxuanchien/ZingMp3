@@ -278,8 +278,8 @@ services:
       SERVER_PORT: 8081
       SERVER_HOST: nxc-hcmus.me:8081
       EUREKA_SERVICE-URL: http://discovery-service:8761/eureka/
-      KEYCLOAK_ISSUER-URI: http://keycloak:8080/realms/zing-mp3
-      KEYCLOAK_OPENID-CONNECT: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/
+      KEYCLOAK_ISSUER-URI: http://nxc-hcmus.me:8080/realms/zing-mp3
+      KEYCLOAK_OPENID-CONNECT: http://nxc-hcmus.me:8080/realms/zing-mp3/protocol/openid-connect/
 
       HOST_IP: 192.168.1.17
   user-service:
