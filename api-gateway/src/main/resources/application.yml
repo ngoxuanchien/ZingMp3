@@ -31,6 +31,12 @@ spring:
             - Path=/api/auth/**, /v3/api-docs/auth-service/**
           filters:
             - RewritePath=/api/auth/?(?<segment>), /realms/zing-mp3/protocol/openid-connect/$\{segment}
+        - id: issuer-uri
+          uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3/}
+          predicates:
+            - Path=/realms/zing-mp3/**
+          filters:
+            - RewritePath=/realms/zing-mp3/(?<segment>.*), /realms/zing-mp3/$\{segment}
         - id: image-service
           uri: lb://image-service
           predicates:

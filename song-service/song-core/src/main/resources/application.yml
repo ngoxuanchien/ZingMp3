@@ -20,7 +20,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/zing-mp3}
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
     producer:
