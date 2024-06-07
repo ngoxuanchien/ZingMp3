@@ -315,6 +315,7 @@ services:
       - ./data/images:/data/images
     ports:
       - "8001:8001"
+      - "9001:9001"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -322,6 +323,8 @@ services:
       SPRING_DATASOURCE_PORT: 3333
       SPRING_DATASOURCE_NAME: image_service
       SERVER_PORT: 8001
+
+      GRPC_SERVER_PORT: 9001
 
       EUREKA_SERVER: discovery-service
       EUREKA_PORT: 8761
@@ -339,6 +342,7 @@ services:
     restart: always
     ports:
       - "8002:8002"
+      - "9002:9002"
     volumes:
       - ./data/audio:/data/audio
     environment:
@@ -348,6 +352,8 @@ services:
       SPRING_DATASOURCE_PORT: 3334
       SPRING_DATASOURCE_NAME: media_service
       SERVER_PORT: 8002
+
+      GRPC_SERVER_PORT: 9002
 
       EUREKA_SERVER: discovery-service
       EUREKA_PORT: 8761
@@ -364,6 +370,7 @@ services:
     restart: always
     ports:
       - "8003:8003"
+      - "9003:9003"
     networks:
       zingmp3-net:
     environment:
@@ -374,7 +381,7 @@ services:
       SPRING_DATASOURCE_NAME: artist_service
       SERVER_PORT: 8003
 
-      GRPC_SERVER_PORT: 0
+      GRPC_SERVER_PORT: 9003
 
       KEYCLOAK_PORT: 8080
       KEYCLOAK_SERVER: localhost
@@ -399,8 +406,8 @@ services:
         condition: service_healthy
     networks:
       zingmp3-net:
-    ports:
-      - "8004:8004"
+#    ports:
+#      - "8004:8004"
     restart: always
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
@@ -412,7 +419,7 @@ services:
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
 
       HOST_IP: 192.168.1.17
-      SERVER_PORT: 8004
+#      SERVER_PORT: 8004
 
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
@@ -425,6 +432,7 @@ services:
     restart: always
     ports:
       - "8005:8005"
+      - "9005:9005"
     networks:
       zingmp3-net:
     environment:
@@ -435,7 +443,7 @@ services:
       SPRING_DATASOURCE_NAME: song_service
       SERVER_PORT: 8005
 
-      GRPC_SERVER_PORT: 0
+      GRPC_SERVER_PORT: 9005
 
       KEYCLOAK_PORT: 8080
       KEYCLOAK_SERVER: localhost
@@ -460,8 +468,8 @@ services:
     networks:
       zingmp3-net:
     restart: always
-    ports:
-      - "8006:8006"
+#    ports:
+#      - "8006:8006"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -471,7 +479,7 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       HOST_IP: 192.168.1.17
-      SERVER_PORT: 8006
+#      SERVER_PORT: 8006
 
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
