@@ -380,7 +380,7 @@ services:
       KEYCLOAK_SERVER: localhost
       KEYCLOAK_CLIENT_ID: music-service
       KEYCLOAK_CLIENT_SECRET: VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7
-      KEYCLOAK_TOKEN_URL: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/token
+      KEYCLOAK_TOKEN_URL: http://nxc-hcmus.me:8080/api/auth/token
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/zing-mp3
 
       EUREKA_PORT: 8761
@@ -441,7 +441,7 @@ services:
       KEYCLOAK_SERVER: localhost
       KEYCLOAK_CLIENT_ID: music-service
       KEYCLOAK_CLIENT_SECRET: VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7
-      KEYCLOAK_TOKEN_URL: http://keycloak:8080/realms/zing-mp3/protocol/openid-connect/token
+      KEYCLOAK_TOKEN_URL: http://nxc-hcmus.me:8080/api/auth/token
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/zing-mp3
 
       EUREKA_PORT: 8761

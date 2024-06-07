@@ -5,6 +5,7 @@ import hcmus.zingmp3.core.web.dto.GenreRequest;
 import hcmus.zingmp3.core.web.dto.GenreResponse;
 import hcmus.zingmp3.core.web.dto.OnCreate;
 import hcmus.zingmp3.core.web.dto.OnUpdate;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class GenreController {
     private final GenreService genreService;
 
+    @SecurityRequirement(name = "Keycloak")
     @PostMapping
     public ResponseEntity<GenreResponse> createGenre(
             @RequestBody @Validated(OnCreate.class) GenreRequest request
@@ -72,6 +74,7 @@ public class GenreController {
         return ResponseEntity.ok(genreService.getAllGenres(pageable));
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping
     public ResponseEntity<GenreResponse> updateGenre(
             @RequestBody @Validated(OnUpdate.class) GenreRequest request
@@ -82,6 +85,7 @@ public class GenreController {
                 .body(response);
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{genre-id}")
     public ResponseEntity<Void> deleteGenre(
             @PathVariable("genre-id") UUID genreId

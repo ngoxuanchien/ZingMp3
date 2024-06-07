@@ -32,8 +32,8 @@ springdoc:
     operations-sorter: method
     deep-linking: true
     oauth:
-      client-id: ${KEYCLOAK_CLIENT_ID:music-service}
-      client-secret: ${KEYCLOAK_CLIENT_SECRET:VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7}
+      client-id: ${KEYCLOAK_CLIENT_ID:song-service}
+      client-secret: ${KEYCLOAK_CLIENT_SECRET:ghohHM6oyyOcGTZzyTC8Lyxh713XAKhg}
 server:
   port: ${SERVER_PORT:0}
 eureka:
@@ -64,5 +64,5 @@ kafka:
   topic:
     name: ${KAFKA_TOPIC:song-service}
 keycloak:
-  resource-id: music-service
-  token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/auth/realms/zing-mp3/protocol/openid-connect/token}
+  resource-id: song-service
+  token-url: ${KEYCLOAK_TOKEN:http://nxc-hcmus.me:8081/api/auth/token}
