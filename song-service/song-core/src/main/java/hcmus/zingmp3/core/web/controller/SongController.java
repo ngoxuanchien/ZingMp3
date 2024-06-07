@@ -76,6 +76,33 @@ public class SongController {
     }
 
     @SecurityRequirement(name = "Keycloak")
+    @PutMapping("/approved/{song-alias}")
+    public ResponseEntity<?> approveSong(
+            @PathVariable("song-alias") String alias
+    ) {
+        songService.approvedSong(alias);
+        return ResponseEntity.accepted().build();
+    }
+
+    @SecurityRequirement(name = "Keycloak")
+    @PutMapping("/rejected/{song-alias}")
+    public ResponseEntity<?> rejectSong(
+            @PathVariable("song-alias") String alias
+    ) {
+        songService.rejectedSong(alias);
+        return ResponseEntity.accepted().build();
+    }
+
+    @SecurityRequirement(name = "Keycloak")
+    @PutMapping("/released/{song-alias}")
+    public ResponseEntity<?> releaseSong(
+            @PathVariable("song-alias") String alias
+    ) {
+        songService.releasedSong(alias);
+        return ResponseEntity.accepted().build();
+    }
+
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{song-id}")
     public ResponseEntity<?> deleteSong(
             @PathVariable("song-id") UUID songId
