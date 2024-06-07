@@ -40,6 +40,7 @@ pipeline {
                         sh 'docker-compose up -d'
                         sh 'docker image prune -f'
                         sh 'docker system prune -f'
+                        sh 'docker volume prune -f'
                     } else {
                         echo 'skip deploy'
                     }
