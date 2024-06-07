@@ -1,8 +1,6 @@
 networks:
   zingmp3-net:
     name: zingmp3-net
-    driver: overlay
-    external: true
 
 services:
 
