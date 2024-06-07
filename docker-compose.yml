@@ -413,6 +413,9 @@ services:
 
       HOST_IP: 192.168.1.17
       SERVER_PORT: 8004
+
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: discovery-service
   song-core:
     container_name: song-core
     image: ngoxuanchien/song-core
@@ -469,3 +472,6 @@ services:
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       HOST_IP: 192.168.1.17
       SERVER_PORT: 8006
+
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: discovery-service
