@@ -266,6 +266,26 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
 
+  mysql-playlist:
+    container_name: mysql-playlist
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: playlist_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3338
+    volumes:
+      - ./database/playlist_service:/data/mysql
+    ports:
+      - "3338:3338"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+    networks:
+      zingmp3-net:
+
   api-gateway:
     container_name: api-gateway
     image: ngoxuanchien/api-gateway:latest
@@ -483,3 +503,57 @@ services:
 
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
+
+  playlist-core:
+    container_name: playlist-core
+    image: ngoxuanchien/playlist-core
+    depends_on:
+      mysql-playlist:
+        condition: service_healthy
+    restart: always
+    ports:
+      - "8004:8004"
+      - "9004:9004"
+    networks:
+      zingmp3-net:
+    environment:
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-playlist
+      SPRING_DATASOURCE_PORT: 3338
+      SPRING_DATASOURCE_NAME: playlist_service
+      SERVER_PORT: 8004
+      GRPC_SERVER_PORT: 9004
+
+      KEYCLOAK_CLIENT_ID: playlist-service
+      KEYCLOAK_CLIENT_SECRET: Vr36bQp3aKjesLCN8XiJZUFY6VqZ0on4
+      KEYCLOAK_ISSUER_URI: http://nxc-hcmus.me:8080/realms/zing-mp3
+
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: discovery-service
+
+      BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+      KAFKA_TOPIC: playlist-service
+      KEYCLOAK_TOKEN: http://nxc-hcmus.me:8081/api/auth/token
+
+  playlist-event-handler:
+    container_name: playlist-event-handler
+    image: ngoxuanchien/playlist-event-handler
+    depends_on:
+      mysql-playlist:
+        condition: service_healthy
+    networks:
+      zingmp3-net:
+    restart: always
+    environment:
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-playlist
+      SPRING_DATASOURCE_PORT: 3338
+      SPRING_DATASOURCE_NAME: playlist_service
+
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: 192.168.1.17
+
+      BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+      KAFKA_TOPIC: playlist-service
