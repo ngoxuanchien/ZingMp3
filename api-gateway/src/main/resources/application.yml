@@ -53,6 +53,10 @@ spring:
           uri: lb://media-service
           predicates:
             - Path=/api/media/**, /v3/api-docs/media-service/**, /api/play/**, /api/audios/**
+        - id: playlist-service
+          uri: lb://playlist-core
+          predicates:
+              - Path=/api/playlists/**, /v3/api-docs/playlist-service/**, /api/albums/**
     discovery:
       enabled: true
 eureka:
