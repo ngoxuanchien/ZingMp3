@@ -24,6 +24,7 @@
         <module>api-gateway</module>
         <module>artist-service</module>
         <module>song-service</module>
+        <module>playlist-service</module>
     </modules>
 
     <properties>

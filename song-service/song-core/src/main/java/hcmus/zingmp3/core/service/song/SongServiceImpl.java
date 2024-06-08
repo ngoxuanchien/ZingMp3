@@ -1,5 +1,6 @@
 package hcmus.zingmp3.core.service.song;
 
+import hcmus.zingmp3.common.domain.exception.ResourceAlreadyExistsException;
 import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.common.domain.model.SongStatus;
@@ -11,14 +12,13 @@ import hcmus.zingmp3.core.service.media.MediaService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import hcmus.zingmp3.core.web.dto.mapper.SongMapper;
-import hcmus.zingmp3.media.MediaGrpcRequest;
-import hcmus.zingmp3.media.MediaGrpcResponse;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,49 +78,62 @@ public class SongServiceImpl implements SongService {
         commandService.create(object);
     }
 
-    @Override
-    public SongResponse createSong(SongRequest request) {
-        // todo: implement this method
-
-        // todo: check the artist exists or not
-        Set<UUID> artistIds = new HashSet<>();
-        Optional.ofNullable(request.artistIds())
+    private Set<UUID> checkArtist(Set<UUID> artistIds) {
+        return Optional.ofNullable(artistIds)
                 .orElse(Collections.emptySet())
                 .stream()
                 .map(artistService::getById)
                 .map(artist -> UUID.fromString(artist.getId()))
-                .forEach(artistIds::add);
+                .collect(Collectors.toSet());
+    }
 
-        // todo: check the composer exists or not
-        Set<UUID> composerIds = new HashSet<>();
-        Optional.ofNullable(request.composerIds())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(artistService::getById)
-                .map(artist -> UUID.fromString(artist.getId()))
-                .forEach(composerIds::add);
-
-        // todo: check the genre exists or not
-        Set<Genre> genres = new HashSet<>();
-        Optional.ofNullable(request.genreIds())
+    private Set<Genre> checkGenre(Set<UUID> genreIds) {
+        return Optional.ofNullable(genreIds)
                 .orElse(Collections.emptySet())
                 .stream()
                 .map(genreService::getById)
-                .forEach(genres::add);
+                .collect(Collectors.toSet());
+    }
 
-        // todo: check the media exists or not
-        Set<UUID> mediaIds = new HashSet<>();
-        Optional.ofNullable(request.mediaIds())
+    private Set<UUID> checkMedia(Set<UUID> mediaIds) {
+        return Optional.ofNullable(mediaIds)
                 .orElse(Collections.emptySet())
                 .stream()
                 .map(mediaService::getById)
                 .map(media -> UUID.fromString(media.getId()))
-                .forEach(mediaIds::add);
+                .collect(Collectors.toSet());
+    }
+
+    private UUID checkThumbnail(UUID thumbnailId) {
+        return Optional
+                .ofNullable(thumbnailId)
+                .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+    }
+
+    @Override
+    public SongResponse createSong(SongRequest request) {
+        // todo: implement this method
+
+        if (queryService.existsByAlias(request.alias())) {
+            throw new ResourceAlreadyExistsException(
+                    String.format("Song with alias %s already exists", request.alias())
+            );
+        }
+
+        // todo: check the artist exists or not
+        Set<UUID> artistIds = checkArtist(request.artistIds());
+
+        // todo: check the composer exists or not
+        Set<UUID> composerIds = checkArtist(request.composerIds());
+
+        // todo: check the genre exists or not
+        Set<Genre> genres = checkGenre(request.genreIds());
+
+        // todo: check the media exists or not
+        Set<UUID> mediaIds = checkMedia(request.mediaIds());
 
         // todo: check the thumbnail exists or not
-        UUID thumbnailId = Optional
-                .ofNullable(request.thumbnailId())
-                .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+        UUID thumbnailId = checkThumbnail(request.thumbnailId());
         imageService.getById(thumbnailId);
 
         Song song = mapper.toEntity(request);
@@ -140,46 +153,26 @@ public class SongServiceImpl implements SongService {
     @Override
     public SongResponse updateSong(SongRequest request) {
         // todo: implement this method
+        if (queryService.existsByAlias(request.alias())) {
+            throw new ResourceAlreadyExistsException(
+                    String.format("Song with alias %s already exists", request.alias())
+            );
+        }
 
         // todo: check the artist exists or not
-        Set<UUID> artistIds = new HashSet<>();
-        Optional.ofNullable(request.artistIds())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(artistService::getById)
-                .map(artist -> UUID.fromString(artist.getId()))
-                .forEach(artistIds::add);
+        Set<UUID> artistIds = checkArtist(request.artistIds());
 
         // todo: check the composer exists or not
-        Set<UUID> composerIds = new HashSet<>();
-        Optional.ofNullable(request.composerIds())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(artistService::getById)
-                .map(artist -> UUID.fromString(artist.getId()))
-                .forEach(composerIds::add);
+        Set<UUID> composerIds = checkArtist(request.composerIds());
 
         // todo: check the genre exists or not
-        Set<Genre> genres = new HashSet<>();
-        Optional.ofNullable(request.genreIds())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(genreService::getById)
-                .forEach(genres::add);
+        Set<Genre> genres = checkGenre(request.genreIds());
 
         // todo: check the media exists or not
-        Set<UUID> mediaIds = new HashSet<>();
-        Optional.ofNullable(request.mediaIds())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(mediaService::getById)
-                .map(media -> UUID.fromString(media.getId()))
-                .forEach(mediaIds::add);
+        Set<UUID> mediaIds = checkMedia(request.mediaIds());
 
         // todo: check the thumbnail exists or not
-        UUID thumbnailId = Optional
-                .ofNullable(request.thumbnailId())
-                .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+        UUID thumbnailId = checkThumbnail(request.thumbnailId());
         imageService.getById(thumbnailId);
 
         Song song = getById(request.id());
