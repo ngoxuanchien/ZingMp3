@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class PlaylistMapper {
 
     public Playlist toEntity(PlaylistRequest dto) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -136,31 +137,20 @@ public class AlbumServiceImpl implements AlbumService {
         return mapper.toDto(album);
     }
 
+    private <T> void setIfNotNull(Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
     void mergeAlbum(Album album, AlbumRequest request) {
-
-        if (request.thumbnailId() != null) {
-            album.setThumbnailId(request.thumbnailId());
-        }
-
-        if (request.title() != null) {
-            album.setTitle(request.title());
-        }
-
-        if (request.description() != null) {
-            album.setDescription(request.description());
-        }
-
-        if (request.artistIds() != null) {
-            album.setArtistIds(request.artistIds());
-        }
-
-        if (request.releaseDate() != null) {
-            album.setReleaseDate(request.releaseDate());
-        }
-
-        if (request.songIds() != null) {
-            album.setSongIds(request.songIds());
-        }
+        setIfNotNull(album::setAlias, request.alias());
+        setIfNotNull(album::setThumbnailId, request.thumbnailId());
+        setIfNotNull(album::setTitle, request.title());
+        setIfNotNull(album::setDescription, request.description());
+        setIfNotNull(album::setArtistIds, request.artistIds());
+        setIfNotNull(album::setReleaseDate, request.releaseDate());
+        setIfNotNull(album::setSongIds, request.songIds());
     }
 
     @Override

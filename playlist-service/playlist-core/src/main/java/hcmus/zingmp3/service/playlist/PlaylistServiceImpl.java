@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -96,34 +97,21 @@ public class PlaylistServiceImpl implements PlaylistService {
         return mapper.toDto(playlist);
     }
 
+    private <T> void setIfNotNull(Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
     private void mergePlaylist(Playlist playlist, PlaylistRequest request) {
-        if (request.title() != null) {
-            playlist.setTitle(request.title());
-        }
-
-        if (request.thumbnailId() != null) {
-            playlist.setThumbnailId(request.thumbnailId());
-        }
-
-        if (request.type() != null) {
-            playlist.setType(request.type());
-        }
-
-        if (request.description() != null) {
-            playlist.setDescription(request.description());
-        }
-
-        if (request.artistIds() != null) {
-            playlist.setArtistIds(request.artistIds());
-        }
-
-        if (request.songIds() != null) {
-            playlist.setSongIds(request.songIds());
-        }
-
-        if (request.isPublic() != null) {
-            playlist.setPublic(request.isPublic());
-        }
+        setIfNotNull(playlist::setAlias, request.alias());
+        setIfNotNull(playlist::setTitle, request.title());
+        setIfNotNull(playlist::setThumbnailId, request.thumbnailId());
+        setIfNotNull(playlist::setType, request.type());
+        setIfNotNull(playlist::setDescription, request.description());
+        setIfNotNull(playlist::setArtistIds, request.artistIds());
+        setIfNotNull(playlist::setSongIds, request.songIds());
+        setIfNotNull(playlist::setPublic, request.isPublic());
     }
 
     @Override

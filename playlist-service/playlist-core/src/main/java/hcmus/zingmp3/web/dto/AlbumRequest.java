@@ -1,6 +1,7 @@
 package hcmus.zingmp3.web.dto;
 
 import hcmus.zingmp3.common.domain.model.AlbumType;
+import hcmus.zingmp3.web.dto.validator.album.AlbumAliasNotExists;
 import hcmus.zingmp3.web.dto.validator.artist.ArtistIdsExists;
 import hcmus.zingmp3.web.dto.validator.image.ImageExists;
 import hcmus.zingmp3.web.dto.validator.song.SongIdsExists;
@@ -23,13 +24,12 @@ public record AlbumRequest(
         )
         UUID id,
 
+        @AlbumAliasNotExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         @NotNull(
                 message = "Alias must not be null",
                 groups = {OnCreate.class}
-        )
-        @Null(
-                message = "Alias must be null",
-                groups = {OnUpdate.class}
         )
         @Length(
                 min = 1,

@@ -3,6 +3,7 @@ package hcmus.zingmp3.web.dto;
 import hcmus.zingmp3.common.domain.model.PlaylistType;
 import hcmus.zingmp3.web.dto.validator.artist.ArtistIdsExists;
 import hcmus.zingmp3.web.dto.validator.image.ImageExists;
+import hcmus.zingmp3.web.dto.validator.playlist.PlaylistAliasNotExists;
 import hcmus.zingmp3.web.dto.validator.song.SongIdsExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -26,9 +27,8 @@ public record PlaylistRequest(
                 message = "Alias must not be null",
                 groups = {OnCreate.class}
         )
-        @Null(
-                message = "Alias must be null",
-                groups = {OnUpdate.class}
+        @PlaylistAliasNotExists(
+                groups = {OnCreate.class, OnUpdate.class}
         )
         @Length(
                 min = 1,
@@ -78,6 +78,10 @@ public record PlaylistRequest(
         )
         Set<UUID> songIds,
 
+        @NotNull(
+                message = "Public must not be null",
+                groups = {OnCreate.class}
+        )
         Boolean isPublic
 ) {
 }
