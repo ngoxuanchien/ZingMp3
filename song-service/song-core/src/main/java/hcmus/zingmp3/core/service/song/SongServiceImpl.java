@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -81,7 +82,6 @@ public class SongServiceImpl implements SongService {
 
         Song song = mapper.toEntity(request);
         song.setId(UUID.randomUUID());
-        song.setStatus(SongStatus.APPROVAL_PENDING);
 
         create(song);
 
@@ -91,11 +91,32 @@ public class SongServiceImpl implements SongService {
     @Override
     public SongResponse updateSong(SongRequest request) {
         // todo: implement this method
-        Song song = mapper.toEntity(request);
+        Song song = getById(request.id());
+        mergeSong(song, request);
 
         update(song);
 
         return mapper.toDto(song);
+    }
+
+    private <T> void setIfNotNull(Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
+    private void mergeSong(Song song, SongRequest request) {
+        setIfNotNull(song::setAlias, request.alias());
+        setIfNotNull(song::setAlias, request.alias());
+        setIfNotNull(song::setTitle, request.title());
+        setIfNotNull(song::setThumbnailId, request.thumbnailId());
+        setIfNotNull(song::setArtistIds, request.artistIds());
+        setIfNotNull(song::setGenreIds, request.genreIds());
+        setIfNotNull(song::setComposerIds, request.composerIds());
+        setIfNotNull(song::setReleaseDate, request.releaseDate());
+        setIfNotNull(song::setListen, request.listen());
+        setIfNotNull(song::setLiked, request.liked());
+        setIfNotNull(song::setMediaIds, request.mediaIds());
     }
 
     @Override
@@ -119,22 +140,22 @@ public class SongServiceImpl implements SongService {
     @Override
     public void approvedSong(String alias) {
         var song = getByAlias(alias);
-        song.setStatus(SongStatus.APPROVED);
-        update(song);
+        song.approved();
+        commandService.approved(song);
     }
 
     @Override
     public void rejectedSong(String alias) {
         var song = getByAlias(alias);
-        song.setStatus(SongStatus.REJECTED);
-        update(song);
+        song.rejected();
+        commandService.rejected(song);
     }
 
     @Override
     public void releasedSong(String alias) {
         var song = getByAlias(alias);
-        song.setStatus(SongStatus.RELEASED);
-        update(song);
+        song.released();
+        commandService.released(song);
     }
 
     @Override

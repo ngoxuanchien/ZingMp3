@@ -1,7 +1,7 @@
 package hcmus.zingmp3.core.service.artist;
 
-import hcmus.zingmp3.artist.ArtistGrpcRequest;
-import hcmus.zingmp3.artist.ArtistGrpcResponse;
+import hcmus.zingmp3.artist.ArtistRequestGrpc;
+import hcmus.zingmp3.artist.ArtistResponseGrpc;
 import hcmus.zingmp3.artist.ArtistServiceGrpc;
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import io.grpc.Status;
@@ -18,9 +18,9 @@ public class ArtistServiceImpl implements ArtistService {
     ArtistServiceGrpc.ArtistServiceBlockingStub artistClient;
 
     @Override
-    public ArtistGrpcResponse getById(UUID uuid) {
+    public ArtistResponseGrpc getById(UUID uuid) {
         try {
-            var request = ArtistGrpcRequest.newBuilder().setId(uuid.toString()).build();
+            var request = ArtistRequestGrpc.newBuilder().setId(uuid.toString()).build();
             return artistClient.getArtistById(request);
 
         } catch (StatusRuntimeException e) {
@@ -34,9 +34,8 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public boolean isExist(UUID uuid) {
         try {
-            var request = ArtistGrpcRequest.newBuilder().setId(uuid.toString()).build();
-            artistClient.getArtistById(request);
-            return true;
+            var request = ArtistRequestGrpc.newBuilder().setId(uuid.toString()).build();
+            return artistClient.isExist(request).getId().equals(uuid.toString());
 
         } catch (StatusRuntimeException e) {
             if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {

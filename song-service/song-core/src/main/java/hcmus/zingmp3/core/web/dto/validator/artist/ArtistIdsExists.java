@@ -1,4 +1,4 @@
-package hcmus.zingmp3.core.web.dto.validator;
+package hcmus.zingmp3.core.web.dto.validator.artist;
 
 import jakarta.validation.Constraint;
 
@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = ImageExistsValidator.class)
+@Constraint(validatedBy = ArtistIdsExistsValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ImageExists {
+public @interface ArtistIdsExists {
     String message() default "does not exist";
 
     Class<?>[] groups() default {};

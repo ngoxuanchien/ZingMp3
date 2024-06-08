@@ -94,6 +94,22 @@ public class AlbumController {
         return ResponseEntity.accepted().build();
     }
 
+    @PutMapping("/remove-song/{album-id}/{song-id}")
+    public ResponseEntity<AlbumResponse> removeSongFromAlbum(
+            @PathVariable("album-id") UUID albumId,
+            @PathVariable("song-id") UUID songId
+    ) {
+        return ResponseEntity.accepted().body(albumService.removeSongFromAlbum(albumId, songId));
+    }
+
+    @PutMapping("/add-song/{album-id}/{song-id}")
+    public ResponseEntity<AlbumResponse> addSongToAlbum(
+            @PathVariable("album-id") UUID albumId,
+            @PathVariable("song-id") UUID songId
+    ) {
+        return ResponseEntity.accepted().body(albumService.addSongToAlbum(albumId, songId));
+    }
+
     @DeleteMapping("/{album-id}")
     public ResponseEntity<Void> deleteAlbum(
             @PathVariable("album-id") UUID albumId

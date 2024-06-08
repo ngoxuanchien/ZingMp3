@@ -4,15 +4,15 @@ option java_multiple_files = true;
 
 package hcmus.zingmp3.media;
 
-message MediaGrpcRequest {
+message MediaRequestGrpc {
   string id = 1;
 }
 
-message MediaGrpcResponse {
+message MediaResponseGrpc {
   string id = 1;
   string url = 2;
 }
 
-service MediaGrpcService {
-  rpc getById(MediaGrpcRequest) returns (MediaGrpcResponse);
+service MediaService {
+  rpc getById(MediaRequestGrpc) returns (MediaResponseGrpc);
 }

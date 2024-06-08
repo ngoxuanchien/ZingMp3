@@ -2,8 +2,8 @@ package hcmus.zingmp3.core.service.artist;
 
 import com.google.rpc.Code;
 import com.google.rpc.Status;
-import hcmus.zingmp3.artist.ArtistGrpcRequest;
-import hcmus.zingmp3.artist.ArtistGrpcResponse;
+import hcmus.zingmp3.artist.ArtistRequestGrpc;
+import hcmus.zingmp3.artist.ArtistResponseGrpc;
 import hcmus.zingmp3.artist.ArtistServiceGrpc;
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.service.artist.ArtistQueryService;
@@ -22,12 +22,12 @@ public class ArtistGrpcServer extends ArtistServiceGrpc.ArtistServiceImplBase {
     private final ArtistQueryService queryService;
 
     @Override
-    public void isExist(ArtistGrpcRequest request, StreamObserver<ArtistGrpcResponse> responseObserver) {
+    public void isExist(ArtistRequestGrpc request, StreamObserver<ArtistResponseGrpc> responseObserver) {
 //        super.isExist(request, responseObserver);
         try {
             var result = queryService.getById(UUID.fromString(request.getId()));
             responseObserver.onNext(
-                    ArtistGrpcResponse.newBuilder()
+                    ArtistResponseGrpc.newBuilder()
                             .setId(String.valueOf(result.getId()))
                             .build());
             responseObserver.onCompleted();
@@ -42,11 +42,11 @@ public class ArtistGrpcServer extends ArtistServiceGrpc.ArtistServiceImplBase {
     }
 
     @Override
-    public void getArtistById(ArtistGrpcRequest request, StreamObserver<ArtistGrpcResponse> responseObserver) {
+    public void getArtistById(ArtistRequestGrpc request, StreamObserver<ArtistResponseGrpc> responseObserver) {
         try {
             var result = queryService.getById(UUID.fromString(request.getId()));
             responseObserver.onNext(
-                    ArtistGrpcResponse.newBuilder()
+                    ArtistResponseGrpc.newBuilder()
                             .setId(String.valueOf(result.getId()))
                             .build());
             responseObserver.onCompleted();

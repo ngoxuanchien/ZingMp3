@@ -1,9 +1,9 @@
 package hcmus.zingmp3.core.service.media;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
-import hcmus.zingmp3.media.MediaGrpcRequest;
-import hcmus.zingmp3.media.MediaGrpcResponse;
-import hcmus.zingmp3.media.MediaGrpcServiceGrpc;
+import hcmus.zingmp3.media.MediaRequestGrpc;
+import hcmus.zingmp3.media.MediaResponseGrpc;
+import hcmus.zingmp3.media.MediaServiceGrpc;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MediaServiceImpl implements MediaService {
     @GrpcClient("media-service")
-    MediaGrpcServiceGrpc.MediaGrpcServiceBlockingStub mediaClient;
+    MediaServiceGrpc.MediaServiceBlockingStub mediaClient;
 
     @Override
-    public MediaGrpcResponse getById(UUID id) {
+    public MediaResponseGrpc getById(UUID id) {
         try {
-            var request = MediaGrpcRequest.newBuilder().setId(id.toString()).build();
+            var request = MediaRequestGrpc.newBuilder().setId(id.toString()).build();
             return mediaClient.getById(request);
         } catch (StatusRuntimeException e) {
             if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
@@ -34,9 +34,8 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public boolean isExists(UUID id) {
         try {
-            var request = MediaGrpcRequest.newBuilder().setId(id.toString()).build();
-            mediaClient.getById(request);
-            return true;
+            var request = MediaRequestGrpc.newBuilder().setId(id.toString()).build();
+            return mediaClient.getById(request).getId().equals(id.toString());
         } catch (StatusRuntimeException e) {
             if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
                 return false;

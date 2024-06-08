@@ -49,11 +49,14 @@ eureka:
     ip-address: ${HOST_IP:localhost}
 grpc:
   client:
-    image-service:
-      address: discovery:///image-service
+    song-service:
+      address: discovery:///song-core
       negotiation-type: plaintext
     artist-service:
       address: discovery:///artist-core
+      negotiation-type: plaintext
+    image-service:
+      address: discovery:///image-service
       negotiation-type: plaintext
     media-service:
       address: discovery:///media-service

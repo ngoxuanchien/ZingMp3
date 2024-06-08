@@ -1,9 +1,9 @@
 package hcmus.mp3.service.media;
 
 import hcmus.mp3.domain.exception.ResourceNotFoundException;
-import hcmus.zingmp3.media.MediaGrpcRequest;
-import hcmus.zingmp3.media.MediaGrpcResponse;
-import hcmus.zingmp3.media.MediaGrpcServiceGrpc;
+import hcmus.zingmp3.media.MediaRequestGrpc;
+import hcmus.zingmp3.media.MediaResponseGrpc;
+import hcmus.zingmp3.media.MediaServiceGrpc;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +13,17 @@ import java.util.UUID;
 
 @GrpcService
 @RequiredArgsConstructor
-public class MediaGrpcServer extends MediaGrpcServiceGrpc.MediaGrpcServiceImplBase {
+public class MediaGrpcServer extends MediaServiceGrpc.MediaServiceImplBase {
 
     private final AudioService audioService;
 
     @Override
-    public void getById(MediaGrpcRequest request, StreamObserver<MediaGrpcResponse> responseObserver) {
+    public void getById(MediaRequestGrpc request, StreamObserver<MediaResponseGrpc> responseObserver) {
         super.getById(request, responseObserver);
         UUID id = UUID.fromString(request.getId());
         try {
             var audio = audioService.getAudio(id);
-            var response = MediaGrpcResponse.newBuilder()
+            var response = MediaResponseGrpc.newBuilder()
                     .setId(audio.id().toString())
                     .setUrl(audio.url())
                     .build();

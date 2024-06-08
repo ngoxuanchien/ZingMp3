@@ -3,8 +3,8 @@ package hcmus.mp3.image.service;
 import hcmus.mp3.image.dto.mapper.ImageProtoMapper;
 import hcmus.mp3.image.exception.ResourceNotFoundException;
 import hcmus.mp3.image.model.Image;
-import hcmus.zingmp3.image.ImageGrpcRequest;
-import hcmus.zingmp3.image.ImageGrpcResponse;
+import hcmus.zingmp3.image.ImageRequestGrpc;
+import hcmus.zingmp3.image.ImageResponseGrpc;
 import hcmus.zingmp3.image.ImageServiceGrpc;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
@@ -20,7 +20,7 @@ public class ImageGrpcServer extends ImageServiceGrpc.ImageServiceImplBase {
     private final ImageProtoMapper mapper;
 
     @Override
-    public void getImage(ImageGrpcRequest request, StreamObserver<ImageGrpcResponse> responseObserver) {
+    public void getById(ImageRequestGrpc request, StreamObserver<ImageResponseGrpc> responseObserver) {
         try {
             Image image = imageService.getByID(UUID.fromString(request.getId()));
             responseObserver.onNext(mapper.toProto(image));

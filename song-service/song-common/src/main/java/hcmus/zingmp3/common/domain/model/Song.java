@@ -6,6 +6,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class Song {
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "artist_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> artistIds;
-
+    @Builder.Default
+    private Set<UUID> artistIds = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -43,15 +44,19 @@ public class Song {
     )
     @Column(name = "genre_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> genreIds;
+    @Builder.Default
+    private Set<UUID> genreIds = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "song_composer", joinColumns = @JoinColumn(name = "song_id"))
     @Column(name = "composer_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> composerIds;
+    @Builder.Default
+    private Set<UUID> composerIds = new HashSet<>();
 
-    private SongStatus status;
+    @Builder.Default
+    @Setter(AccessLevel.NONE)
+    private SongStatus status = SongStatus.APPROVAL_PENDING;
 
     private int releaseDate;
 
@@ -74,4 +79,64 @@ public class Song {
     private LocalDateTime createdAt;
     private UUID modifiedBy;
     private LocalDateTime modifiedAt;
+
+    public void approved() {
+        this.status = SongStatus.APPROVED;
+    }
+
+    public void rejected() {
+        this.status = SongStatus.REJECTED;
+    }
+
+    public void released() {
+        this.status = SongStatus.RELEASED;
+    }
+
+    public void removeArtist(UUID artistId) {
+        artistIds.remove(artistId);
+    }
+
+    public void addArtist(UUID artistId) {
+        if (artistIds == null) {
+            artistIds = new HashSet<>();
+        }
+
+        artistIds.add(artistId);
+    }
+
+    public void removeGenre(UUID genreId) {
+        genreIds.remove(genreId);
+    }
+
+    public void addGenre(UUID genreId) {
+        if (genreIds == null) {
+            genreIds = new HashSet<>();
+        }
+
+        genreIds.add(genreId);
+    }
+
+    public void removeComposer(UUID composerId) {
+        composerIds.remove(composerId);
+    }
+
+    public void addComposer(UUID composerId) {
+        if (composerIds == null) {
+            composerIds = new HashSet<>();
+        }
+
+        composerIds.add(composerId);
+    }
+
+    public void removeMedia(UUID mediaId) {
+        mediaIds.remove(mediaId);
+    }
+
+    public void addMedia(UUID mediaId) {
+        if (mediaIds == null) {
+            mediaIds = new HashSet<>();
+        }
+
+        mediaIds.add(mediaId);
+    }
 }

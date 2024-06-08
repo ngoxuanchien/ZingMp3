@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+package hcmus.zingmp3.song;
+
+enum SongStatusGrpc {
+    APPROVAL_PENDING = 0;
+    APPROVED = 1;
+    REJECTED = 2;
+    RELEASED = 3;
+}
+
+message SongRequestGrpc {
+  string id = 1;
+}
+
+message SongResponseGrpc {
+  string id =1;
+  string alias = 2;
+  string title = 3;
+  string thumbnailId =4;
+  repeated string artistIds = 5;
+  repeated string genreIds = 6;
+  repeated string composerIds = 7;
+  SongStatusGrpc status = 8;
+  int32 releaseDate = 9;
+  int32 listen = 10;
+  int32 liked = 11;
+  string lyric = 12;
+  repeated string mediaIds = 13;
+  string createdBy = 14;
+  string createdAt = 15;
+  string modifiedBy = 16;
+  string modifiedAt = 17;
+}
+
+service SongService {
+  rpc getById(SongRequestGrpc) returns (SongResponseGrpc);
+}

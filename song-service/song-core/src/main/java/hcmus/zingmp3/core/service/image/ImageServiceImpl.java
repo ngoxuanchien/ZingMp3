@@ -1,8 +1,8 @@
 package hcmus.zingmp3.core.service.image;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
-import hcmus.zingmp3.image.ImageGrpcRequest;
-import hcmus.zingmp3.image.ImageGrpcResponse;
+import hcmus.zingmp3.image.ImageRequestGrpc;
+import hcmus.zingmp3.image.ImageResponseGrpc;
 import hcmus.zingmp3.image.ImageServiceGrpc;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -19,13 +19,13 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public boolean existsById(UUID uuid) {
-        var request = ImageGrpcRequest
+        var request = ImageRequestGrpc
                 .newBuilder()
                 .setId(uuid.toString())
                 .build();
 
         try {
-            var response = imageClient.getImage(request);
+            var response = imageClient.getById(request);
             if (response != null) {
                 return true;
             }
@@ -40,10 +40,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageGrpcResponse getById(UUID id) {
+    public ImageResponseGrpc getById(UUID id) {
         try {
-            var request = ImageGrpcRequest.newBuilder().setId(id.toString()).build();
-            return imageClient.getImage(request);
+            var request = ImageRequestGrpc.newBuilder().setId(id.toString()).build();
+            return imageClient.getById(request);
         } catch (StatusRuntimeException e) {
             if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
                 throw new ResourceNotFoundException(e.getMessage());

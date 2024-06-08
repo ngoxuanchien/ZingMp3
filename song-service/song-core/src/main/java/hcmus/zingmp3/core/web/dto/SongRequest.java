@@ -1,10 +1,10 @@
 package hcmus.zingmp3.core.web.dto;
 
-import hcmus.zingmp3.common.domain.model.SongStatus;
-import hcmus.zingmp3.core.web.dto.validator.ArtistIdsExists;
-import hcmus.zingmp3.core.web.dto.validator.GenreExists;
-import hcmus.zingmp3.core.web.dto.validator.ImageExists;
-import hcmus.zingmp3.core.web.dto.validator.MediaIdsExists;
+import hcmus.zingmp3.core.web.dto.validator.artist.ArtistIdsExists;
+import hcmus.zingmp3.core.web.dto.validator.genre.GenreExists;
+import hcmus.zingmp3.core.web.dto.validator.image.ImageExists;
+import hcmus.zingmp3.core.web.dto.validator.media.MediaIdsExists;
+import hcmus.zingmp3.core.web.dto.validator.song.SongAliasNotExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
@@ -17,8 +17,15 @@ public record SongRequest(
                 message = "Id must be null",
                 groups = {OnCreate.class}
         )
+        @NotNull(
+                message = "Id must not be null",
+                groups = {OnUpdate.class}
+        )
         UUID id,
 
+        @SongAliasNotExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         @NotNull(
                 message = "Alias must not be null",
                 groups = {OnCreate.class}
@@ -37,7 +44,7 @@ public record SongRequest(
 
         @NotNull(
                 message = "Title must not be null",
-                groups = {OnCreate.class, OnUpdate.class}
+                groups = {OnCreate.class}
         )
         @Length(
                 min = 1,
@@ -47,10 +54,6 @@ public record SongRequest(
         )
         String title,
 
-        @NotNull(
-                message = "ThumbnailId must not be null",
-                groups = {OnUpdate.class}
-        )
         @ImageExists(
                 groups = {OnCreate.class, OnUpdate.class}
         )
@@ -71,15 +74,9 @@ public record SongRequest(
         )
         Set<UUID> composerIds,
 
-        @Null(
-                message = "Status must be null",
-                groups = {OnCreate.class}
-        )
-        SongStatus status,
-
         @NotNull(
                 message = "ReleaseDate must not be null",
-                groups = {OnUpdate.class, OnCreate.class}
+                groups = {OnCreate.class}
         )
         Integer releaseDate,
 

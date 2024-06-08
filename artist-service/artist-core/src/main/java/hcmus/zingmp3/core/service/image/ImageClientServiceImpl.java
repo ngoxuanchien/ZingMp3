@@ -1,7 +1,7 @@
 package hcmus.zingmp3.core.service.image;
 
-import hcmus.zingmp3.image.ImageGrpcRequest;
-import hcmus.zingmp3.image.ImageGrpcResponse;
+import hcmus.zingmp3.image.ImageRequestGrpc;
+import hcmus.zingmp3.image.ImageResponseGrpc;
 import hcmus.zingmp3.image.ImageServiceGrpc;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,14 @@ public class ImageClientServiceImpl implements ImageClientService {
     @Override
     public boolean isImageExist(UUID imageId) {
         try {
-            var request = ImageGrpcRequest
+            var request = ImageRequestGrpc
                     .newBuilder()
                     .setId(imageId.toString())
                     .build();
 
-            imageClient.getImage(request);
-            return true;
+            return imageClient.getById(request)
+                    .getId()
+                    .equals(imageId.toString());
         } catch (StatusRuntimeException sre) {
             if (sre.getStatus().getCode().equals(NOT_FOUND.getCode())) {
                 return false;
@@ -38,11 +39,11 @@ public class ImageClientServiceImpl implements ImageClientService {
     }
 
     @Override
-    public ImageGrpcResponse getImage(UUID imageId) {
+    public ImageResponseGrpc getImage(UUID imageId) {
         // todo: image client get image
-        return ImageGrpcResponse.newBuilder()
+        var request = ImageRequestGrpc.newBuilder()
                 .setId(imageId.toString())
-                .setUrl("http://localhost:8080/image/" + imageId.toString())
                 .build();
+        return imageClient.getById(request);
     }
 }

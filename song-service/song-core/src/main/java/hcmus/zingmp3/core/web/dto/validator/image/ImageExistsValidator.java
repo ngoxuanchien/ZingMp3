@@ -1,4 +1,4 @@
-package hcmus.zingmp3.core.web.dto.validator;
+package hcmus.zingmp3.core.web.dto.validator.image;
 
 import hcmus.zingmp3.core.service.image.ImageService;
 import jakarta.validation.ConstraintValidator;
