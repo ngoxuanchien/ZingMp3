@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.song.SongQueryService;
 import hcmus.zingmp3.core.service.artist.ArtistService;
 import hcmus.zingmp3.core.service.genre.GenreService;
+import hcmus.zingmp3.core.service.image.ImageService;
 import hcmus.zingmp3.core.service.media.MediaService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
@@ -34,6 +35,8 @@ public class SongServiceImpl implements SongService {
     private final ArtistService artistService;
 
     private final SongMapper mapper;
+
+    private final ImageService imageService;
 
     @Override
     public Song getById(UUID id) {
@@ -114,7 +117,15 @@ public class SongServiceImpl implements SongService {
                 .map(media -> UUID.fromString(media.getId()))
                 .forEach(mediaIds::add);
 
+        // todo: check the thumbnail exists or not
+        UUID thumbnailId = Optional
+                .ofNullable(request.thumbnailId())
+                .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+        imageService.getById(thumbnailId);
+
         Song song = mapper.toEntity(request);
+        song.setId(UUID.randomUUID());
+        song.setThumbnailId(thumbnailId);
         song.setArtistIds(artistIds);
         song.setComposerIds(composerIds);
         song.setGenres(genres);
@@ -165,9 +176,16 @@ public class SongServiceImpl implements SongService {
                 .map(media -> UUID.fromString(media.getId()))
                 .forEach(mediaIds::add);
 
+        // todo: check the thumbnail exists or not
+        UUID thumbnailId = Optional
+                .ofNullable(request.thumbnailId())
+                .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+        imageService.getById(thumbnailId);
+
         Song song = getById(request.id());
         merge(song, request);
         song.setGenres(genres);
+        song.setThumbnailId(thumbnailId);
         song.setArtistIds(artistIds);
         song.setComposerIds(composerIds);
         song.setMediaIds(mediaIds);

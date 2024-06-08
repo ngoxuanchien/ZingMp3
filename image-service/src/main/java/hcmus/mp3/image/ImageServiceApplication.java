@@ -1,5 +1,8 @@
 package hcmus.mp3.image;
 
+import hcmus.mp3.image.repository.ImageRepository;
+import hcmus.mp3.image.service.DefaultImageService;
+import hcmus.mp3.image.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +26,7 @@ public class ImageServiceApplication {
     }
 
     @Bean
-    CommandLineRunner init() {
+    CommandLineRunner init(DefaultImageService imageService) {
         return args -> {
             Path directoryPath = Paths.get(IMAGE_PATH);
             try {
@@ -37,6 +40,7 @@ public class ImageServiceApplication {
                 log.error("Cannot create directory: {}", directoryPath, e);
                 throw new RuntimeException(e);
             }
+            imageService.saveDefaultImage(Paths.get(IMAGE_PATH + "default-image.jpg"));
         };
     }
 

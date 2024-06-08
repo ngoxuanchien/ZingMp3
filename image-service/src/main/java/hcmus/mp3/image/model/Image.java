@@ -11,7 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.*;
 import static org.hibernate.type.SqlTypes.VARCHAR;
 
 @AllArgsConstructor
@@ -23,7 +22,7 @@ import static org.hibernate.type.SqlTypes.VARCHAR;
 @EntityListeners(AuditingEntityListener.class)
 public class Image {
     @Id
-    @GeneratedValue(strategy = AUTO)
+//    @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(VARCHAR)
     private UUID id;
 
@@ -42,5 +41,12 @@ public class Image {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID();
+        }
+    }
 
 }
