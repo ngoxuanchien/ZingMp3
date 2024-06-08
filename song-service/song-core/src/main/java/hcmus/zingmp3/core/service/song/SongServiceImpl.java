@@ -17,10 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -84,7 +81,8 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the artist exists or not
         Set<UUID> artistIds = new HashSet<>();
-        request.artistIds()
+        Optional.ofNullable(request.artistIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(artistService::getById)
                 .map(artist -> UUID.fromString(artist.getId()))
@@ -92,7 +90,8 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the composer exists or not
         Set<UUID> composerIds = new HashSet<>();
-        request.composerIds()
+        Optional.ofNullable(request.composerIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(artistService::getById)
                 .map(artist -> UUID.fromString(artist.getId()))
@@ -100,13 +99,16 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
-        request.genreIds().stream()
+        Optional.ofNullable(request.genreIds())
+                .orElse(Collections.emptySet())
+                .stream()
                 .map(genreService::getById)
                 .forEach(genres::add);
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();
-        request.mediaIds()
+        Optional.ofNullable(request.mediaIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(mediaService::getById)
                 .map(media -> UUID.fromString(media.getId()))
@@ -130,7 +132,8 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the artist exists or not
         Set<UUID> artistIds = new HashSet<>();
-        request.artistIds()
+        Optional.ofNullable(request.artistIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(artistService::getById)
                 .map(artist -> UUID.fromString(artist.getId()))
@@ -138,7 +141,8 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the composer exists or not
         Set<UUID> composerIds = new HashSet<>();
-        request.composerIds()
+        Optional.ofNullable(request.composerIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(artistService::getById)
                 .map(artist -> UUID.fromString(artist.getId()))
@@ -146,13 +150,16 @@ public class SongServiceImpl implements SongService {
 
         // todo: check the genre exists or not
         Set<Genre> genres = new HashSet<>();
-        request.genreIds().stream()
+        Optional.ofNullable(request.genreIds())
+                .orElse(Collections.emptySet())
+                .stream()
                 .map(genreService::getById)
                 .forEach(genres::add);
 
         // todo: check the media exists or not
         Set<UUID> mediaIds = new HashSet<>();
-        request.mediaIds()
+        Optional.ofNullable(request.mediaIds())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(mediaService::getById)
                 .map(media -> UUID.fromString(media.getId()))

@@ -10,7 +10,7 @@ message MediaGrpcRequest {
 
 message MediaGrpcResponse {
   string id = 1;
-  repeated string urls = 2;
+  string url = 2;
 }
 
 service MediaGrpcService {

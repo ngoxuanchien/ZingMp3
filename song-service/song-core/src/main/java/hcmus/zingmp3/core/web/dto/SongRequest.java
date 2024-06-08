@@ -59,13 +59,9 @@ public record SongRequest(
         )
         SongStatus status,
 
-        @Null(
-                message = "ReleaseDate must be null",
-                groups = {OnCreate.class}
-        )
         @NotNull(
                 message = "ReleaseDate must not be null",
-                groups = {OnUpdate.class}
+                groups = {OnUpdate.class, OnCreate.class}
         )
         Integer releaseDate,
 
