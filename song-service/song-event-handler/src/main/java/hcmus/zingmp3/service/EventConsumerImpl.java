@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SongEventConsumerImpl implements SongEventConsumer {
+public class EventConsumerImpl implements EventConsumer {
 
     private final Map<String, EventHandler> factories;
 

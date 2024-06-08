@@ -1,5 +1,5 @@
 package hcmus.zingmp3.service;
 
-public interface SongEventConsumer {
+public interface EventConsumer {
     void process(String payload);
 }

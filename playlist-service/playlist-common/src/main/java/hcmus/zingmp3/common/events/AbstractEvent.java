@@ -2,6 +2,7 @@ package hcmus.zingmp3.common.events;
 
 
 import hcmus.zingmp3.common.domain.model.ObjectConverter;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedBy;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -31,6 +33,13 @@ public abstract class AbstractEvent implements Event {
 
     @CreationTimestamp
     private LocalDateTime timestamp;
+
+//    @CreatedBy
+//    @Column(
+//            nullable = false,
+//            updatable = false
+//    )
+//    private UUID createdBy;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = ObjectConverter.class)

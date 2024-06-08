@@ -31,7 +31,7 @@ public record SongRequest(
                 min = 1,
                 max = 255,
                 message = "Alias must be between {min} and {max} characters",
-                groups = {OnCreate.class, OnUpdate.class}
+                groups = {OnCreate.class}
         )
         String alias,
 

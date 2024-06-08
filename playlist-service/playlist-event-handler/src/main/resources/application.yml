@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: playlist-event-handler
+  datasource:
+    url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
+    username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
+    password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
+    server: ${SPRING_DATASOURCE_SERVER:localhost}
+    port: ${SPRING_DATASOURCE_PORT:3338}
+    name: ${SPRING_DATASOURCE_NAME:playlist_service}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  threads:
+    virtual:
+      enabled: true
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: ${GROUP_ID:playlist-service}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER:localhost}:${EUREKA_PORT:8761}/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+    ip-address: ${HOST_IP:localhost}
+server:
+  port: ${SERVER_EVENT_PORT:0}
+kafka:
+  topic:
+    name: ${KAFKA_TOPIC:playlist-service}

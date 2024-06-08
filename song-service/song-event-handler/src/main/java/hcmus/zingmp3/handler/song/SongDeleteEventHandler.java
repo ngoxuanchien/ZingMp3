@@ -8,7 +8,6 @@ import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.song.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component("SONG_DELETE")
 @RequiredArgsConstructor
