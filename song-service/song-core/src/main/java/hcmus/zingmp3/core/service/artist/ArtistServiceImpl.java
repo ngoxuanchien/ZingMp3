@@ -30,4 +30,19 @@ public class ArtistServiceImpl implements ArtistService {
             throw e;
         }
     }
+
+    @Override
+    public boolean isExist(UUID uuid) {
+        try {
+            var request = ArtistGrpcRequest.newBuilder().setId(uuid.toString()).build();
+            artistClient.getArtistById(request);
+            return true;
+
+        } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
+                return false;
+            }
+            throw e;
+        }
+    }
 }

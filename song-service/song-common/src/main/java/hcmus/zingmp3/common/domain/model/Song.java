@@ -35,13 +35,15 @@ public class Song {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private Set<UUID> artistIds;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
             name = "song_genre",
-            joinColumns = @JoinColumn(name = "song_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
+            joinColumns = @JoinColumn(name = "song_id")
     )
-    private Set<Genre> genres;
+    @Column(name = "genre_id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private Set<UUID> genreIds;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "song_composer", joinColumns = @JoinColumn(name = "song_id"))

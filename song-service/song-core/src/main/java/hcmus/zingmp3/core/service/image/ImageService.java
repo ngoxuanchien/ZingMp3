@@ -5,6 +5,6 @@ import hcmus.zingmp3.image.ImageGrpcResponse;
 import java.util.UUID;
 
 public interface ImageService {
-    boolean isExist(UUID uuid);
+    boolean existsById(UUID uuid);
     ImageGrpcResponse getById(UUID id);
 }

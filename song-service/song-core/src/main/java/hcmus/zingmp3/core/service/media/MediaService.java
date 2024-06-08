@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface MediaService {
     MediaGrpcResponse getById(UUID id);
+    boolean isExists(UUID id);
 }

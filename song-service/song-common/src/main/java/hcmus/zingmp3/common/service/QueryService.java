@@ -10,6 +10,8 @@ public interface QueryService<T> {
 
     T getByAlias(String alias);
 
+    boolean existsById(UUID id);
+
     boolean existsByAlias(String alias);
 
     List<T> getAll(Pageable pageable);

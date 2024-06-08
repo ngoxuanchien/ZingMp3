@@ -9,6 +9,7 @@ import hcmus.zingmp3.core.web.dto.GenreResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface GenreService extends CommandService<Genre>, QueryService<Genre> {
@@ -25,4 +26,6 @@ public interface GenreService extends CommandService<Genre>, QueryService<Genre>
     void deleteGenre(UUID genreId);
 
     GenreResponse updateGenre(GenreRequest request);
+
+    Set<GenreResponse> getAllGenres(Set<UUID> genreIds);
 }

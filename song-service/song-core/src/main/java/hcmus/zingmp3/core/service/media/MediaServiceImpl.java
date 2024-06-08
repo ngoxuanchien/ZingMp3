@@ -30,4 +30,18 @@ public class MediaServiceImpl implements MediaService {
             throw e;
         }
     }
+
+    @Override
+    public boolean isExists(UUID id) {
+        try {
+            var request = MediaGrpcRequest.newBuilder().setId(id.toString()).build();
+            mediaClient.getById(request);
+            return true;
+        } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
+                return false;
+            }
+            throw e;
+        }
+    }
 }

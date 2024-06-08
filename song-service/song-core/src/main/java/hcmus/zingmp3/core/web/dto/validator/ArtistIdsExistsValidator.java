@@ -1,0 +1,34 @@
+package hcmus.zingmp3.core.web.dto.validator;
+
+import hcmus.zingmp3.core.service.artist.ArtistService;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Set;
+import java.util.UUID;
+
+@RequiredArgsConstructor
+public class ArtistIdsExistsValidator implements ConstraintValidator<ArtistIdsExists, Set<UUID>> {
+
+    private final ArtistService artistService;
+
+    @Override
+    public boolean isValid(Set<UUID> artistIds, ConstraintValidatorContext context) {
+        if (artistIds == null) {
+            return true;
+        }
+
+        for (UUID artistId : artistIds) {
+           if (!artistService.isExist(artistId)) {
+               context.disableDefaultConstraintViolation();
+               context.buildConstraintViolationWithTemplate(
+                            String.format("Artist with id %s does not exist", artistId)
+                       )
+                       .addConstraintViolation();
+               return false;
+           }
+        }
+        return true;
+    }
+}

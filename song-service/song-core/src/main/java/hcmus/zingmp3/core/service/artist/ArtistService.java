@@ -7,4 +7,6 @@ import java.util.UUID;
 public interface ArtistService {
 
     ArtistGrpcResponse getById(UUID uuid);
+
+    boolean isExist(UUID uuid);
 }

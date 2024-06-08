@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +32,11 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre getByAlias(String alias) {
         return queryService.getByAlias(alias);
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return queryService.existsById(id);
     }
 
     @Override
@@ -108,6 +115,18 @@ public class GenreServiceImpl implements GenreService {
         merge(genre, request);
         update(genre);
         return mapper.toDto(genre);
+    }
+
+    @Override
+    public Set<GenreResponse> getAllGenres(Set<UUID> genreIds) {
+        if (genreIds == null) {
+            return Set.of();
+        }
+
+        return genreIds.stream()
+                .map(this::getById)
+                .map(mapper::toDto)
+                .collect(Collectors.toSet());
     }
 
     private void merge(Genre genre, GenreRequest request) {

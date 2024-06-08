@@ -1,10 +1,12 @@
 package hcmus.zingmp3.core.web.dto;
 
 import hcmus.zingmp3.common.domain.model.SongStatus;
-import jakarta.persistence.SecondaryTable;
+import hcmus.zingmp3.core.web.dto.validator.ArtistIdsExists;
+import hcmus.zingmp3.core.web.dto.validator.GenreExists;
+import hcmus.zingmp3.core.web.dto.validator.ImageExists;
+import hcmus.zingmp3.core.web.dto.validator.MediaIdsExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
@@ -18,8 +20,12 @@ public record SongRequest(
         UUID id,
 
         @NotNull(
-                message = "Name must not be null",
-                groups = {OnCreate.class, OnUpdate.class}
+                message = "Alias must not be null",
+                groups = {OnCreate.class}
+        )
+        @Null(
+                message = "Alias must be null",
+                groups = {OnUpdate.class}
         )
         @Length(
                 min = 1,
@@ -45,12 +51,24 @@ public record SongRequest(
                 message = "ThumbnailId must not be null",
                 groups = {OnUpdate.class}
         )
+        @ImageExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         UUID thumbnailId,
 
+        @ArtistIdsExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         Set<UUID> artistIds,
 
+        @GenreExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         Set<UUID> genreIds,
 
+        @ArtistIdsExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         Set<UUID> composerIds,
 
         @Null(
@@ -85,6 +103,9 @@ public record SongRequest(
         )
         String lyric,
 
+        @MediaIdsExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         Set<UUID> mediaIds
 ) {
 }

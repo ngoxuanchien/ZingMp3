@@ -33,6 +33,11 @@ public class SongQueryServiceImpl implements SongQueryService {
     }
 
     @Override
+    public boolean existsById(UUID id) {
+        return repository.existsById(id);
+    }
+
+    @Override
     public boolean existsByAlias(String alias) {
         return repository.existsByAlias(alias);
     }

@@ -18,7 +18,7 @@ public class ImageServiceImpl implements ImageService {
     ImageServiceGrpc.ImageServiceBlockingStub imageClient;
 
     @Override
-    public boolean isExist(UUID uuid) {
+    public boolean existsById(UUID uuid) {
         var request = ImageGrpcRequest
                 .newBuilder()
                 .setId(uuid.toString())
