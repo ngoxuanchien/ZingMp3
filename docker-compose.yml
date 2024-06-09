@@ -294,6 +294,9 @@ services:
       - "8081:8081"
     networks:
       zingmp3-net:
+    depends_on:
+      artist-core:
+        condition: service_healthy
     environment:
       SERVER_PORT: 8081
       SERVER_HOST: nxc-hcmus.me:8081
@@ -393,6 +396,12 @@ services:
       - "9003:9003"
     networks:
       zingmp3-net:
+    healthcheck:
+      test: "curl --fail --silent localhost:8003/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -423,6 +432,8 @@ services:
     image: ngoxuanchien/artist-event-handler
     depends_on:
       mysql-artist:
+        condition: service_healthy
+      artist-core:
         condition: service_healthy
     networks:
       zingmp3-net:

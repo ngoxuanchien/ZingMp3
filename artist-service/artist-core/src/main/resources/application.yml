@@ -64,6 +64,10 @@ grpc:
 kafka:
   topic:
     name: ${KAFKA_TOPIC:artist-service}
+management:
+  endpoint:
+    health:
+      show-details: never
 keycloak:
   resource-id: "music-service"
   token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/auth/realms/zing-mp3/protocol/openid-connect/token}
