@@ -333,8 +333,6 @@ services:
     depends_on:
       mysql-image:
         condition: service_healthy
-      keycloak:
-        condition: service_healthy
     image: ngoxuanchien/image-service
     restart: always
     networks:
