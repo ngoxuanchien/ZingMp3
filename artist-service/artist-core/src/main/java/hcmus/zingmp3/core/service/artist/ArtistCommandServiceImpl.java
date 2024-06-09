@@ -1,9 +1,7 @@
 package hcmus.zingmp3.core.service.artist;
 
 import hcmus.zingmp3.common.domain.model.Artist;
-import hcmus.zingmp3.common.events.ArtistCreateEvent;
-import hcmus.zingmp3.common.events.ArtistDeleteEvent;
-import hcmus.zingmp3.common.events.ArtistUpdateEvent;
+import hcmus.zingmp3.common.events.*;
 import hcmus.zingmp3.core.service.event.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,22 @@ public class ArtistCommandServiceImpl implements ArtistCommandService {
             final Artist object
     ) {
         ArtistDeleteEvent event = new ArtistDeleteEvent(object);
+        eventService.create(event);
+    }
+
+    @Override
+    public void approve(
+            final Artist artist
+    ) {
+        ArtistApprovedEvent event = new ArtistApprovedEvent(artist);
+        eventService.create(event);
+    }
+
+    @Override
+    public void reject(
+            final Artist artist
+    ) {
+        ArtistRejectedEvent event = new ArtistRejectedEvent(artist);
         eventService.create(event);
     }
 }

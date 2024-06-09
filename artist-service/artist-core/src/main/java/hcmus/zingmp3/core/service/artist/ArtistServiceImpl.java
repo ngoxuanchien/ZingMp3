@@ -76,7 +76,6 @@ public class ArtistServiceImpl implements ArtistService {
 
         Artist artist = artistMapper.toEntity(request);
         artist.setId(UUID.randomUUID());
-        artist.setStatus(ArtistStatus.APPROVAL_PENDING);
 
         if (artist.getThumbnailId() == null) {
             artist.setThumbnailId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
@@ -116,10 +115,6 @@ public class ArtistServiceImpl implements ArtistService {
             artist.setThumbnailId(request.thumbnailId());
         }
 
-        if (request.status() != null) {
-            artist.setStatus(request.status());
-        }
-
         if (StringUtils.isNotEmpty(request.name())) {
             artist.setName(request.name());
         }
@@ -143,15 +138,15 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public void approveArtist(String alias) {
         Artist artist = getByAlias(alias);
-        artist.setStatus(ArtistStatus.APPROVED);
-        update(artist);
+        artist.approve();
+        commandService.approve(artist);
     }
 
     @Override
     public void rejectArtist(String alias) {
         Artist artist = getByAlias(alias);
-        artist.setStatus(ArtistStatus.REJECTED);
-        update(artist);
+        artist.reject();
+        commandService.reject(artist);
     }
 
     @Override

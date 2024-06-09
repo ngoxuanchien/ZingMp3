@@ -44,16 +44,6 @@ public record ArtistRequest(
         )
         UUID thumbnailId,
 
-        @Null(
-                message = "Status must be null.",
-                groups = OnCreate.class
-        )
-        @NotNull(
-                message = "Status must be not null.",
-                groups = OnUpdate.class
-        )
-        ArtistStatus status,
-
         @NotNull(
                 message = "Name is required",
                 groups = {

@@ -22,6 +22,8 @@ public class ArtistDeleteEventHandler implements EventHandler {
         );
 
         Artist artist = (Artist) event.getPayload();
+        artist.setLastModifiedBy(event.getCreatedBy());
+        artist.setLastModifiedDate(event.getTimestamp());
         artistService.delete(artist);
     }
 }

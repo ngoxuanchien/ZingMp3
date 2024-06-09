@@ -3,29 +3,29 @@ package hcmus.zingmp3.handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import hcmus.zingmp3.common.domain.model.Artist;
-import hcmus.zingmp3.common.events.ArtistCreateEvent;
+import hcmus.zingmp3.common.events.ArtistApprovedEvent;
+import hcmus.zingmp3.common.events.ArtistRejectedEvent;
 import hcmus.zingmp3.service.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-@Component("ARTIST_CREATE")
+@Component("ARTIST_REJECTED")
 @RequiredArgsConstructor
-public class ArtistCreateEventHandler implements EventHandler {
+public class ArtistRejectedEventHandler implements EventHandler {
 
     private final ArtistService artistService;
     private final Gson gson;
 
     @Override
     public void handle(JsonObject object) {
-        ArtistCreateEvent event = gson.fromJson(
+        ArtistRejectedEvent event = gson.fromJson(
                 object,
-                ArtistCreateEvent.class
+                ArtistRejectedEvent.class
         );
 
         Artist artist = gson.fromJson(gson.toJsonTree(event.getPayload()), Artist.class);
-        artist.setCreateBy(event.getCreatedBy());
-        artist.setCreateDate(event.getTimestamp());
+        artist.setLastModifiedBy(event.getCreatedBy());
+        artist.setLastModifiedDate(event.getTimestamp());
         artistService.create(artist);
     }
 }

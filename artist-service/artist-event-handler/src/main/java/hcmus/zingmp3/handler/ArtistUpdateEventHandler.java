@@ -22,6 +22,8 @@ public class ArtistUpdateEventHandler implements EventHandler {
         );
 
         Artist artist = gson.fromJson(gson.toJsonTree(event.getPayload()), Artist.class);
+        artist.setLastModifiedBy(event.getCreatedBy());
+        artist.setLastModifiedDate(event.getTimestamp());
         artistService.update(artist);
     }
 }

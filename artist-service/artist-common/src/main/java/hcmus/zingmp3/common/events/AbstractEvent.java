@@ -9,8 +9,11 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.EventListener;
 import java.util.UUID;
 
 @Table(name = "events")
@@ -18,6 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractEvent implements Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +36,10 @@ public abstract class AbstractEvent implements Event {
     @CreationTimestamp
     private LocalDateTime timestamp;
 
+    @CreatedBy
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID createdBy;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = ObjectConverter.class)
     private Object payload;
@@ -45,5 +53,4 @@ public abstract class AbstractEvent implements Event {
         this.type = type;
         this.payload = payload;
     }
-
 }

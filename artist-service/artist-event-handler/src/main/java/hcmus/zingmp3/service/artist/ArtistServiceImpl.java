@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 public class ArtistServiceImpl implements ArtistService {
     private final ArtistRepository repository;
     @Override
-    public Artist create(
+    public void create(
             final Artist artist
     ) {
-        return repository.save(artist);
+        repository.save(artist);
     }
 
     @Override
-    public Artist update(Artist artist) {
-        return repository.save(artist);
+    public void update(Artist artist) {
+        repository.save(artist);
     }
 
     @Override
