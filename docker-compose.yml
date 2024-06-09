@@ -28,7 +28,7 @@ services:
     networks:
       zingmp3-net:
     healthcheck:
-      test: [ "CMD", "curl", "--head", "fsS", "http://localhost:8080/health/ready" ]
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e \"GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3"]
       interval: 5s
       timeout: 2s
       retries: 15
