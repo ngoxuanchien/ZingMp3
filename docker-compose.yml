@@ -16,6 +16,7 @@ services:
       KC_DB_URL_PORT: 3307
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak-secret
+      KC_HEALTH_ENABLED: true
     ports:
       - "8080:8080"
     depends_on:
@@ -26,6 +27,11 @@ services:
       - ./keycloak/realms:/opt/keycloak/data/import
     networks:
       zingmp3-net:
+    healthcheck:
+      test: [ "CMD", "curl", "--head", "fsS", "http://localhost:8080/health/ready" ]
+      interval: 5s
+      timeout: 2s
+      retries: 15
 
   mysql-keycloak:
     container_name: mysql-keycloak
@@ -297,6 +303,8 @@ services:
     depends_on:
       artist-core:
         condition: service_healthy
+      keycloak:
+        condition: service_healthy
     environment:
       SERVER_PORT: 8081
       SERVER_HOST: nxc-hcmus.me:8081
@@ -313,6 +321,9 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       zingmp3-net:
+    depends_on:
+      keycloak:
+        condition: service_healthy
 
   discovery-service:
     container_name: discovery-service
@@ -329,6 +340,8 @@ services:
     container_name: image-service
     depends_on:
       mysql-image:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     image: ngoxuanchien/image-service
     restart: always
@@ -358,6 +371,8 @@ services:
     container_name: media-service
     depends_on:
       mysql-media:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     image: ngoxuanchien/media-service
     networks:
@@ -389,6 +404,8 @@ services:
     image: ngoxuanchien/artist-core
     depends_on:
       mysql-artist:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     restart: always
     ports:
@@ -431,8 +448,6 @@ services:
     container_name: artist-event-handler
     image: ngoxuanchien/artist-event-handler
     depends_on:
-      mysql-artist:
-        condition: service_healthy
       artist-core:
         condition: service_healthy
     networks:
@@ -459,6 +474,8 @@ services:
     image: ngoxuanchien/song-core
     depends_on:
       mysql-song:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     restart: always
     ports:
@@ -520,6 +537,8 @@ services:
     image: ngoxuanchien/playlist-core
     depends_on:
       mysql-playlist:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     restart: always
     ports:
