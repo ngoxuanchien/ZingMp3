@@ -300,11 +300,6 @@ services:
       - "8081:8081"
     networks:
       zingmp3-net:
-    depends_on:
-      artist-core:
-        condition: service_healthy
-      keycloak:
-        condition: service_healthy
     environment:
       SERVER_PORT: 8081
       SERVER_HOST: nxc-hcmus.me:8081
@@ -321,9 +316,6 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       zingmp3-net:
-    depends_on:
-      keycloak:
-        condition: service_healthy
 
   discovery-service:
     container_name: discovery-service
@@ -372,8 +364,6 @@ services:
     depends_on:
       mysql-media:
         condition: service_healthy
-      keycloak:
-        condition: service_healthy
     image: ngoxuanchien/media-service
     networks:
       zingmp3-net:
@@ -404,8 +394,6 @@ services:
     image: ngoxuanchien/artist-core
     depends_on:
       mysql-artist:
-        condition: service_healthy
-      keycloak:
         condition: service_healthy
     restart: always
     ports:
@@ -475,8 +463,6 @@ services:
     depends_on:
       mysql-song:
         condition: service_healthy
-      keycloak:
-        condition: service_healthy
     restart: always
     ports:
       - "8005:8005"
@@ -537,8 +523,6 @@ services:
     image: ngoxuanchien/playlist-core
     depends_on:
       mysql-playlist:
-        condition: service_healthy
-      keycloak:
         condition: service_healthy
     restart: always
     ports:
