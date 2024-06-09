@@ -9,6 +9,7 @@ public record AudioResponseDto(
         String path,
         long size,
         long bitrate,
-        String url
+        String url,
+        double duration
 ) {
 }

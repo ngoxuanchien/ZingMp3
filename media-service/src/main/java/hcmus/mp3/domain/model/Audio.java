@@ -27,4 +27,5 @@ public class Audio {
     private String path;
     private long size;
     private long bitrate;
+    private double duration;
 }

@@ -20,7 +20,8 @@ public class AudioMapper {
                 entity.getPath(),
                 entity.getSize(),
                 entity.getBitrate(),
-                url + entity.getId()
+                url + entity.getId(),
+                entity.getDuration()
         );
     }
 

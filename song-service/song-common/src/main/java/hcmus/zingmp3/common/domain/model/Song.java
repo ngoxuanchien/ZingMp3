@@ -75,6 +75,8 @@ public class Song {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private Set<UUID> mediaIds;
 
+    private double duration;
+
     private UUID createdBy;
     private LocalDateTime createdAt;
     private UUID modifiedBy;

@@ -6,6 +6,8 @@ import hcmus.mp3.domain.model.Audio;
 import hcmus.mp3.repository.AudioRepository;
 import hcmus.mp3.web.dto.AudioResponseDto;
 import hcmus.mp3.web.dto.mapper.AudioMapper;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
@@ -15,6 +17,10 @@ import org.jaudiotagger.audio.AudioHeader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,6 +91,14 @@ public class AudioServiceImpl implements AudioService {
         }
     }
 
+    private double getDuration(String path) throws UnsupportedAudioFileException, IOException {
+        File file = new File(path);
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        return (frames+0.0) / format.getFrameRate();
+    }
+
     @Override
     public AudioResponseDto createAudio(MultipartFile audio) {
         if (!isAudioFile(audio)) {
@@ -95,20 +109,23 @@ public class AudioServiceImpl implements AudioService {
 
         String currentDate = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
         long bitrate = getBitrate(audio);
-        String filePath = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate, currentDate);
+        String path = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate, currentDate);
 
-        createDirectoryIfNotExists(filePath);
+        createDirectoryIfNotExists(path);
 
-        var entity = Audio.builder()
-                .name(audio.getOriginalFilename())
-                .type(audio.getContentType())
-                .path(filePath)
-                .size(audio.getSize())
-                .bitrate(bitrate)
-                .build();
+        Audio entity;
         try {
-            audio.transferTo(new File(filePath + entity.getName()).toPath());
-        } catch (IOException e) {
+            String filePath = path + audio.getOriginalFilename();
+            entity = Audio.builder()
+                    .name(audio.getOriginalFilename())
+                    .type(audio.getContentType())
+                    .path(path)
+                    .size(audio.getSize())
+                    .bitrate(bitrate)
+                    .duration(getDuration(filePath))
+                    .build();
+            audio.transferTo(new File(filePath).toPath());
+        } catch (IOException | UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         }
 

@@ -3,6 +3,7 @@ package hcmus.mp3.web.controller;
 import hcmus.mp3.service.media.AudioService;
 import hcmus.mp3.web.dto.AudioResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class AudioController {
     private final AudioService audioService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AudioResponseDto> createAudio(
             @RequestPart("audio") final MultipartFile audio
     ) {
