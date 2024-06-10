@@ -26,12 +26,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/artists/**").permitAll()
-                        .requestMatchers(HttpMethod.POST).hasAnyRole("DISTRIBUTOR", "ADMIN")
-                        .requestMatchers("/api/artists/approved/**", "/api/artists/rejected/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers(WHITELIST)
+                        .permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/artists/**")
+                        .permitAll()
+
+                        .requestMatchers(HttpMethod.POST)
+                        .hasAnyRole("DISTRIBUTOR", "ADMIN")
+
+                        .requestMatchers("/api/artists/approved/**", "/api/artists/rejected/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE)
+                        .hasRole("ADMIN")
+
+                        .anyRequest()
+                        .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthConverter)));

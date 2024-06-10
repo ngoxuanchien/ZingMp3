@@ -2,6 +2,7 @@ package hcmus.mp3.web.controller;
 
 import hcmus.mp3.service.media.AudioService;
 import hcmus.mp3.web.dto.AudioResponseDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class AudioController {
     private final AudioService audioService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<AudioResponseDto> createAudio(
             @RequestPart("audio") final MultipartFile audio
     ) {
@@ -36,6 +38,7 @@ public class AudioController {
         return ResponseEntity.ok(audioService.getAllAudio());
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{audio-id}")
     public ResponseEntity<Void> deleteAudio(
             @PathVariable("audio-id") final UUID audioId

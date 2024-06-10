@@ -3,20 +3,18 @@ package hcmus.zingmp3.core.service.artist;
 import hcmus.zingmp3.common.domain.exception.AliasIsExistsException;
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Artist;
-import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.common.service.artist.ArtistQueryService;
-import hcmus.zingmp3.core.service.image.ImageClientService;
+import hcmus.zingmp3.core.service.image.ImageService;
 import hcmus.zingmp3.core.web.dto.ArtistRequest;
 import hcmus.zingmp3.core.web.dto.ArtistResponse;
 import hcmus.zingmp3.core.web.dto.mapper.ArtistMapper;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +22,6 @@ public class ArtistServiceImpl implements ArtistService {
     private final ArtistQueryService queryService;
     private final ArtistCommandService commandService;
     private final ArtistMapper artistMapper;
-    private final ImageClientService imageClient;
 
     @Override
     public void create(Artist object) {
@@ -68,21 +65,11 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public ArtistResponse createArtist(ArtistRequest request) {
-        if (existsByAlias(request.alias())) {
-            throw new AliasIsExistsException(
-                    String.format("Alias %s is already exist", request.alias())
-            );
-        }
-
         Artist artist = artistMapper.toEntity(request);
         artist.setId(UUID.randomUUID());
 
         if (artist.getThumbnailId() == null) {
             artist.setThumbnailId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-        } else if (!imageClient.isImageExist(artist.getThumbnailId())) {
-            throw new ResourceNotFoundException(
-                    String.format("Thumbnail %s is not found", artist.getThumbnailId())
-            );
         }
 
         create(artist);
@@ -91,37 +78,24 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public ArtistResponse updateArtist(ArtistRequest request) {
-        // todo: check thumbnailId
         Artist artist = queryService.getById(request.id());
         merge(artist, request);
-        if (artist.getThumbnailId() == null) {
-            artist.setThumbnailId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-        } else if (!imageClient.isImageExist(artist.getThumbnailId())) {
-            throw new ResourceNotFoundException(
-                    String.format("Thumbnail %s is not found", artist.getThumbnailId())
-            );
-        }
 
         update(artist);
         return artistMapper.toDto(artist);
     }
 
+    private <T> void setIfNotNull(Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
     private void merge(Artist artist, ArtistRequest request) {
-        if (StringUtils.isNotEmpty(request.alias())) {
-            artist.setAlias(request.alias());
-        }
-
-        if (request.thumbnailId() != null) {
-            artist.setThumbnailId(request.thumbnailId());
-        }
-
-        if (StringUtils.isNotEmpty(request.name())) {
-            artist.setName(request.name());
-        }
-
-        if (StringUtils.isNotEmpty(request.realName())) {
-            artist.setRealName(request.realName());
-        }
+        setIfNotNull(artist::setAlias, request.alias());
+        setIfNotNull(artist::setName, request.name());
+        setIfNotNull(artist::setRealName, request.realName());
+        setIfNotNull(artist::setThumbnailId, request.thumbnailId());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package hcmus.zingmp3.core.web.dto;
 
 import hcmus.zingmp3.common.domain.model.ArtistStatus;
+import hcmus.zingmp3.core.web.dto.validator.artist.ArtistAliasNotExists;
+import hcmus.zingmp3.core.web.dto.validator.image.ImageExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
@@ -18,11 +20,13 @@ public record ArtistRequest(
         )
         UUID id,
 
+        @ArtistAliasNotExists(
+                groups = {OnCreate.class, OnUpdate.class}
+        )
         @NotNull(
                 message = "Alias is required",
                 groups = {
                         OnCreate.class,
-                        OnUpdate.class
                 }
         )
         @Length(
@@ -36,19 +40,15 @@ public record ArtistRequest(
         )
         String alias,
 
-        @NotNull(
-                message = "Thumbnail id is required",
-                groups = {
-                        OnUpdate.class
-                }
+        @ImageExists(
+                groups = {OnCreate.class, OnUpdate.class}
         )
         UUID thumbnailId,
 
         @NotNull(
                 message = "Name is required",
                 groups = {
-                        OnCreate.class,
-                        OnUpdate.class
+                        OnCreate.class
                 }
         )
         @Length(
@@ -65,8 +65,7 @@ public record ArtistRequest(
         @NotNull(
                 message = "Real name is required",
                 groups = {
-                        OnCreate.class,
-                        OnUpdate.class
+                        OnCreate.class
                 }
         )
         @Length(

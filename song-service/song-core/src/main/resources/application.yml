@@ -34,6 +34,7 @@ springdoc:
     oauth:
       client-id: ${KEYCLOAK_CLIENT_ID:song-service}
       client-secret: ${KEYCLOAK_CLIENT_SECRET:ghohHM6oyyOcGTZzyTC8Lyxh713XAKhg}
+    groups-order: asc
 server:
   port: ${SERVER_PORT:0}
 eureka:

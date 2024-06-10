@@ -97,4 +97,14 @@ public class ImageServiceImpl implements ImageService {
                         String.format("Image with the provided id: %s not found", uuid))
                 );
     }
+
+    @Override
+    public void deleteById(UUID uuid) {
+        var image = imageRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("Image with the provided id: %s not found", uuid))
+                );
+
+        imageRepository.delete(image);
+    }
 }

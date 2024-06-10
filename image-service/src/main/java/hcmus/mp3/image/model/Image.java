@@ -48,5 +48,4 @@ public class Image {
             this.id = UUID.randomUUID();
         }
     }
-
 }

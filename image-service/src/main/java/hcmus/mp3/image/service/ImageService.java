@@ -18,4 +18,6 @@ public interface ImageService {
     ImageResponseDto updateImage(UUID imageId, MultipartFile image);
 
     Image getByID(UUID uuid);
+
+    void deleteById(UUID uuid);
 }

@@ -3,6 +3,7 @@ package hcmus.mp3.image.controller;
 import hcmus.mp3.image.dto.ImageResponseDto;
 import hcmus.mp3.image.service.ImageService;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<ImageResponseDto> uploadImage(
             @RequestPart("image") MultipartFile image
     ) {
@@ -41,12 +43,22 @@ public class ImageController {
         return ResponseEntity.ok(imageService.getAllImages());
     }
 
-    @PutMapping(value = "/{image-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ImageResponseDto> updateImage(
-            @PathVariable("image-id") UUID imageId,
-            @RequestPart("image") MultipartFile image
+//    @SecurityRequirement(name = "Keycloak")
+//    @PutMapping(value = "/{image-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<ImageResponseDto> updateImage(
+//            @PathVariable("image-id") UUID imageId,
+//            @RequestPart("image") MultipartFile image
+//    ) {
+//        return ResponseEntity.status(ACCEPTED)
+//                .body(imageService.updateImage(imageId, image));
+//    }
+
+    @SecurityRequirement(name = "Keycloak")
+    @DeleteMapping("/{image-id}")
+    public ResponseEntity<Void> deleteImage(
+            @PathVariable("image-id") UUID imageId
     ) {
-        return ResponseEntity.status(ACCEPTED)
-                .body(imageService.updateImage(imageId, image));
+        imageService.deleteById(imageId);
+        return ResponseEntity.noContent().build();
     }
 }

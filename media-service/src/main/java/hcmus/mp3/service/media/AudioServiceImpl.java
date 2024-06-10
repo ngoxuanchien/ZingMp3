@@ -91,12 +91,13 @@ public class AudioServiceImpl implements AudioService {
         }
     }
 
-    private double getDuration(String path) throws UnsupportedAudioFileException, IOException {
-        File file = new File(path);
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-        AudioFormat format = audioInputStream.getFormat();
-        long frames = audioInputStream.getFrameLength();
-        return (frames+0.0) / format.getFrameRate();
+    private double getDuration(String filePath) {
+        try {
+            AudioFile audioFile = AudioFileIO.read(new File(filePath));
+            return audioFile.getAudioHeader().getTrackLength();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not read audio file: " + filePath, e);
+        }
     }
 
     @Override
@@ -122,10 +123,10 @@ public class AudioServiceImpl implements AudioService {
                     .path(path)
                     .size(audio.getSize())
                     .bitrate(bitrate)
-                    .duration(getDuration(filePath))
                     .build();
             audio.transferTo(new File(filePath).toPath());
-        } catch (IOException | UnsupportedAudioFileException e) {
+            entity.setDuration(getDuration(filePath));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 

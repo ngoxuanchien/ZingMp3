@@ -30,10 +30,6 @@ public record SongRequest(
                 message = "Alias must not be null",
                 groups = {OnCreate.class}
         )
-        @Null(
-                message = "Alias must be null",
-                groups = {OnUpdate.class}
-        )
         @Length(
                 min = 1,
                 max = 255,

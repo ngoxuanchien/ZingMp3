@@ -1,6 +1,7 @@
 package hcmus.mp3.web.controller;
 
 import hcmus.mp3.service.stream.AudioStreamService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

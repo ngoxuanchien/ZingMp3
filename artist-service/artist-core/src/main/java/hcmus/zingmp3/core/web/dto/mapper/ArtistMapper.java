@@ -1,30 +1,28 @@
 package hcmus.zingmp3.core.web.dto.mapper;
 
-import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Artist;
-import hcmus.zingmp3.core.service.image.ImageClientService;
+import hcmus.zingmp3.core.service.image.ImageService;
 import hcmus.zingmp3.core.web.dto.ArtistRequest;
 import hcmus.zingmp3.core.web.dto.ArtistResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class ArtistMapper {
-    private final ImageClientService imageClient;
+    private final ImageService imageClient;
 
     public ArtistResponse toDto(Artist artist) {
-        String thumbnailUrl = imageClient
-                .getImage(artist.getThumbnailId())
-                .getUrl();
+        if (artist == null) {
+            return null;
+        }
 
         return new ArtistResponse(
             artist.getId(),
             artist.getAlias(),
-            thumbnailUrl,
+            artist.getThumbnailId(),
             artist.getName(),
             artist.getRealName(),
             artist.getStatus(),
@@ -40,9 +38,9 @@ public class ArtistMapper {
         return Artist.builder()
                 .id(request.id())
                 .alias(request.alias())
+                .thumbnailId(request.thumbnailId())
                 .name(request.name())
                 .realName(request.realName())
-                .thumbnailId(request.thumbnailId())
                 .build();
     }
 
