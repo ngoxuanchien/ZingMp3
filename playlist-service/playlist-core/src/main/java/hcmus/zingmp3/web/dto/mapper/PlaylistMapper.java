@@ -12,17 +12,20 @@ import java.util.List;
 public class PlaylistMapper {
 
     public Playlist toEntity(PlaylistRequest dto) {
-        return Playlist.builder()
-                .id(dto.id())
+        var playlist = Playlist.builder()
                 .alias(dto.alias())
                 .title(dto.title())
-                .thumbnailId(dto.thumbnailId())
-                .type(dto.type())
                 .description(dto.description())
-                .artistIds(dto.artistIds())
-                .songIds(dto.songIds())
                 .isPublic(dto.isPublic())
                 .build();
+
+        playlist.setId(dto.id());
+        playlist.setThumbnailId(dto.thumbnailId());
+        playlist.setArtistIds(dto.artistIds());
+        playlist.setSongIds(dto.songIds());
+        playlist.setType(dto.type());
+
+        return playlist;
     }
 
     public PlaylistResponse toDto(Playlist entity) {
@@ -37,7 +40,9 @@ public class PlaylistMapper {
                 entity.getSongIds(),
                 entity.isPublic(),
                 entity.getCreatedBy(),
-                entity.getCreateDate()
+                entity.getCreatedDate(),
+                entity.getLastModifiedBy(),
+                entity.getLastModifiedDate()
         );
     }
 

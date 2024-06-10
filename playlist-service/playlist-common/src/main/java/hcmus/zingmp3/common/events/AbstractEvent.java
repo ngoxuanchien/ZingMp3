@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.Immutable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Immutable
 public abstract class AbstractEvent implements Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

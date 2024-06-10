@@ -19,6 +19,8 @@ public class PlaylistCreateEventHandler implements EventHandler {
     public void handle(JsonObject json) {
         var event = gson.fromJson(json, PlaylistCreateEvent.class);
         var playlist = gson.fromJson(gson.toJsonTree(event.getPayload()), Playlist.class);
+        playlist.setCreatedBy(event.getCreatedBy());
+        playlist.setCreatedDate(event.getTimestamp());
         playlistService.create(playlist);
     }
 }

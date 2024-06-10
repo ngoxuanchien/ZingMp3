@@ -13,16 +13,18 @@ import java.util.List;
 public class AlbumMapper {
 
     public Album toEntity(AlbumRequest dto) {
-        return Album.builder()
-                .id(dto.id())
+        var album = Album.builder()
                 .alias(dto.alias())
                 .title(dto.title())
                 .type(dto.type())
                 .description(dto.description())
-                .artistIds(dto.artistIds())
                 .releaseDate(dto.releaseDate())
-                .songIds(dto.songIds())
                 .build();
+
+        album.setId(dto.id());
+        album.setArtistIds(dto.artistIds());
+        album.setSongIds(dto.songIds());
+        return album;
     }
 
     public AlbumResponse toDto(Album entity) {
@@ -36,8 +38,10 @@ public class AlbumMapper {
                 entity.getReleaseDate(),
                 entity.getStatus(),
                 entity.getSongIds(),
-                entity.getCreateDate(),
-                entity.getDistributorId()
+                entity.getCreatedDate(),
+                entity.getCreatedBy(),
+                entity.getLastModifiedDate(),
+                entity.getLastModifiedBy()
         );
     }
 

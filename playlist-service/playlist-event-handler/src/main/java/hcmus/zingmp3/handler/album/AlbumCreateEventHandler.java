@@ -25,6 +25,8 @@ public class AlbumCreateEventHandler implements EventHandler {
         );
 
         var album = gson.fromJson(gson.toJsonTree(event.getPayload()), Album.class);
+        album.setCreatedBy(event.getCreatedBy());
+        album.setCreatedDate(event.getTimestamp());
         albumService.create(album);
     }
 }

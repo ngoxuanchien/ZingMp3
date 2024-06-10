@@ -19,6 +19,8 @@ public class PlaylistUpdateEventHandler implements EventHandler {
     public void handle(JsonObject json) {
         var event = gson.fromJson(json, PlaylistUpdateEvent.class);
         var playlist = gson.fromJson(gson.toJsonTree(event.getPayload()), Playlist.class);
+        playlist.setLastModifiedBy(event.getCreatedBy());
+        playlist.setLastModifiedDate(event.getTimestamp());
         playlistService.update(playlist);
     }
 }

@@ -5,6 +5,7 @@ import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
 import hcmus.zingmp3.web.dto.OnCreate;
 import hcmus.zingmp3.web.dto.OnUpdate;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ public class AlbumController {
     private final AlbumService albumService;
 
     @PostMapping
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<AlbumResponse> createAlbum(
             @RequestBody @Validated(OnCreate.class) AlbumRequest request
     ) {
@@ -64,12 +66,14 @@ public class AlbumController {
     }
 
     @PutMapping
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<AlbumResponse> updateAlbum(
             @RequestBody @Validated(OnUpdate.class) AlbumRequest request
     ) {
         return ResponseEntity.ok(albumService.updateAlbum(request));
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping("/approved/{album-alias}")
     public ResponseEntity<Void> approvedAlbum(
             @PathVariable("album-alias") String alias
@@ -78,6 +82,7 @@ public class AlbumController {
         return ResponseEntity.accepted().build();
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping("/rejected/{album-alias}")
     public ResponseEntity<Void> rejectedAlbum(
             @PathVariable("album-alias") String alias
@@ -86,6 +91,7 @@ public class AlbumController {
         return ResponseEntity.accepted().build();
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping("/released/{album-alias}")
     public ResponseEntity<Void> releasedAlbum(
             @PathVariable("album-alias") String alias
@@ -94,22 +100,23 @@ public class AlbumController {
         return ResponseEntity.accepted().build();
     }
 
-    @PutMapping("/remove-song/{album-id}/{song-id}")
-    public ResponseEntity<AlbumResponse> removeSongFromAlbum(
-            @PathVariable("album-id") UUID albumId,
-            @PathVariable("song-id") UUID songId
-    ) {
-        return ResponseEntity.accepted().body(albumService.removeSongFromAlbum(albumId, songId));
-    }
+//    @PutMapping("/remove-song/{album-id}/{song-id}")
+//    public ResponseEntity<AlbumResponse> removeSongFromAlbum(
+//            @PathVariable("album-id") UUID albumId,
+//            @PathVariable("song-id") UUID songId
+//    ) {
+//        return ResponseEntity.accepted().body(albumService.removeSongFromAlbum(albumId, songId));
+//    }
 
-    @PutMapping("/add-song/{album-id}/{song-id}")
-    public ResponseEntity<AlbumResponse> addSongToAlbum(
-            @PathVariable("album-id") UUID albumId,
-            @PathVariable("song-id") UUID songId
-    ) {
-        return ResponseEntity.accepted().body(albumService.addSongToAlbum(albumId, songId));
-    }
+//    @PutMapping("/add-song/{album-id}/{song-id}")
+//    public ResponseEntity<AlbumResponse> addSongToAlbum(
+//            @PathVariable("album-id") UUID albumId,
+//            @PathVariable("song-id") UUID songId
+//    ) {
+//        return ResponseEntity.accepted().body(albumService.addSongToAlbum(albumId, songId));
+//    }
 
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{album-id}")
     public ResponseEntity<Void> deleteAlbum(
             @PathVariable("album-id") UUID albumId

@@ -18,6 +18,8 @@ public record AlbumResponse(
         AlbumStatus status,
         Set<UUID> songIds,
         LocalDateTime createDate,
-        UUID distributorId
+        UUID createdBy,
+        LocalDateTime lastModifiedDate,
+        UUID lastModifiedBy
 ) {
 }

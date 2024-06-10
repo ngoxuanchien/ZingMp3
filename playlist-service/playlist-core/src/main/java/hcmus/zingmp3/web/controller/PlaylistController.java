@@ -4,6 +4,7 @@ import hcmus.zingmp3.service.playlist.PlaylistService;
 import hcmus.zingmp3.web.dto.OnCreate;
 import hcmus.zingmp3.web.dto.PlaylistRequest;
 import hcmus.zingmp3.web.dto.PlaylistResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
 
+    @SecurityRequirement(name = "Keycloak")
     @PostMapping
     public ResponseEntity<PlaylistResponse> createPlaylist(
           @RequestBody @Validated(OnCreate.class) PlaylistRequest request
@@ -62,6 +64,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getAllPlaylists());
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @PutMapping
     public ResponseEntity<PlaylistResponse> updatePlaylist(
             @RequestBody @Validated(OnCreate.class) PlaylistRequest request
@@ -69,6 +72,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.updatePlaylist(request));
     }
 
+    @SecurityRequirement(name = "Keycloak")
     @DeleteMapping("/{playlist-id}")
     public ResponseEntity<Void> deletePlaylist(
             @PathVariable("playlist-id") UUID playlistId

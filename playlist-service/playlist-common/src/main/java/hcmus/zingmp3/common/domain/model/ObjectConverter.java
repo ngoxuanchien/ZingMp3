@@ -3,10 +3,14 @@ package hcmus.zingmp3.common.domain.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 @Converter
+@RequiredArgsConstructor
 public class ObjectConverter implements AttributeConverter<Object, String> {
+
+    private final ObjectMapper objectMapper;
 
     @Override
     @SneakyThrows
@@ -14,7 +18,6 @@ public class ObjectConverter implements AttributeConverter<Object, String> {
             final Object object
     ) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
     }
 
@@ -22,7 +25,6 @@ public class ObjectConverter implements AttributeConverter<Object, String> {
     public Object convertToEntityAttribute(
             final String json
     ) {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.convertValue(json, Object.class);
     }
 }

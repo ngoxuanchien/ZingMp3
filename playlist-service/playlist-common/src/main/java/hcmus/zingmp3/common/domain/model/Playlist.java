@@ -59,7 +59,7 @@ public class Playlist {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedBy
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -94,19 +94,23 @@ public class Playlist {
         artistIds.remove(artistId);
     }
 
-//    public void setThumbnailId(UUID thumbnailId) {
-//        this.thumbnailId = Objects.requireNonNullElseGet(thumbnailId, UUID.fromString("00000000-0000-0000-0000-000000000000"));
-//    }
-//
-//    public void setId(UUID id) {
-//        this.id = id;
-//    }
-//
-//    public void setArtistIds(Set<UUID> artistIds) {
-//        this.artistIds = artistIds;
-//    }
-//
-//    public void setSongIds(Set<UUID> songIds) {
-//        this.songIds = songIds;
-//    }
+    public void setThumbnailId(UUID thumbnailId) {
+        this.thumbnailId = Objects.requireNonNullElse(thumbnailId, UUID.fromString("00000000-0000-0000-0000-000000000000"));
+    }
+
+    public void setId(UUID id) {
+        this.id = Objects.requireNonNullElseGet(id, UUID::randomUUID);
+    }
+
+    public void setArtistIds(Set<UUID> artistIds) {
+        this.artistIds = Objects.requireNonNullElseGet(artistIds, HashSet::new);
+    }
+
+    public void setSongIds(Set<UUID> songIds) {
+        this.songIds = Objects.requireNonNullElseGet(songIds, HashSet::new);
+    }
+
+    public void setType(PlaylistType type) {
+        this.type = Objects.requireNonNullElse(type, PlaylistType.USER_PLAYLIST);
+    }
 }

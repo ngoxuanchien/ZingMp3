@@ -21,6 +21,8 @@ public class AlbumRejectedEventHandler implements EventHandler {
     public void handle(JsonObject json) {
         var event = gson.fromJson(json, AlbumRejectedEvent.class);
         var album = gson.fromJson(gson.toJsonTree(event.getPayload()), Album.class);
+        album.setLastModifiedBy(event.getCreatedBy());
+        album.setLastModifiedDate(event.getTimestamp());
         albumService.update(album);
     }
 }

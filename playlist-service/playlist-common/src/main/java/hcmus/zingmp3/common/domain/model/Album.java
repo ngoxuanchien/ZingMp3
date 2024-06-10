@@ -4,9 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,7 +43,8 @@ public class Album {
     @CollectionTable(name = "album_artist", joinColumns = @JoinColumn(name = "album_id"))
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "artist_id")
-    private Set<UUID> artistIds;
+    @Builder.Default
+    private Set<UUID> artistIds = new HashSet<>();
 
     private LocalDateTime releaseDate;
 
@@ -51,11 +57,26 @@ public class Album {
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "song_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> songIds;
+    @Builder.Default
+    private Set<UUID> songIds = new HashSet<>();
 
-    private LocalDateTime createDate;
+    @CreatedBy
+    @Column(nullable = false, updatable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID createdBy;
 
-    private UUID distributorId;
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedBy
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(insertable = false)
+    private UUID lastModifiedBy;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     public void addSong(UUID songId) {
         if (songIds == null) {
@@ -84,5 +105,13 @@ public class Album {
 
     public void released() {
         status = AlbumStatus.RELEASED;
+    }
+
+    public void setSongIds(Set<UUID> songIds) {
+        this.songIds = Objects.requireNonNullElseGet(songIds, HashSet::new);
+    }
+
+    public void setArtistIds(Set<UUID> artistIds) {
+        this.artistIds = Objects.requireNonNullElseGet(artistIds, HashSet::new);
     }
 }

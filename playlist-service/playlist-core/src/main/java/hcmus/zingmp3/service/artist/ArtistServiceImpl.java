@@ -1,5 +1,6 @@
 package hcmus.zingmp3.service.artist;
 
+
 import hcmus.zingmp3.artist.ArtistRequestGrpc;
 import hcmus.zingmp3.artist.ArtistServiceGrpc;
 import io.grpc.StatusRuntimeException;

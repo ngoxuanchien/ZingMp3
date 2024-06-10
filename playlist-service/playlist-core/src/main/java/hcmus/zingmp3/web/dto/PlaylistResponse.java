@@ -17,6 +17,8 @@ public record PlaylistResponse(
         Set<UUID> songIds,
         boolean isPublic,
         UUID createdBy,
-        LocalDateTime createDate
+        LocalDateTime createDate,
+        UUID lastModifiedBy,
+        LocalDateTime lastModifiedDate
 ) {
 }

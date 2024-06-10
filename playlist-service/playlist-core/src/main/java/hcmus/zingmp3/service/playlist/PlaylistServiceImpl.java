@@ -64,8 +64,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     public PlaylistResponse createPlaylist(PlaylistRequest request) {
         var playlist = mapper.toEntity(request);
-        playlist.setId(UUID.randomUUID());
+
         create(playlist);
+
         return mapper.toDto(playlist);
     }
 
