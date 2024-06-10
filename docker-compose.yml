@@ -352,6 +352,9 @@ services:
     depends_on:
       mysql-user:
         condition: service_healthy
+    ports:
+      - "8006:8006"
+      - "9006:9006"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -360,6 +363,7 @@ services:
       SPRING_DATASOURCE_NAME: user_service
 
       SERVER_PORT: 8006
+      SERVER_GRPC_PORT: 9006
 
       KEYCLOAK_ISSUER_URI: http://nxc-hcmus.me:8080/realms/zing-mp3
       KEYCLOAK_URLS_AUTH: http://nxc-hcmus.me:8080
