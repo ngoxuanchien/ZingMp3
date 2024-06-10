@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package hcmus.zingmp3.user;
+
+message UserRequestGrpc {
+  string id = 1;
+}
+
+message UserResponseGrpc {
+  string id = 1;
+  string email = 2;
+}
+
+service UserService {
+  rpc getById(UserRequestGrpc) returns (UserResponseGrpc);
+}

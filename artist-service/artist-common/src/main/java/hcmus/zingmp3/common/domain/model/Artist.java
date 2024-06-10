@@ -43,7 +43,7 @@ public class Artist {
             nullable = false
     )
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private UUID createBy;
+    private UUID createdBy;
 
     @CreatedDate
     @Column(

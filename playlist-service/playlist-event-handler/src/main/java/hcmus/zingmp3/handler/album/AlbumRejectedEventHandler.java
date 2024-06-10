@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.domain.model.Album;
 import hcmus.zingmp3.common.events.album.AlbumRejectedEvent;
 import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.album.AlbumService;
+import hcmus.zingmp3.service.notification.EmailNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class AlbumRejectedEventHandler implements EventHandler {
 
     private final AlbumService albumService;
 
+    private final EmailNotificationService emailNotificationService;
+
     @Override
     public void handle(JsonObject json) {
         var event = gson.fromJson(json, AlbumRejectedEvent.class);
@@ -24,5 +27,7 @@ public class AlbumRejectedEventHandler implements EventHandler {
         album.setLastModifiedBy(event.getCreatedBy());
         album.setLastModifiedDate(event.getTimestamp());
         albumService.update(album);
+
+        emailNotificationService.sendEmail(album.getCreatedBy(), event.getType().name(), album.getAlias());
     }
 }

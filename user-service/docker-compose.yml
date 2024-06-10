@@ -1,55 +1,23 @@
-version: '3.8'
 services:
-  keycloak-mysql:
-    container_name: keycloak-mysql
+  mysql-user:
+    container_name: mysql-user
     image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: user_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3340
     volumes:
-      - ../database/mysql-keycloak:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: password
-    networks:
-      - zingmp3-net
-
-  keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:24.0.2
-    command: [ "start-dev", "--import-realm" ]
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: password
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      - ./database/user_service:/data/mysql
     ports:
-      - "8080:8080"
-    volumes:
-      - ../keycloak/realms:/opt/keycloak/data/import
-    depends_on:
-      - keycloak-mysql
+      - "3340:3340"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
     networks:
-      - zingmp3-net
-
-  user-service:
-    container_name: user-service
-#    image: ngoxuanchien/user-service:latest
-    image: user-service
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: on-failure
-    environment:
-      - EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service:8761/eureka
-      - KEYCLOAK_URL=http://keycloak:8080
-    networks:
-      - zingmp3-net
-    ports:
-      - "8181:8181"
-
+      zingmp3-net:
 networks:
   zingmp3-net:
     name: zingmp3-net

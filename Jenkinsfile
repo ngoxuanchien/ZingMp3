@@ -3,6 +3,10 @@ pipeline {
         label 'nxc-hcmus-1'
     }
 
+    environment {
+        EMAIL = credentials('nxc-email')
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -32,6 +36,18 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
+
+                        def emailUser = env.EMAIL_USR
+                        def emailPassword= env.EMAIL_PSW
+
+                        // Tạo file .env từ các biến môi trường
+                        def envContent = """
+                            MAIL_USERNAME=${emailUser}
+                            MAIL_PASSWORD=${emailPassword}
+                        """.stripIndent()
+
+                        writeFile file: '.env', text: envContent
+
                         sh 'sudo aa-remove-unknown'
                         sh 'docker-compose down -v'
 //                        sh 'rm -rf ./database'

@@ -1,38 +1,59 @@
 spring:
   application:
     name: user-service
+  datasource:
+    url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
+    username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
+    password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
+    server: ${SPRING_DATASOURCE_SERVER:localhost}
+    port: ${SPRING_DATASOURCE_PORT:3340}
+    name: ${SPRING_DATASOURCE_NAME:user_service}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  threads:
+    virtual:
+      enabled: true
   security:
     oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: user-service
-            client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/zing-mp3
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/zing-mp3}
 server:
-  port: 8083
+  port: ${SERVER_PORT:0}
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${EUREKA_SERVER:localhost}:${EUREKA_PORT:8761}/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+    ip-address: ${HOST_IP:localhost}
 keycloak:
-  domain: localhost
   realm: zing-mp3
   client-id: user-service
-  client-secret: jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x
-  urls:
-    auth: http://${keycloak.domain}:8080
-  token-url: http://localhost:8081/api/auth/token
   resource-id: user-service
-
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x}
+  urls:
+    auth: ${KEYCLOAK_URLS_AUTH:http://localhost:8080}
+  token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/api/auth/token}
 springdoc:
   swagger-ui:
-    oauth:
-      client-id: ${keycloak.client-id}
-      client-secret: ${keycloak.client-secret}
-    operations-sorter: method
     tags-sorter: alpha
+    operations-sorter: method
+    deep-linking: true
+    oauth:
+      client-id: ${KEYCLOAK_CLIENT_ID:user-service}
+      client-secret: ${KEYCLOAK_CLIENT_SECRET:jSLIfcd5eq2t6e0CzNid3QKUaQNP1m0x}
+grpc:
+  client:
+    image-service:
+      address: discovery:///image-service
+      negotiation-type: plaintext
+  server:
+    port: ${SERVER_GRPC_PORT:0}

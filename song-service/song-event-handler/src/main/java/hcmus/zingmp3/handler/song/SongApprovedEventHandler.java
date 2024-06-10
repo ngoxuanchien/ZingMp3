@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.common.events.song.SongApprovedEvent;
 import hcmus.zingmp3.handler.EventHandler;
+import hcmus.zingmp3.service.notification.EmailNotificationService;
 import hcmus.zingmp3.service.song.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 public class SongApprovedEventHandler implements EventHandler {
     private final SongService songService;
     private final Gson gson;
+
+    private final EmailNotificationService emailNotificationService;
     @Override
     public void handle(JsonObject json) {
         SongApprovedEvent event = gson.fromJson(
@@ -25,5 +28,7 @@ public class SongApprovedEventHandler implements EventHandler {
         song.setLastModifiedBy(event.getCreatedBy());
         song.setLastModifiedDate(event.getTimestamp());
         songService.create(song);
+
+        emailNotificationService.sendEmail(song.getCreatedBy(), event.getType().name(), song.getAlias());
     }
 }

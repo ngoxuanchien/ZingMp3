@@ -20,7 +20,7 @@ spring:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: ${GROUP_ID:playlist-service}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -41,3 +41,5 @@ server:
 kafka:
   topic:
     name: ${KAFKA_TOPIC:playlist-service}
+album:
+  url: ${ALBUM_URL:http://localhost:8080/api/albums}

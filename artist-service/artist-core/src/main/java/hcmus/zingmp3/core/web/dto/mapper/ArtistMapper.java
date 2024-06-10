@@ -26,7 +26,7 @@ public class ArtistMapper {
             artist.getName(),
             artist.getRealName(),
             artist.getStatus(),
-            artist.getCreateBy()
+            artist.getCreatedBy()
         );
     }
 

@@ -271,7 +271,44 @@ services:
       zingmp3-net:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-
+  mysql-notification:
+    container_name: mysql-notification
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: notification_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3339
+    volumes:
+      - ./database/notification_service:/data/mysql
+    ports:
+      - "3339:3339"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+    networks:
+      zingmp3-net:
+  mysql-user:
+    container_name: mysql-user
+    image: mysql
+    environment:
+      MYSQL_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: user_service
+      MYSQL_USER: zingmp3
+      MYSQL_PASSWORD: zingmp3
+      MYSQL_TCP_PORT: 3340
+    volumes:
+      - ./database/user_service:/data/mysql
+    ports:
+      - "3340:3340"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+    networks:
+      zingmp3-net:
   mysql-playlist:
     container_name: mysql-playlist
     image: mysql
@@ -312,8 +349,26 @@ services:
     container_name: user-service
     image: ngoxuanchien/user-service:latest
     restart: always
+    depends_on:
+      mysql-user:
+        condition: service_healthy
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-user
+      SPRING_DATASOURCE_PORT: 3340
+      SPRING_DATASOURCE_NAME: user_service
+
+      SERVER_PORT: 8006
+
+      KEYCLOAK_ISSUER_URI: http://nxc-hcmus.me:8080/realms/zing-mp3
+      KEYCLOAK_URLS_AUTH: http://nxc-hcmus.me:8080
+
+      HOST_IP: 192.168.1.17
+      EUREKA_SERVER: discovery-service
+      EUREKA_PORT: 8761
+
+      KEYCLOAK_TOKEN: http://nxc-hcmus.me:8081/api/auth/token
     networks:
       zingmp3-net:
 
@@ -510,8 +565,6 @@ services:
     networks:
       zingmp3-net:
     restart: always
-#    ports:
-#      - "8006:8006"
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
@@ -521,7 +574,6 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       HOST_IP: 192.168.1.17
-#      SERVER_PORT: 8006
 
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
@@ -580,3 +632,23 @@ services:
 
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       KAFKA_TOPIC: playlist-service
+
+  notification-core:
+    container_name: notification-core
+    image: ngoxuanchien/notification-core
+    depends_on:
+      mysql-notification:
+        condition: service_healthy
+    restart: always
+    networks:
+      zingmp3-net:
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+      SERVER_PORT: 0
+
+      BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+      EUREKA_PORT: 8761
+      EUREKA_SERVER: discovery-service
+

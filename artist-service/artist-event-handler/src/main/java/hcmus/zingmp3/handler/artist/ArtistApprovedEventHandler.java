@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.domain.model.Artist;
 import hcmus.zingmp3.common.events.ArtistApprovedEvent;
 import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.artist.ArtistService;
+import hcmus.zingmp3.service.notification.EmailNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class ArtistApprovedEventHandler implements EventHandler {
 
     private final ArtistService artistService;
     private final Gson gson;
+    private final EmailNotificationService emailNotificationService;
 
     @Override
     public void handle(JsonObject object) {
@@ -27,5 +29,7 @@ public class ArtistApprovedEventHandler implements EventHandler {
         artist.setLastModifiedBy(event.getCreatedBy());
         artist.setLastModifiedDate(event.getTimestamp());
         artistService.create(artist);
+
+        emailNotificationService.sendEmail(artist.getCreatedBy(), event.getType().name(), artist.getAlias());
     }
 }
