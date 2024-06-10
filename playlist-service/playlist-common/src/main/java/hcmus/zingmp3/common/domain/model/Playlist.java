@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -50,11 +52,25 @@ public class Playlist {
 
     private boolean isPublic;
 
+    @CreatedBy
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(nullable = false, updatable = false)
     private UUID createdBy;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;
 
-    void addSong(UUID songId) {
+    @LastModifiedBy
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(insertable = false)
+    private UUID lastModifiedBy;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
+
+    public void addSong(UUID songId) {
         if (songIds == null) {
             songIds = new HashSet<>();
         }
@@ -62,11 +78,11 @@ public class Playlist {
         songIds.add(songId);
     }
 
-    void removeSong(UUID songId) {
+    public void removeSong(UUID songId) {
         songIds.remove(songId);
     }
 
-    void addArtist(UUID artistId) {
+    public void addArtist(UUID artistId) {
         if (artistIds == null) {
             artistIds = new HashSet<>();
         }
@@ -74,7 +90,23 @@ public class Playlist {
         artistIds.add(artistId);
     }
 
-    void removeArtist(UUID artistId) {
+    public void removeArtist(UUID artistId) {
         artistIds.remove(artistId);
     }
+
+//    public void setThumbnailId(UUID thumbnailId) {
+//        this.thumbnailId = Objects.requireNonNullElseGet(thumbnailId, UUID.fromString("00000000-0000-0000-0000-000000000000"));
+//    }
+//
+//    public void setId(UUID id) {
+//        this.id = id;
+//    }
+//
+//    public void setArtistIds(Set<UUID> artistIds) {
+//        this.artistIds = artistIds;
+//    }
+//
+//    public void setSongIds(Set<UUID> songIds) {
+//        this.songIds = songIds;
+//    }
 }

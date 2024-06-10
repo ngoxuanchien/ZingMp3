@@ -18,7 +18,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
-            "/webjars/**"
+            "/webjars/**",
+            "/actuator/**",
     };
 
     @Bean
@@ -27,14 +28,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(WHITELIST)
                         .permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/songs/**", "/api/genres/**")
                         .permitAll()
+
                         .requestMatchers(HttpMethod.POST)
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
+
                         .requestMatchers("/api/songs/approved/**", "/api/songs/rejected/**", "/api/songs/released/**")
                         .hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.DELETE)
                         .hasRole("ADMIN")
+
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2

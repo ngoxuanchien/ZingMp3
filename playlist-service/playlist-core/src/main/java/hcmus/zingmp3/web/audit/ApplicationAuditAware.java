@@ -1,4 +1,4 @@
-package hcmus.zingmp3.core.web.audit;
+package hcmus.zingmp3.web.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

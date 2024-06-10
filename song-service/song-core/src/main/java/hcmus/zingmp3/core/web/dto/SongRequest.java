@@ -70,10 +70,10 @@ public record SongRequest(
         )
         Set<UUID> composerIds,
 
-        @NotNull(
-                message = "ReleaseDate must not be null",
-                groups = {OnCreate.class}
-        )
+//        @NotNull(
+//                message = "ReleaseDate must not be null",
+//                groups = {OnCreate.class}
+//        )
         Integer releaseDate,
 
         @Null(

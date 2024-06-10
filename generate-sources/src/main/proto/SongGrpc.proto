@@ -32,9 +32,9 @@ message SongResponseGrpc {
   string lyric = 12;
   repeated string mediaIds = 13;
   string createdBy = 14;
-  string createdAt = 15;
-  string modifiedBy = 16;
-  string modifiedAt = 17;
+  string createdDate = 15;
+  string lastModifiedBy = 16;
+  string lastModifiedDate = 17;
 }
 
 service SongService {

@@ -72,16 +72,7 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongResponse createSong(SongRequest request) {
-        // todo: implement this method
-
-        if (queryService.existsByAlias(request.alias())) {
-            throw new ResourceAlreadyExistsException(
-                    String.format("Song with alias %s already exists", request.alias())
-            );
-        }
-
         Song song = mapper.toEntity(request);
-        song.setId(UUID.randomUUID());
 
         create(song);
 

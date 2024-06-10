@@ -23,6 +23,8 @@ public class SongDeleteEventHandler implements EventHandler {
         );
 
         Song song = gson.fromJson(gson.toJsonTree(event.getPayload()), Song.class);
+        song.setLastModifiedBy(event.getCreatedBy());
+        song.setLastModifiedDate(event.getTimestamp());
         songService.delete(song);
     }
 }

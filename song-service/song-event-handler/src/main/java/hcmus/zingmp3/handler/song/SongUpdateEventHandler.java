@@ -8,7 +8,6 @@ import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.song.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component("SONG_UPDATE")
 @RequiredArgsConstructor
@@ -24,6 +23,8 @@ public class SongUpdateEventHandler implements EventHandler {
         );
 
         Song song = gson.fromJson(gson.toJsonTree(event.getPayload()), Song.class);
+        song.setLastModifiedBy(event.getCreatedBy());
+        song.setLastModifiedDate(event.getTimestamp());
         songService.update(song);
     }
 }

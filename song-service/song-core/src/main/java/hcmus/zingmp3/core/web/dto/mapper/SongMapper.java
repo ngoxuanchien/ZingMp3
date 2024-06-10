@@ -16,42 +16,24 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class SongMapper {
-    private final GenreMapper genreMapper;
-    private final GenreService genreService;
 
     public Song toEntity(SongRequest request) {
-        var builder = Song.builder()
-                .id(request.id())
+        var song = Song.builder()
                 .alias(request.alias())
                 .title(request.title())
-                .lyric(request.lyric());
+                .lyric(request.lyric())
+                .build();
 
-        builder.artistIds(
-                Optional.ofNullable(
-                        request.artistIds())
-                              .orElse(Set.of()));
-
-        builder.composerIds(
-                Optional.ofNullable(
-                        request.composerIds())
-                                .orElse(Set.of()));
-
-        builder.mediaIds(
-                Optional.ofNullable(
-                        request.mediaIds())
-                              .orElse(Set.of()));
-
-        builder.thumbnailId(
-                Optional.ofNullable(
-                        request.thumbnailId())
-                                    .orElse(UUID.fromString("00000000-0000-0000-0000-000000000000")));
-
-        builder.genreIds(
-                Optional.ofNullable(
-                        request.genreIds())
-                               .orElse(Set.of()));
-
-        return builder.build();
+        song.setId(request.id());
+        song.setReleaseDate(request.releaseDate());
+        song.setThumbnailId(request.thumbnailId());
+        song.setArtistIds(request.artistIds());
+        song.setComposerIds(request.composerIds());
+        song.setGenreIds(request.genreIds());
+        song.setLiked(request.liked());
+        song.setListen(request.listen());
+        song.setMediaIds(request.mediaIds());
+        return song;
     }
 
     public SongResponse toDto(Song song) {
@@ -59,9 +41,9 @@ public class SongMapper {
                 song.getId(),
                 song.getAlias(),
                 song.getTitle(),
-                song.getThumbnailId().toString(),
+                song.getThumbnailId(),
                 song.getArtistIds(),
-                genreService.getAllGenres(song.getGenreIds()),
+                song.getGenreIds(),
                 song.getComposerIds(),
                 song.getStatus(),
                 song.getReleaseDate(),

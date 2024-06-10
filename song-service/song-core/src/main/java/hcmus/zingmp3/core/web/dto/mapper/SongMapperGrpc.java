@@ -27,9 +27,9 @@ public class SongMapperGrpc {
                 .setLyric(entity.getLyric())
                 .addAllMediaIds(entity.getMediaIds().stream().map(UUID::toString).collect(Collectors.toList()))
                 .setCreatedBy(entity.getCreatedBy().toString())
-                .setCreatedAt(String.valueOf(entity.getCreatedAt()))
-                .setModifiedBy(entity.getModifiedBy().toString())
-                .setModifiedAt(String.valueOf(entity.getModifiedAt()))
+                .setCreatedDate(String.valueOf(entity.getCreatedDate()))
+                .setLastModifiedBy(entity.getLastModifiedBy().toString())
+                .setLastModifiedDate(String.valueOf(entity.getLastModifiedDate()))
                 .build();
     }
 }

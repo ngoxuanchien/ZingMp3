@@ -2,11 +2,17 @@ package hcmus.zingmp3.common.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +20,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity
 public class Song {
 
@@ -56,15 +62,16 @@ public class Song {
 
     @Builder.Default
     @Setter(AccessLevel.NONE)
+    @Enumerated(EnumType.STRING)
     private SongStatus status = SongStatus.APPROVAL_PENDING;
 
-    private int releaseDate;
+    private Integer releaseDate;
 
     @Builder.Default
-    private int listen = 0;
+    private Integer listen = 0;
 
     @Builder.Default
-    private int liked = 0;
+    private Integer liked = 0;
 
     @Column(columnDefinition = "TEXT")
     private String lyric;
@@ -77,10 +84,33 @@ public class Song {
 
     private double duration;
 
+    @CreatedBy
+    @Column(
+            updatable = false,
+            nullable = false
+    )
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID createdBy;
-    private LocalDateTime createdAt;
-    private UUID modifiedBy;
-    private LocalDateTime modifiedAt;
+
+    @CreatedDate
+    @Column(
+            updatable = false,
+            nullable = false
+    )
+    private LocalDateTime createdDate;
+
+    @LastModifiedBy
+    @Column(
+            insertable = false
+    )
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID lastModifiedBy;
+
+    @LastModifiedDate
+    @Column(
+            insertable = false
+    )
+    private LocalDateTime lastModifiedDate;
 
     public void approved() {
         this.status = SongStatus.APPROVED;
@@ -140,5 +170,41 @@ public class Song {
         }
 
         mediaIds.add(mediaId);
+    }
+
+    public void setArtistIds(Set<UUID> artistIds) {
+        this.artistIds = Objects.requireNonNullElseGet(artistIds, HashSet::new);
+    }
+
+    public void setGenreIds(Set<UUID> genreIds) {
+        this.genreIds = Objects.requireNonNullElseGet(genreIds, HashSet::new);
+    }
+
+    public void setComposerIds(Set<UUID> composerIds) {
+        this.composerIds = Objects.requireNonNullElseGet(composerIds, HashSet::new);
+    }
+
+    public void setMediaIds(Set<UUID> mediaIds) {
+        this.mediaIds = Objects.requireNonNullElseGet(mediaIds, HashSet::new);
+    }
+
+    public void setThumbnailId(UUID thumbnailId) {
+        this.thumbnailId = Objects.requireNonNullElse(thumbnailId, UUID.fromString("00000000-0000-0000-0000-000000000000"));
+    }
+
+    public void setListen(Integer listen) {
+        this.listen = Objects.requireNonNullElse(listen, 0);
+    }
+
+    public void setLiked(Integer liked) {
+        this.liked = Objects.requireNonNullElse(liked, 0);
+    }
+
+    public void setId(UUID id) {
+        this.id = Objects.requireNonNullElse(id, UUID.randomUUID());
+    }
+
+    public void setReleaseDate(Integer releaseDate) {
+        this.releaseDate = Objects.requireNonNullElse(releaseDate, 0);
     }
 }

@@ -23,6 +23,8 @@ public class SongCreateEventHandler implements EventHandler {
         );
 
         Song song = gson.fromJson(gson.toJsonTree(event.getPayload()), Song.class);
+        song.setCreatedBy(event.getCreatedBy());
+        song.setCreatedDate(event.getTimestamp());
         songService.create(song);
     }
 }
