@@ -643,6 +643,12 @@ services:
     networks:
       zingmp3-net:
     environment:
+      SPRING_DATASOURCE_USERNAME: zingmp3
+      SPRING_DATASOURCE_PASSWORD: zingmp3
+      SPRING_DATASOURCE_SERVER: mysql-notification
+      SPRING_DATASOURCE_PORT: 3339
+      SPRING_DATASOURCE_NAME: notification_service
+
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
 
