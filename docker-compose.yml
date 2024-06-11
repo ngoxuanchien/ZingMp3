@@ -665,5 +665,3 @@ services:
       BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
-SONG_URL=http://nxc-hcmus:
-  me:8081/api/songs:
