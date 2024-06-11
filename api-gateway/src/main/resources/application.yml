@@ -24,7 +24,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/user/**, /v3/api-docs/user-service/**, /api/register/**
+            - Path=/api/users/**, /v3/api-docs/user-service/**, /api/distributors/**
         - id: auth-service
           uri: ${KEYCLOAK_OPENID-CONNECT:http://localhost:8080/realms/zing-mp3/protocol/openid-connect/}
           predicates:

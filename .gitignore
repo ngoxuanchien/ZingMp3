@@ -42,3 +42,4 @@ build/
 /elastic-search/config/
 /elastic-search/data/
 /delete/
+/init/database/

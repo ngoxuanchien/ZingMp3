@@ -3,331 +3,331 @@ networks:
     name: zingmp3-net
 
 services:
-  keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:24.0.3
-    command: [ "start-dev", "--import-realm" ]
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_DB: mysql
-      KC_DB_URL_HOST: mysql-keycloak
-      KC_DB_URL_DATABASE: keycloak
-      KC_DB_URL_PORT: 3307
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak-secret
-      KC_HEALTH_ENABLED: "true"
-    ports:
-      - "8080:8080"
-    depends_on:
-      mysql-keycloak:
-        condition: service_healthy
-    restart: always
-    volumes:
-      - ./keycloak/realms:/opt/keycloak/data/import
-    networks:
-      zingmp3-net:
+#  keycloak:
+#    container_name: keycloak
+#    image: quay.io/keycloak/keycloak:24.0.3
+#    command: [ "start-dev", "--import-realm" ]
+#    environment:
+#      KEYCLOAK_ADMIN: admin
+#      KEYCLOAK_ADMIN_PASSWORD: admin
+#      KC_DB: mysql
+#      KC_DB_URL_HOST: mysql-keycloak
+#      KC_DB_URL_DATABASE: keycloak
+#      KC_DB_URL_PORT: 3307
+#      KC_DB_USERNAME: keycloak
+#      KC_DB_PASSWORD: keycloak-secret
+#      KC_HEALTH_ENABLED: "true"
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      mysql-keycloak:
+#        condition: service_healthy
+#    restart: always
+#    volumes:
+#      - ./keycloak/realms:/opt/keycloak/data/import
+#    networks:
+#      zingmp3-net:
+##    healthcheck:
+##      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+##      interval: 5s
+##      timeout: 2s
+##      retries: 15
+#
+#  mysql-keycloak:
+#    container_name: mysql-keycloak
+#    image: mysql
+#    environment:
+#      MYSQL_ROOT_HOSTS: '%'
+#      MYSQL_DATABASE: keycloak
+#      MYSQL_USER: keycloak
+#      MYSQL_PASSWORD: keycloak-secret
+#      MYSQL_ROOT_PASSWORD: supersecret
+#      MYSQL_TCP_PORT: 3307
+#    ports:
+#      - "3307:3307"
+#    restart: always
 #    healthcheck:
-#      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
-#      interval: 5s
-#      timeout: 2s
-#      retries: 15
-
-  mysql-keycloak:
-    container_name: mysql-keycloak
-    image: mysql
-    environment:
-      MYSQL_ROOT_HOSTS: '%'
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: keycloak-secret
-      MYSQL_ROOT_PASSWORD: supersecret
-      MYSQL_TCP_PORT: 3307
-    ports:
-      - "3307:3307"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      zingmp3-net:
-    volumes:
-      - ./database/mysql-keycloak:/var/lib/mysql
-
-  zoo1:
-    image: confluentinc/cp-zookeeper
-    hostname: zoo1
-    container_name: zoo1
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_SERVER_ID: 1
-      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
-    restart: always
-    networks:
-      zingmp3-net:
-
-  zoo2:
-    image: confluentinc/cp-zookeeper
-    hostname: zoo2
-    container_name: zoo2
-    ports:
-      - "2182:2182"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2182
-      ZOOKEEPER_SERVER_ID: 2
-      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
-    restart: always
-    networks:
-      zingmp3-net:
-
-  zoo3:
-    image: confluentinc/cp-zookeeper
-    hostname: zoo3
-    container_name: zoo3
-    ports:
-      - "2183:2183"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2183
-      ZOOKEEPER_SERVER_ID: 3
-      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
-    restart: always
-    networks:
-      zingmp3-net:
-
-  kafka1:
-    image: confluentinc/cp-kafka
-    hostname: kafka1
-    container_name: kafka1
-    ports:
-      - "9092:9092"
-      - "29092:29092"
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://192.168.1.17:9092,DOCKER://host.docker.internal:29092
-      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092,DOCKER://0.0.0.0:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
-      KAFKA_BROKER_ID: 1
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
-      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-    depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
-    restart: always
-    networks:
-      zingmp3-net:
-
-  kafka2:
-    image: confluentinc/cp-kafka
-    hostname: kafka2
-    container_name: kafka2
-    ports:
-      - "9093:9093"
-      - "29093:29093"
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:19093,EXTERNAL://192.168.1.17:9093,DOCKER://host.docker.internal:29093
-      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19093,EXTERNAL://0.0.0.0:9093,DOCKER://0.0.0.0:29093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
-      KAFKA_BROKER_ID: 2
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
-      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-    depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
-    restart: always
-    networks:
-      zingmp3-net:
-
-  kafka3:
-    image: confluentinc/cp-kafka
-    hostname: kafka3
-    container_name: kafka3
-    ports:
-      - "9094:9094"
-      - "29094:29094"
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka3:19094,EXTERNAL://192.168.1.17:9094,DOCKER://host.docker.internal:29094
-      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19094,EXTERNAL://0.0.0.0:9094,DOCKER://0.0.0.0:29094
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
-      KAFKA_BROKER_ID: 3
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
-      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-    depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
-    restart: always
-    networks:
-      zingmp3-net:
-
-  kafka-schema-registry:
-    image: confluentinc/cp-schema-registry
-    hostname: kafka-schema-registry
-    container_name: kafka-schema-registry
-    depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
-      - kafka1
-      - kafka2
-      - kafka3
-    ports:
-      - "8082:8082"
-    environment:
-      SECURITY_PROTOCOL: PLAINTEXT
-      SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8082
-    networks:
-      zingmp3-net:
-    restart: always
-
-  mysql-artist:
-    container_name: mysql-artist
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: artist_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3336
-    volumes:
-      - ./database/artist_service:/var/lib/mysql
-    ports:
-      - "3336:3336"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      zingmp3-net:
-
-  mysql-image:
-    container_name: mysql-image
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: image_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3333
-    volumes:
-      - ./database/image_service:/var/lib/mysql
-    ports:
-      - "3333:3333"
-    restart: always
-    networks:
-      zingmp3-net:
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-
-  mysql-media:
-    container_name: mysql-media
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: media_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3334
-    volumes:
-      - ./database/media_service:/var/lib/mysql
-    ports:
-      - "3334:3334"
-    restart: always
-    networks:
-      zingmp3-net:
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-
-  mysql-song:
-    container_name: mysql-song
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: song_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3337
-    volumes:
-      - ./database/song_service:/var/lib/mysql
-    ports:
-      - "3337:3337"
-    restart: always
-    networks:
-      zingmp3-net:
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-  mysql-notification:
-    container_name: mysql-notification
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: notification_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3339
-    volumes:
-      - ./database/notification_service:/data/mysql
-    ports:
-      - "3339:3339"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      zingmp3-net:
-  mysql-user:
-    container_name: mysql-user
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: user_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3340
-    volumes:
-      - ./database/user_service:/data/mysql
-    ports:
-      - "3340:3340"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      zingmp3-net:
-  mysql-playlist:
-    container_name: mysql-playlist
-    image: mysql
-    environment:
-      MYSQL_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: playlist_service
-      MYSQL_USER: zingmp3
-      MYSQL_PASSWORD: zingmp3
-      MYSQL_TCP_PORT: 3338
-    volumes:
-      - ./database/playlist_service:/data/mysql
-    ports:
-      - "3338:3338"
-    restart: always
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-    networks:
-      zingmp3-net:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      zingmp3-net:
+#    volumes:
+#      - ./database/mysql-keycloak:/var/lib/mysql
+#
+#  zoo1:
+#    image: confluentinc/cp-zookeeper
+#    hostname: zoo1
+#    container_name: zoo1
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_SERVER_ID: 1
+#      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  zoo2:
+#    image: confluentinc/cp-zookeeper
+#    hostname: zoo2
+#    container_name: zoo2
+#    ports:
+#      - "2182:2182"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2182
+#      ZOOKEEPER_SERVER_ID: 2
+#      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  zoo3:
+#    image: confluentinc/cp-zookeeper
+#    hostname: zoo3
+#    container_name: zoo3
+#    ports:
+#      - "2183:2183"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2183
+#      ZOOKEEPER_SERVER_ID: 3
+#      ZOOKEEPER_SERVERS: zoo1:2888:3888;zoo2:2888:3888;zoo3:2888:3888
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  kafka1:
+#    image: confluentinc/cp-kafka
+#    hostname: kafka1
+#    container_name: kafka1
+#    ports:
+#      - "9092:9092"
+#      - "29092:29092"
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://192.168.1.17:9092,DOCKER://host.docker.internal:29092
+#      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092,DOCKER://0.0.0.0:29092
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+#      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+#      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+#      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+#    depends_on:
+#      - zoo1
+#      - zoo2
+#      - zoo3
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  kafka2:
+#    image: confluentinc/cp-kafka
+#    hostname: kafka2
+#    container_name: kafka2
+#    ports:
+#      - "9093:9093"
+#      - "29093:29093"
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:19093,EXTERNAL://192.168.1.17:9093,DOCKER://host.docker.internal:29093
+#      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19093,EXTERNAL://0.0.0.0:9093,DOCKER://0.0.0.0:29093
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+#      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
+#      KAFKA_BROKER_ID: 2
+#      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+#      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+#      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+#    depends_on:
+#      - zoo1
+#      - zoo2
+#      - zoo3
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  kafka3:
+#    image: confluentinc/cp-kafka
+#    hostname: kafka3
+#    container_name: kafka3
+#    ports:
+#      - "9094:9094"
+#      - "29094:29094"
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka3:19094,EXTERNAL://192.168.1.17:9094,DOCKER://host.docker.internal:29094
+#      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19094,EXTERNAL://0.0.0.0:9094,DOCKER://0.0.0.0:29094
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+#      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2182,zoo3:2183"
+#      KAFKA_BROKER_ID: 3
+#      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+#      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+#      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+#    depends_on:
+#      - zoo1
+#      - zoo2
+#      - zoo3
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#
+#  kafka-schema-registry:
+#    image: confluentinc/cp-schema-registry
+#    hostname: kafka-schema-registry
+#    container_name: kafka-schema-registry
+#    depends_on:
+#      - zoo1
+#      - zoo2
+#      - zoo3
+#      - kafka1
+#      - kafka2
+#      - kafka3
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      SECURITY_PROTOCOL: PLAINTEXT
+#      SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
+#      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka1:19092,PLAINTEXT://kafka2:19093,PLAINTEXT://kafka3:19094'
+#      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8082
+#    networks:
+#      zingmp3-net:
+#    restart: always
+#
+#  mysql-artist:
+#    container_name: mysql-artist
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: artist_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3336
+#    volumes:
+#      - ./database/artist_service:/var/lib/mysql
+#    ports:
+#      - "3336:3336"
+#    restart: always
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      zingmp3-net:
+#
+#  mysql-image:
+#    container_name: mysql-image
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: image_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3333
+#    volumes:
+#      - ./database/image_service:/var/lib/mysql
+#    ports:
+#      - "3333:3333"
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#
+#  mysql-media:
+#    container_name: mysql-media
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: media_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3334
+#    volumes:
+#      - ./database/media_service:/var/lib/mysql
+#    ports:
+#      - "3334:3334"
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#
+#  mysql-song:
+#    container_name: mysql-song
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: song_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3337
+#    volumes:
+#      - ./database/song_service:/var/lib/mysql
+#    ports:
+#      - "3337:3337"
+#    restart: always
+#    networks:
+#      zingmp3-net:
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#  mysql-notification:
+#    container_name: mysql-notification
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: notification_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3339
+#    volumes:
+#      - ./database/notification_service:/data/mysql
+#    ports:
+#      - "3339:3339"
+#    restart: always
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      zingmp3-net:
+#  mysql-user:
+#    container_name: mysql-user
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: user_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3340
+#    volumes:
+#      - ./database/user_service:/data/mysql
+#    ports:
+#      - "3340:3340"
+#    restart: always
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      zingmp3-net:
+#  mysql-playlist:
+#    container_name: mysql-playlist
+#    image: mysql
+#    environment:
+#      MYSQL_HOST: '%'
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: playlist_service
+#      MYSQL_USER: zingmp3
+#      MYSQL_PASSWORD: zingmp3
+#      MYSQL_TCP_PORT: 3338
+#    volumes:
+#      - ./database/playlist_service:/data/mysql
+#    ports:
+#      - "3338:3338"
+#    restart: always
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#    networks:
+#      zingmp3-net:
 
   api-gateway:
     container_name: api-gateway
@@ -349,9 +349,9 @@ services:
     container_name: user-service
     image: ngoxuanchien/user-service:latest
     restart: always
-    depends_on:
-      mysql-user:
-        condition: service_healthy
+#    depends_on:
+#      mysql-user:
+#        condition: service_healthy
     ports:
       - "8006:8006"
       - "9006:9006"
@@ -389,9 +389,9 @@ services:
 
   image-service:
     container_name: image-service
-    depends_on:
-      mysql-image:
-        condition: service_healthy
+#    depends_on:
+#      mysql-image:
+#        condition: service_healthy
     image: ngoxuanchien/image-service
     restart: always
     networks:
@@ -423,9 +423,9 @@ services:
 
   media-service:
     container_name: media-service
-    depends_on:
-      mysql-media:
-        condition: service_healthy
+#    depends_on:
+#      mysql-media:
+#        condition: service_healthy
     image: ngoxuanchien/media-service
     networks:
       zingmp3-net:
@@ -459,9 +459,9 @@ services:
   artist-core:
     container_name: artist-core
     image: ngoxuanchien/artist-core
-    depends_on:
-      mysql-artist:
-        condition: service_healthy
+#    depends_on:
+#      mysql-artist:
+#        condition: service_healthy
     restart: always
     ports:
       - "8003:8003"
@@ -502,9 +502,9 @@ services:
   artist-event-handler:
     container_name: artist-event-handler
     image: ngoxuanchien/artist-event-handler
-    depends_on:
-      artist-core:
-        condition: service_healthy
+#    depends_on:
+#      artist-core:
+#        condition: service_healthy
     networks:
       zingmp3-net:
 #    ports:
@@ -529,9 +529,9 @@ services:
   song-core:
     container_name: song-core
     image: ngoxuanchien/song-core
-    depends_on:
-      mysql-song:
-        condition: service_healthy
+#    depends_on:
+#      mysql-song:
+#        condition: service_healthy
     restart: always
     ports:
       - "8005:8005"
@@ -565,9 +565,9 @@ services:
   song-event-handler:
     container_name: song-event-handler
     image: ngoxuanchien/song-event-handler
-    depends_on:
-      mysql-song:
-        condition: service_healthy
+#    depends_on:
+#      mysql-song:
+#        condition: service_healthy
     networks:
       zingmp3-net:
     restart: always
@@ -588,9 +588,9 @@ services:
   playlist-core:
     container_name: playlist-core
     image: ngoxuanchien/playlist-core
-    depends_on:
-      mysql-playlist:
-        condition: service_healthy
+#    depends_on:
+#      mysql-playlist:
+#        condition: service_healthy
     restart: always
     ports:
       - "8004:8004"
@@ -621,9 +621,9 @@ services:
   playlist-event-handler:
     container_name: playlist-event-handler
     image: ngoxuanchien/playlist-event-handler
-    depends_on:
-      mysql-playlist:
-        condition: service_healthy
+#    depends_on:
+#      mysql-playlist:
+#        condition: service_healthy
     networks:
       zingmp3-net:
     restart: always
@@ -644,9 +644,9 @@ services:
   notification-core:
     container_name: notification-core
     image: ngoxuanchien/notification-core
-    depends_on:
-      mysql-notification:
-        condition: service_healthy
+#    depends_on:
+#      mysql-notification:
+#        condition: service_healthy
     restart: always
     networks:
       zingmp3-net:

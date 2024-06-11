@@ -1,2 +1,4 @@
-package hcmus.zingmp3.domain.model;public class Playlist {
+package hcmus.zingmp3.domain.model;
+
+public class Playlist {
 }
