@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: search-core
+  datasource:
+    url: jdbc:mysql://${spring.datasource.server}:${spring.datasource.port}/${spring.datasource.name}
+    username: ${SPRING_DATASOURCE_USERNAME:zingmp3}
+    password: ${SPRING_DATASOURCE_PASSWORD:zingmp3}
+    server: ${SPRING_DATASOURCE_SERVER:localhost}
+    port: ${SPRING_DATASOURCE_PORT:3341}
+    name: ${SPRING_DATASOURCE_NAME:search_service}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+

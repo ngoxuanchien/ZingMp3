@@ -2,6 +2,7 @@ package hcmus.zingmp3.core.web.dto.mapper;
 
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.core.service.genre.GenreService;
+import hcmus.zingmp3.core.service.image.ImageService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class SongMapper {
+
+    private final ImageService imageService;
 
     public Song toEntity(SongRequest request) {
         var song = Song.builder()
@@ -41,7 +44,7 @@ public class SongMapper {
                 song.getId(),
                 song.getAlias(),
                 song.getTitle(),
-                song.getThumbnailId(),
+                imageService.getById(song.getThumbnailId()).getUrl(),
                 song.getArtistIds(),
                 song.getGenreIds(),
                 song.getComposerIds(),

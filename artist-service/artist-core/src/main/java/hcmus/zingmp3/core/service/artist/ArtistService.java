@@ -2,7 +2,6 @@ package hcmus.zingmp3.core.service.artist;
 
 import hcmus.zingmp3.common.domain.model.Artist;
 import hcmus.zingmp3.common.service.QueryService;
-import hcmus.zingmp3.common.service.artist.ArtistQueryService;
 import hcmus.zingmp3.core.service.CommandService;
 import hcmus.zingmp3.core.web.dto.ArtistRequest;
 import hcmus.zingmp3.core.web.dto.ArtistResponse;

@@ -9,7 +9,7 @@ public record SongResponse(
         UUID id,
         String alias,
         String title,
-        UUID thumbnailId,
+        String thumbnail,
         Set<UUID> artistIds,
         Set<UUID> genreIds,
         Set<UUID> composerIds,
