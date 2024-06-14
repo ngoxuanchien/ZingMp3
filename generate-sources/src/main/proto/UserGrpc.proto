@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 
-package hcmus.zingmp3.user;
+package hcmus.zingmp3;
 
 message UserRequestGrpc {
   string id = 1;

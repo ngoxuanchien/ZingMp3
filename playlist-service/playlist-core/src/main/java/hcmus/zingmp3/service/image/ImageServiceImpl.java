@@ -1,8 +1,8 @@
 package hcmus.zingmp3.service.image;
 
-import hcmus.zingmp3.image.ImageRequestGrpc;
-import hcmus.zingmp3.image.ImageResponseGrpc;
-import hcmus.zingmp3.image.ImageServiceGrpc;
+import hcmus.zingmp3.ImageRequestGrpc;
+import hcmus.zingmp3.ImageResponseGrpc;
+import hcmus.zingmp3.ImageServiceGrpc;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.client.inject.GrpcClient;

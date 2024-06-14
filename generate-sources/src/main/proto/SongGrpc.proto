@@ -2,9 +2,10 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 
-import "google/protobuf/timestamp.proto";
+import "GrpcArtist.proto";
+import "GrpcGenre.proto";
 
-package hcmus.zingmp3.song;
+package hcmus.zingmp3;
 
 enum SongStatusGrpc {
     APPROVAL_PENDING = 0;
@@ -21,10 +22,10 @@ message SongResponseGrpc {
   string id =1;
   string alias = 2;
   string title = 3;
-  string thumbnailId =4;
-  repeated string artistIds = 5;
-  repeated string genreIds = 6;
-  repeated string composerIds = 7;
+  string thumbnail = 4;
+  repeated ArtistResponseGrpc artists = 5;
+  repeated GenreGrpcResponse genres = 6;
+  repeated ArtistResponseGrpc composers = 7;
   SongStatusGrpc status = 8;
   int32 releaseDate = 9;
   int32 listen = 10;

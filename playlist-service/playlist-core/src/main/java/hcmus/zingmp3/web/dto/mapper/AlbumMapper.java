@@ -1,7 +1,9 @@
 package hcmus.zingmp3.web.dto.mapper;
 
 import hcmus.zingmp3.common.domain.model.Album;
+import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.service.image.ImageService;
+import hcmus.zingmp3.service.song.SongService;
 import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,10 @@ import java.util.List;
 public class AlbumMapper {
 
     private final ImageService imageService;
+
+    private final ArtistService artistService;
+
+    private final SongService songService;
 
     public Album toEntity(AlbumRequest dto) {
         var album = Album.builder()
@@ -38,10 +44,10 @@ public class AlbumMapper {
                 imageService.getById(entity.getThumbnailId()).getUrl(),
                 entity.getType(),
                 entity.getDescription(),
-                entity.getArtistIds(),
+                artistService.getAllById(entity.getArtistIds()),
                 entity.getReleaseDate(),
                 entity.getStatus(),
-                entity.getSongIds(),
+                songService.getAllById(entity.getSongIds()),
                 entity.getCreatedDate(),
                 entity.getCreatedBy(),
                 entity.getLastModifiedDate(),

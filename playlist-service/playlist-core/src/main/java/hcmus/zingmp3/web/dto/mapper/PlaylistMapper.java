@@ -1,6 +1,9 @@
 package hcmus.zingmp3.web.dto.mapper;
 
 import hcmus.zingmp3.common.domain.model.Playlist;
+import hcmus.zingmp3.service.artist.ArtistService;
+import hcmus.zingmp3.service.image.ImageService;
+import hcmus.zingmp3.service.song.SongService;
 import hcmus.zingmp3.web.dto.PlaylistRequest;
 import hcmus.zingmp3.web.dto.PlaylistResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +12,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PlaylistMapper {
+
+    private final ImageService imageService;
+    private final ArtistService artistService;
+    private final SongService songService;
 
     public Playlist toEntity(PlaylistRequest dto) {
         var playlist = Playlist.builder()
@@ -33,11 +41,11 @@ public class PlaylistMapper {
                 entity.getId(),
                 entity.getAlias(),
                 entity.getTitle(),
-                entity.getThumbnailId(),
+                imageService.getById(entity.getThumbnailId()).getUrl(),
                 entity.getType(),
                 entity.getDescription(),
-                entity.getArtistIds(),
-                entity.getSongIds(),
+                artistService.getAllById(entity.getArtistIds()),
+                songService.getAllById(entity.getSongIds()),
                 entity.isPublic(),
                 entity.getCreatedBy(),
                 entity.getCreatedDate(),

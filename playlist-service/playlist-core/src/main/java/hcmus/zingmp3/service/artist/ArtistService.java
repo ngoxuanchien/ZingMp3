@@ -1,7 +1,17 @@
 package hcmus.zingmp3.service.artist;
 
+import hcmus.zingmp3.web.dto.ArtistResponse;
+
+import java.util.Set;
 import java.util.UUID;
 
 public interface ArtistService {
-    boolean isExist(UUID artistId);
+
+    ArtistResponse getById(UUID uuid);
+
+    boolean isExist(UUID uuid);
+
+//    ArtistDto getById(UUID uuid);
+
+    Set<ArtistResponse> getAllById(Set<UUID> uuids);
 }

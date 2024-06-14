@@ -121,22 +121,6 @@ public class AlbumServiceImpl implements AlbumService {
         commandService.release(album);
     }
 
-    @Override
-    public AlbumResponse removeSongFromAlbum(UUID albumId, UUID songId) {
-        var album = getById(albumId);
-        album.removeSong(songId);
-        update(album);
-        return mapper.toDto(album);
-    }
-
-    @Override
-    public AlbumResponse addSongToAlbum(UUID albumId, UUID songId) {
-        var album = getById(albumId);
-        album.addSong(songId);
-        update(album);
-        return mapper.toDto(album);
-    }
-
     private <T> void setIfNotNull(Consumer<T> setter, T value) {
         if (value != null) {
             setter.accept(value);

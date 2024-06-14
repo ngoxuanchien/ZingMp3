@@ -1,9 +1,9 @@
 package hcmus.zingmp3.service.user;
 
 import hcmus.zingmp3.exception.ResourceNotFoundException;
-import hcmus.zingmp3.user.UserRequestGrpc;
-import hcmus.zingmp3.user.UserResponseGrpc;
-import hcmus.zingmp3.user.UserServiceGrpc;
+import hcmus.zingmp3.UserRequestGrpc;
+import hcmus.zingmp3.UserResponseGrpc;
+import hcmus.zingmp3.UserServiceGrpc;
 import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;

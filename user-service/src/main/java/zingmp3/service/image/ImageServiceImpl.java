@@ -1,7 +1,7 @@
 package zingmp3.service.image;
 
-import hcmus.zingmp3.image.ImageRequestGrpc;
-import hcmus.zingmp3.image.ImageServiceGrpc;
+import hcmus.zingmp3.ImageRequestGrpc;
+import hcmus.zingmp3.ImageServiceGrpc;
 import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;

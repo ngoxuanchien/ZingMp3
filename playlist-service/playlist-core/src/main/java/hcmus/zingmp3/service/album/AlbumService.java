@@ -32,10 +32,6 @@ public interface AlbumService extends QueryService<Album>, CommandService<Album>
 
     void releasedAlbum(String alias);
 
-    AlbumResponse removeSongFromAlbum(UUID albumId, UUID songId);
-
-    AlbumResponse addSongToAlbum(UUID albumId, UUID songId);
-
     // DELETE
     void deleteAlbum(UUID id);
 }

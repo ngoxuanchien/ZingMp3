@@ -1,6 +1,6 @@
 package hcmus.zingmp3.service.user;
 
-import hcmus.zingmp3.user.UserResponseGrpc;
+import hcmus.zingmp3.UserResponseGrpc;
 
 import java.util.UUID;
 

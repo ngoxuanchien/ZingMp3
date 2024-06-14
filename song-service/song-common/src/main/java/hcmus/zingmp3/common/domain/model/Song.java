@@ -11,10 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -41,7 +38,7 @@ public class Song {
     @Column(name = "artist_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Builder.Default
-    private Set<UUID> artistIds = new HashSet<>();
+    private List<UUID> artistIds = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -51,14 +48,14 @@ public class Song {
     @Column(name = "genre_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Builder.Default
-    private Set<UUID> genreIds = new HashSet<>();
+    private List<UUID> genreIds = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "song_composer", joinColumns = @JoinColumn(name = "song_id"))
     @Column(name = "composer_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Builder.Default
-    private Set<UUID> composerIds = new HashSet<>();
+    private List<UUID> composerIds = new ArrayList<>();
 
     @Builder.Default
     @Setter(AccessLevel.NONE)
@@ -80,7 +77,7 @@ public class Song {
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "media_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> mediaIds;
+    private List<UUID> mediaIds;
 
     private double duration;
 
@@ -130,7 +127,7 @@ public class Song {
 
     public void addArtist(UUID artistId) {
         if (artistIds == null) {
-            artistIds = new HashSet<>();
+            artistIds = new ArrayList<>();
         }
 
         artistIds.add(artistId);
@@ -142,7 +139,7 @@ public class Song {
 
     public void addGenre(UUID genreId) {
         if (genreIds == null) {
-            genreIds = new HashSet<>();
+            genreIds = new ArrayList<>();
         }
 
         genreIds.add(genreId);
@@ -154,7 +151,7 @@ public class Song {
 
     public void addComposer(UUID composerId) {
         if (composerIds == null) {
-            composerIds = new HashSet<>();
+            composerIds = new ArrayList<>();
         }
 
         composerIds.add(composerId);
@@ -166,26 +163,26 @@ public class Song {
 
     public void addMedia(UUID mediaId) {
         if (mediaIds == null) {
-            mediaIds = new HashSet<>();
+            mediaIds = new ArrayList<>();
         }
 
         mediaIds.add(mediaId);
     }
 
-    public void setArtistIds(Set<UUID> artistIds) {
-        this.artistIds = Objects.requireNonNullElseGet(artistIds, HashSet::new);
+    public void setArtistIds(List<UUID> artistIds) {
+        this.artistIds = Objects.requireNonNullElseGet(artistIds, ArrayList::new);
     }
 
-    public void setGenreIds(Set<UUID> genreIds) {
-        this.genreIds = Objects.requireNonNullElseGet(genreIds, HashSet::new);
+    public void setGenreIds(List<UUID> genreIds) {
+        this.genreIds = Objects.requireNonNullElseGet(genreIds, ArrayList::new);
     }
 
-    public void setComposerIds(Set<UUID> composerIds) {
-        this.composerIds = Objects.requireNonNullElseGet(composerIds, HashSet::new);
+    public void setComposerIds(List<UUID> composerIds) {
+        this.composerIds = Objects.requireNonNullElseGet(composerIds, ArrayList::new);
     }
 
-    public void setMediaIds(Set<UUID> mediaIds) {
-        this.mediaIds = Objects.requireNonNullElseGet(mediaIds, HashSet::new);
+    public void setMediaIds(List<UUID> mediaIds) {
+        this.mediaIds = Objects.requireNonNullElseGet(mediaIds, ArrayList::new);
     }
 
     public void setThumbnailId(UUID thumbnailId) {

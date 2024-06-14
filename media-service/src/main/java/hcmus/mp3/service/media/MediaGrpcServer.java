@@ -1,9 +1,9 @@
 package hcmus.mp3.service.media;
 
 import hcmus.mp3.domain.exception.ResourceNotFoundException;
-import hcmus.zingmp3.media.MediaRequestGrpc;
-import hcmus.zingmp3.media.MediaResponseGrpc;
-import hcmus.zingmp3.media.MediaServiceGrpc;
+import hcmus.zingmp3.MediaRequestGrpc;
+import hcmus.zingmp3.MediaResponseGrpc;
+import hcmus.zingmp3.MediaServiceGrpc;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;

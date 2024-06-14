@@ -1,6 +1,6 @@
 package hcmus.zingmp3.service.image;
 
-import hcmus.zingmp3.image.ImageResponseGrpc;
+import hcmus.zingmp3.ImageResponseGrpc;
 
 import java.util.UUID;
 
