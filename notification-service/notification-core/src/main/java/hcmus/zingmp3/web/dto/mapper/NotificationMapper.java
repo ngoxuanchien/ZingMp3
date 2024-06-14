@@ -14,7 +14,9 @@ public class NotificationMapper {
                 notification.getUserId(),
                 notification.getSubject(),
                 notification.getBody(),
-                notification.getCreatedDate());
+                notification.getCreatedDate(),
+                notification.isRead()
+        );
     }
 
     public List<NotificationResponse> toDto(List<Notification> notifications) {
