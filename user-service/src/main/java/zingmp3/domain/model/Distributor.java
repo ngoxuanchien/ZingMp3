@@ -23,7 +23,6 @@ public class Distributor {
     private UUID id;
 
     private String name;
-
     private String address;
     private String website;
 

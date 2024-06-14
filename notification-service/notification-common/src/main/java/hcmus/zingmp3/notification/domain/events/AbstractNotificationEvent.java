@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "notifications")
+@Table(name = "notification_events")
 @AllArgsConstructor
 public abstract class AbstractNotificationEvent {
     @Id

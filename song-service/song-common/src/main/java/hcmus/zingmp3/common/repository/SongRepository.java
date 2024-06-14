@@ -16,4 +16,6 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
     List<Song> findAllByCreatedBy(UUID userId, Pageable pageable);
 
     List<Song> findAllByTitleContaining(String title, Pageable pageable);
+
+    List<Song> findAllByTitleContainingAndCreatedBy(String title, UUID userId, Pageable pageable);
 }

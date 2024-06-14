@@ -1,4 +1,4 @@
-package zingmp3.web.config.converter;
+package hcmus.zingmp3.web.config.converter;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;

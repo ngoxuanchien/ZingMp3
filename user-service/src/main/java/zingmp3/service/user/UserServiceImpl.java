@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import zingmp3.service.keycloak.KeycloakService;
 import zingmp3.web.dto.UserRequest;
@@ -37,5 +38,12 @@ public class UserServiceImpl implements UserService {
                 request.clientId(),
                 request.clientSecret()
         );
+    }
+
+    @Override
+    public void changePassword(String newPassword) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        keycloakService.setNewPassword(userId, newPassword);
     }
 }

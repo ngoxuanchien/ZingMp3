@@ -33,6 +33,19 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER-URI:http://localhost:8080/realms/zing-mp3}
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
+    deep-linking: true
+    oauth:
+      client-id: ${KEYCLOAK_CLIENT_ID:notification-service}
+      client-secret: ${KEYCLOAK_CLIENT_SECRET:EVGa0NmiSUWeOnF85CLqIbaJVWvNlZjv}
 server:
   port: ${SERVER_PORT:8080}
 eureka:
@@ -51,3 +64,6 @@ grpc:
     user-service:
       address: discovery:///user-service
       negotiation-type: plaintext
+keycloak:
+  resource-id: "music-service"
+  token-url: ${KEYCLOAK_TOKEN:http://localhost:8080/auth/realms/zing-mp3/protocol/openid-connect/token}

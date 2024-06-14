@@ -140,4 +140,10 @@ public class SongServiceImpl implements SongService {
     public List<SongResponse> searchSong(String title, Pageable pageable) {
         return mapper.toDto(queryService.searchSong(title, pageable));
     }
+
+    @Override
+    public List<SongResponse> searchMySongs(String name, Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return mapper.toDto(queryService.searchMySongs(name, userId, pageable));
+    }
 }

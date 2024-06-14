@@ -23,6 +23,8 @@ import java.util.*;
 @Slf4j
 public class KeycloakServiceImpl implements KeycloakService {
 
+    private final Keycloak keycloak;
+
     @Value("${keycloak.realm}")
     private String realm;
 
@@ -79,8 +81,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public String createDistributor(String email, String name, String password, String clientId, String clientSecret) {
-        var keycloak = initKeycloak(clientId, clientSecret);
+    public String createDistributor(String email, String name, String password) {
 
         var distributor = getUserRepresentation(email, name, password);
 
@@ -141,4 +142,46 @@ public class KeycloakServiceImpl implements KeycloakService {
             throw new UnauthorizedException("Cannot connect to Keycloak server");
         }
     }
+
+    @Override
+    public UUID getUserId(String email) {
+        var userId = keycloak.realm(realm)
+                .users()
+                .search(email)
+                .getFirst()
+                .getId();
+        return UUID.fromString(userId);
+    }
+
+    @Override
+    public void deleteUser(UUID id) {
+        try {
+            keycloak.realm(realm)
+                    .users()
+                    .delete(id.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void setNewPassword(String userId, String newPassword) {
+        try {
+            CredentialRepresentation credential = new CredentialRepresentation();
+            credential.setValue(newPassword);
+            credential.setTemporary(false);
+            credential.setType(CredentialRepresentation.PASSWORD);
+
+            keycloak.realm(realm)
+                    .users()
+                    .get(userId)
+                    .resetPassword(credential);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
 }

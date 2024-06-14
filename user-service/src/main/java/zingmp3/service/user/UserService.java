@@ -7,4 +7,6 @@ public interface UserService {
     UserRepresentation getById(String id);
 
     void register(UserRequest request);
+
+    void changePassword(String newPassword);
 }

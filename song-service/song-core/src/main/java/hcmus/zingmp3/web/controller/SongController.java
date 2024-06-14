@@ -81,6 +81,17 @@ public class SongController {
         return ResponseEntity.ok(songService.getAllMySongs(pageable));
     }
 
+    @GetMapping("/my-songs/search")
+    @SecurityRequirement(name = "Keycloak")
+    public ResponseEntity<List<SongResponse>> searchMySongs(
+            @RequestParam("title") String name,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(songService.searchMySongs(name, pageable));
+    }
+
     @GetMapping
     public ResponseEntity<SongResponse> getSongByAlias(
             @RequestParam("alias") String alias

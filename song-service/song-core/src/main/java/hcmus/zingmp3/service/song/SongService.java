@@ -34,4 +34,6 @@ public interface SongService {
     List<SongResponse> getAllMySongs(Pageable pageable);
 
     List<SongResponse> searchSong(String title, Pageable pageable);
+
+    List<SongResponse> searchMySongs(String name, Pageable pageable);
 }

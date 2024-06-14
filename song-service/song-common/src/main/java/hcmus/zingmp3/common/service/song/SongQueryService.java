@@ -11,4 +11,6 @@ public interface SongQueryService extends QueryService<Song> {
     List<Song> getAllByCreatedBy(UUID userId, Pageable pageable);
 
     List<Song> searchSong(String name, Pageable pageable);
+
+    List<Song> searchMySongs(String name, UUID userId, Pageable pageable);
 }

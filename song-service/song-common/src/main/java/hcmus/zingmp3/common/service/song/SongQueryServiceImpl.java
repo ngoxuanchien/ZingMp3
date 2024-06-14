@@ -61,4 +61,9 @@ public class SongQueryServiceImpl implements SongQueryService {
     public List<Song> searchSong(String title, Pageable pageable) {
         return repository.findAllByTitleContaining(title, pageable);
     }
+
+    @Override
+    public List<Song> searchMySongs(String name, UUID userId, Pageable pageable) {
+        return repository.findAllByTitleContainingAndCreatedBy(name, userId, pageable);
+    }
 }
