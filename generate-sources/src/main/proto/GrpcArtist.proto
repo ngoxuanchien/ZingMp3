@@ -17,13 +17,12 @@ message ArtistResponseGrpc {
   string id = 1;
   string alias = 2;
   string name = 3;
-  string thumbnailId = 4;
+  string thumbnail = 4;
   string realName = 5;
   string status = 6;
 }
 
 service ArtistService {
   rpc isExist(ArtistRequestGrpc) returns (ArtistResponseGrpc);
-  rpc getArtistById(ArtistRequestGrpc) returns (ArtistResponseGrpc);
-  rpc getOrCreateArtist(ArtistRequestGrpc) returns (ArtistResponseGrpc);
+  rpc getById(ArtistRequestGrpc) returns (ArtistResponseGrpc);
 }

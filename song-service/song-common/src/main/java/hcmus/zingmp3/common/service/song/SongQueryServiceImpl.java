@@ -51,4 +51,9 @@ public class SongQueryServiceImpl implements SongQueryService {
     public List<Song> getAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<Song> getAllByCreatedBy(UUID userId, Pageable pageable) {
+        return repository.findAllByCreatedBy(userId, pageable);
+    }
 }

@@ -49,8 +49,8 @@ public class SongController {
 
     @GetMapping("/page")
     public ResponseEntity<List<SongResponse>> getAllSongsByPage(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @Schema(description = "Sort order", allowableValues = {"asc", "desc"})
             @RequestParam(defaultValue = "asc") String order
@@ -58,6 +58,16 @@ public class SongController {
         Sort sort = Sort.by(Sort.Direction.fromString(order), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return ResponseEntity.ok(songService.getAllSongs(pageable));
+    }
+
+    @GetMapping("/my-songs")
+    @SecurityRequirement(name = "Keycloak")
+    public ResponseEntity<List<SongResponse>> getMySongs(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(songService.getAllMySongs(pageable));
     }
 
     @GetMapping

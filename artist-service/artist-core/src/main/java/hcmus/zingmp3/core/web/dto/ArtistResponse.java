@@ -10,7 +10,6 @@ public record ArtistResponse(
         String thumbnail,
         String name,
         String realName,
-        ArtistStatus status,
-        UUID createdBy
+        ArtistStatus status
 ) {
 }

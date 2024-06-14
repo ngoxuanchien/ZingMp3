@@ -1,14 +1,16 @@
 package hcmus.zingmp3.core.web.dto;
 
-import hcmus.zingmp3.common.domain.model.ArtistStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hcmus.zingmp3.core.web.dto.validator.artist.ArtistAliasNotExists;
 import hcmus.zingmp3.core.web.dto.validator.image.ImageExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record ArtistRequest(
         @NotNull(
                 message = "Id must be not null.",
@@ -78,5 +80,5 @@ public record ArtistRequest(
                 }
         )
         String realName
-) {
+) implements Serializable {
 }

@@ -2,7 +2,6 @@ package hcmus.zingmp3.core.service.genre;
 
 import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.common.service.QueryService;
-import hcmus.zingmp3.common.service.genre.GenreQueryService;
 import hcmus.zingmp3.core.service.CommandService;
 import hcmus.zingmp3.core.web.dto.GenreRequest;
 import hcmus.zingmp3.core.web.dto.GenreResponse;

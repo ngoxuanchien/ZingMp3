@@ -25,8 +25,7 @@ public class ArtistMapper {
             imageService.getImage(artist.getThumbnailId()).getUrl(),
             artist.getName(),
             artist.getRealName(),
-            artist.getStatus(),
-            artist.getCreatedBy()
+            artist.getStatus()
         );
     }
 

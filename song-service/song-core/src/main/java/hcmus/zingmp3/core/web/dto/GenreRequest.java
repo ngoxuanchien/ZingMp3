@@ -1,5 +1,6 @@
 package hcmus.zingmp3.core.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hcmus.zingmp3.core.web.dto.validator.genre.GenreAliasNotExists;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -7,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GenreRequest(
         @Null(
                 message = "Id must be null",

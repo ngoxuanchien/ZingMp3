@@ -1,24 +1,27 @@
 package hcmus.zingmp3.core.web.dto.mapper;
 
+import hcmus.zingmp3.artist.ArtistResponseGrpc;
 import hcmus.zingmp3.common.domain.model.Song;
+import hcmus.zingmp3.core.service.artist.ArtistService;
 import hcmus.zingmp3.core.service.genre.GenreService;
 import hcmus.zingmp3.core.service.image.ImageService;
+import hcmus.zingmp3.core.web.dto.ArtistResponse;
+import hcmus.zingmp3.core.web.dto.GenreResponse;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class SongMapper {
 
     private final ImageService imageService;
+    private final ArtistService artistService;
+    private final GenreService genreService;
 
     public Song toEntity(SongRequest request) {
         var song = Song.builder()
@@ -40,14 +43,18 @@ public class SongMapper {
     }
 
     public SongResponse toDto(Song song) {
+        Set<ArtistResponse> artists = artistService.getAllById(song.getArtistIds());
+        Set<ArtistResponse> composers = artistService.getAllById(song.getComposerIds());
+        Set<GenreResponse> genres = genreService.getAllGenres(song.getGenreIds());
+
         return new SongResponse(
                 song.getId(),
                 song.getAlias(),
                 song.getTitle(),
                 imageService.getById(song.getThumbnailId()).getUrl(),
-                song.getArtistIds(),
-                song.getGenreIds(),
-                song.getComposerIds(),
+                artists,
+                genres,
+                composers,
                 song.getStatus(),
                 song.getReleaseDate(),
                 song.getListen(),

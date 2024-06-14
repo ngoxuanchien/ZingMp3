@@ -1,5 +1,6 @@
 package hcmus.zingmp3.core.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hcmus.zingmp3.core.web.dto.validator.artist.ArtistIdsExists;
 import hcmus.zingmp3.core.web.dto.validator.genre.GenreExists;
 import hcmus.zingmp3.core.web.dto.validator.image.ImageExists;
@@ -12,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Set;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record SongRequest(
         @Null(
                 message = "Id must be null",

@@ -1,14 +1,13 @@
 package hcmus.zingmp3.core.service.song;
 
-import hcmus.zingmp3.common.domain.exception.ResourceAlreadyExistsException;
 import hcmus.zingmp3.common.domain.model.Song;
-import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.song.SongQueryService;
 import hcmus.zingmp3.core.web.dto.SongRequest;
 import hcmus.zingmp3.core.web.dto.SongResponse;
 import hcmus.zingmp3.core.web.dto.mapper.SongMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,57 +23,12 @@ public class SongServiceImpl implements SongService {
 
     private final SongMapper mapper;
 
-    @Override
-    public Song getById(UUID id) {
-        return queryService.getById(id);
-    }
-
-    @Override
-    public Song getByAlias(String alias) {
-        return queryService.getByAlias(alias);
-    }
-
-    @Override
-    public boolean existsById(UUID id) {
-        return queryService.existsById(id);
-    }
-
-    @Override
-    public boolean existsByAlias(String alias) {
-        return queryService.existsByAlias(alias);
-    }
-
-    @Override
-    public List<Song> getAll(Pageable pageable) {
-        return queryService.getAll(pageable);
-    }
-
-    @Override
-    public List<Song> getAll() {
-        return queryService.getAll();
-    }
-
-    @Override
-    public void update(Song object) {
-        commandService.update(object);
-    }
-
-    @Override
-    public void delete(Song object) {
-        commandService.delete(object);
-    }
-
-    @Override
-    public void create(Song object) {
-        commandService.create(object);
-    }
-
 
     @Override
     public SongResponse createSong(SongRequest request) {
         Song song = mapper.toEntity(request);
 
-        create(song);
+        commandService.create(song);
 
         return mapper.toDto(song);
     }
@@ -82,10 +36,10 @@ public class SongServiceImpl implements SongService {
     @Override
     public SongResponse updateSong(SongRequest request) {
         // todo: implement this method
-        Song song = getById(request.id());
+        Song song = queryService.getById(request.id());
         mergeSong(song, request);
 
-        update(song);
+        commandService.update(song);
 
         return mapper.toDto(song);
     }
@@ -112,50 +66,59 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public void deleteSong(UUID id) {
-        Song song = getById(id);
-        delete(song);
+        Song song = queryService.getById(id);
+        commandService.delete(song);
     }
 
     @Override
     public SongResponse getSongById(UUID id) {
-        var song = getById(id);
+        var song = queryService.getById(id);
         return mapper.toDto(song);
     }
 
     @Override
     public SongResponse getSongByAlias(String alias) {
-        var song = getByAlias(alias);
+        var song = queryService.getByAlias(alias);
         return mapper.toDto(song);
     }
 
     @Override
     public void approvedSong(String alias) {
-        var song = getByAlias(alias);
+        var song = queryService.getByAlias(alias);
         song.approved();
         commandService.approved(song);
     }
 
     @Override
     public void rejectedSong(String alias) {
-        var song = getByAlias(alias);
+        var song = queryService.getByAlias(alias);
         song.rejected();
         commandService.rejected(song);
     }
 
     @Override
     public void releasedSong(String alias) {
-        var song = getByAlias(alias);
+        var song = queryService.getByAlias(alias);
         song.released();
         commandService.released(song);
     }
 
     @Override
     public List<SongResponse> getAllSongs(Pageable pageable) {
-        return mapper.toDto(getAll(pageable));
+        return mapper.toDto(queryService.getAll(pageable));
     }
 
     @Override
     public List<SongResponse> getAllSongs() {
-        return mapper.toDto(getAll());
+        return mapper.toDto(queryService.getAll());
+    }
+
+    @Override
+    public List<SongResponse> getAllMySongs(Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return queryService.getAllByCreatedBy(userId, pageable)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
     }
 }

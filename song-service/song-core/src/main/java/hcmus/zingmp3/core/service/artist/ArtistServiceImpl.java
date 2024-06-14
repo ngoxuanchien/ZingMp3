@@ -3,31 +3,40 @@ package hcmus.zingmp3.core.service.artist;
 import hcmus.zingmp3.artist.ArtistRequestGrpc;
 import hcmus.zingmp3.artist.ArtistResponseGrpc;
 import hcmus.zingmp3.artist.ArtistServiceGrpc;
-import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
+import hcmus.zingmp3.core.web.dto.ArtistResponse;
+import hcmus.zingmp3.core.web.dto.mapper.ArtistMapper;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
+import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ArtistServiceImpl implements ArtistService {
 
     @GrpcClient("artist-service")
     ArtistServiceGrpc.ArtistServiceBlockingStub artistClient;
 
+    private final ArtistMapper mapper;
+
+
     @Override
-    public ArtistResponseGrpc getById(UUID uuid) {
+    public ArtistResponse getById(UUID uuid) {
         try {
             var request = ArtistRequestGrpc.newBuilder().setId(uuid.toString()).build();
-            return artistClient.getArtistById(request);
+            return mapper.toDto(artistClient.getById(request));
 
         } catch (StatusRuntimeException e) {
-            if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
-                throw new ResourceNotFoundException(e.getMessage());
-            }
-            throw e;
+//            if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
+//                throw new ResourceNotFoundException(e.getMessage());
+//            }
+//            throw e;
+            return null;
         }
     }
 
@@ -43,5 +52,12 @@ public class ArtistServiceImpl implements ArtistService {
             }
             throw e;
         }
+    }
+
+    @Override
+    public Set<ArtistResponse> getAllById(Set<UUID> uuids) {
+        return uuids.stream()
+                .map(this::getById)
+                .collect(Collectors.toSet());
     }
 }

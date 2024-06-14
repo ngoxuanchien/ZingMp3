@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
-public interface SongService extends CommandService<Song>, QueryService<Song> {
+public interface SongService {
     SongResponse createSong(SongRequest request);
 
     SongResponse updateSong(SongRequest request);
@@ -30,4 +30,6 @@ public interface SongService extends CommandService<Song>, QueryService<Song> {
     List<SongResponse> getAllSongs(Pageable pageable);
 
     List<SongResponse> getAllSongs();
+
+    List<SongResponse> getAllMySongs(Pageable pageable);
 }

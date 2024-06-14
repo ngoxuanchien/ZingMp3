@@ -1,10 +1,7 @@
 package hcmus.zingmp3.core.service.artist;
 
-import hcmus.zingmp3.common.domain.exception.AliasIsExistsException;
-import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Artist;
 import hcmus.zingmp3.common.service.artist.ArtistQueryService;
-import hcmus.zingmp3.core.service.image.ImageService;
 import hcmus.zingmp3.core.web.dto.ArtistRequest;
 import hcmus.zingmp3.core.web.dto.ArtistResponse;
 import hcmus.zingmp3.core.web.dto.mapper.ArtistMapper;
