@@ -343,4 +343,8 @@ services:
       EUREKA_PORT: 8761
       EUREKA_SERVER: discovery-service
 
+      KEYCLOAK_CLIENT_ID: notification-service
+      KEYCLOAK_CLIENT_SECRET: EVGa0NmiSUWeOnF85CLqIbaJVWvNlZjv
+      KEYCLOAK_ISSUER_URI: http://nxc-hcmus.me:8080/realms/zing-mp3
+      KEYCLOAK_TOKEN: http://nxc-hcmus.me:8081/api/auth/token
 
