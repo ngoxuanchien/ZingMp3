@@ -33,7 +33,7 @@ public class ArtistServiceGrpc extends ArtistServiceImplBase {
                             .setId(String.valueOf(result.getId()))
                             .build());
             responseObserver.onCompleted();
-        } catch (EntityNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             Status status = Status.newBuilder()
                     .setCode(Code.NOT_FOUND.getNumber())
                     .setMessage(e.getMessage())

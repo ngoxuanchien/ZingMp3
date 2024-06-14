@@ -26,4 +26,5 @@ public interface PlaylistService extends CommandService<Playlist>, QueryService<
     void deletePlaylist(UUID id);
 
 
+    List<PlaylistResponse> getMyPlaylists(Pageable pageable);
 }

@@ -42,6 +42,7 @@ public class SongMapperGrpc {
                 .setCreatedDate(String.valueOf(entity.getCreatedDate()))
                 .setLastModifiedBy(Objects.requireNonNullElse(entity.getLastModifiedBy(), "").toString())
                 .setLastModifiedDate(Objects.requireNonNullElse(entity.getLastModifiedDate(), "").toString())
+                .setDuration(entity.getDuration())
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package hcmus.zingmp3.web.controller;
 
 import hcmus.zingmp3.service.playlist.PlaylistService;
 import hcmus.zingmp3.web.dto.OnCreate;
+import hcmus.zingmp3.web.dto.OnUpdate;
 import hcmus.zingmp3.web.dto.PlaylistRequest;
 import hcmus.zingmp3.web.dto.PlaylistResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -59,6 +60,16 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getAllPlaylists(pageable));
     }
 
+    @GetMapping("/my-playlist")
+    @SecurityRequirement(name = "Keycloak")
+    public ResponseEntity<List<PlaylistResponse>> getMyPlaylists(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(playlistService.getMyPlaylists(pageable));
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<PlaylistResponse>> getAllPlaylists() {
         return ResponseEntity.ok(playlistService.getAllPlaylists());
@@ -67,7 +78,7 @@ public class PlaylistController {
     @SecurityRequirement(name = "Keycloak")
     @PutMapping
     public ResponseEntity<PlaylistResponse> updatePlaylist(
-            @RequestBody @Validated(OnCreate.class) PlaylistRequest request
+            @RequestBody @Validated(OnUpdate.class) PlaylistRequest request
     ) {
         return ResponseEntity.ok(playlistService.updatePlaylist(request));
     }

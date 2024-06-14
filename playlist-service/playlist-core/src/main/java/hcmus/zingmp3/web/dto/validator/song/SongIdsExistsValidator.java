@@ -5,17 +5,18 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 
 @RequiredArgsConstructor
-public class SongIdsExistsValidator implements ConstraintValidator<SongIdsExists, Set<UUID>> {
+public class SongIdsExistsValidator implements ConstraintValidator<SongIdsExists, List<UUID>> {
 
     private final SongService songService;
 
     @Override
-    public boolean isValid(Set<UUID> songIds, ConstraintValidatorContext context) {
+    public boolean isValid(List<UUID> songIds, ConstraintValidatorContext context) {
         if (songIds == null) {
             return true;
         }

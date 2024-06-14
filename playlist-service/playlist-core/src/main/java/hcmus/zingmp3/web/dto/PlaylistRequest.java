@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -71,12 +72,12 @@ public record PlaylistRequest(
         @ArtistIdsExists(
                 groups = {OnCreate.class, OnUpdate.class}
         )
-        Set<UUID> artistIds,
+        List<UUID> artistIds,
 
         @SongIdsExists(
                 groups = {OnCreate.class, OnUpdate.class}
         )
-        Set<UUID> songIds,
+        List<UUID> songIds,
 
         @NotNull(
                 message = "Public must not be null",

@@ -5,11 +5,12 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class GenreExistsValidator implements ConstraintValidator<GenreExists, Set<UUID>> {
+public class GenreExistsValidator implements ConstraintValidator<GenreExists, List<UUID>> {
     private final GenreService genreService;
 
     @Override
@@ -18,7 +19,7 @@ public class GenreExistsValidator implements ConstraintValidator<GenreExists, Se
     }
 
     @Override
-    public boolean isValid(Set<UUID> geneIds, ConstraintValidatorContext context) {
+    public boolean isValid(List<UUID> geneIds, ConstraintValidatorContext context) {
         if (geneIds == null) {
             return true;
         }

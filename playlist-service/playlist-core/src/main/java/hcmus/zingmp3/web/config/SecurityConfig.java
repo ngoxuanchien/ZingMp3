@@ -38,6 +38,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/albums/add-song/**", "/api/albums/remove-song/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
 
+                        .requestMatchers(HttpMethod.PUT, "/api/albums/**", "/api/playlists/**")
+                        .hasAnyRole("DISTRIBUTOR", "ADMIN")
+
                         .requestMatchers("/api/albums/approved/**", "/api/albums/rejected/**", "/api/albums/released/**")
                         .hasRole("ADMIN")
 

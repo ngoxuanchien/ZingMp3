@@ -65,6 +65,16 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.getAllAlbums(pageable));
     }
 
+    @GetMapping("/my-albums")
+    @SecurityRequirement(name = "Keycloak")
+    public ResponseEntity<List<AlbumResponse>> getMyAlbums(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(albumService.getMyAlbums(pageable));
+    }
+
     @PutMapping
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<AlbumResponse> updateAlbum(

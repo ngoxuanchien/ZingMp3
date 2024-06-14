@@ -42,7 +42,7 @@ public class PlaylistMapper {
                 entity.getAlias(),
                 entity.getTitle(),
                 imageService.getById(entity.getThumbnailId()).getUrl(),
-                entity.getType(),
+                entity.getPlaylistType(),
                 entity.getDescription(),
                 artistService.getAllById(entity.getArtistIds()),
                 songService.getAllById(entity.getSongIds()),

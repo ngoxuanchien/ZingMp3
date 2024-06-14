@@ -5,11 +5,11 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class MediaIdsExistsValidator implements ConstraintValidator<MediaIdsExists, Set<UUID>> {
+public class MediaIdsExistsValidator implements ConstraintValidator<MediaIdsExists, List<UUID>> {
 
     private final MediaService mediaService;
 
@@ -19,7 +19,7 @@ public class MediaIdsExistsValidator implements ConstraintValidator<MediaIdsExis
     }
 
     @Override
-    public boolean isValid(Set<UUID> mediaIds, ConstraintValidatorContext context) {
+    public boolean isValid(List<UUID> mediaIds, ConstraintValidatorContext context) {
         if (mediaIds == null || mediaIds.isEmpty()) {
             return true;
         }

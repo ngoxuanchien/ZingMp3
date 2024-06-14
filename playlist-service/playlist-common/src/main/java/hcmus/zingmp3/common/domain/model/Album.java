@@ -27,7 +27,7 @@ public class Album extends AbstractPlaylist {
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private AlbumType type = AlbumType.ALBUM;
+    private AlbumType albumType = AlbumType.ALBUM;
 
     public void approved() {
         status = AlbumStatus.APPROVED;

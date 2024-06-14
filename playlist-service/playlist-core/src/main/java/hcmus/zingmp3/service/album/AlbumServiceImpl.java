@@ -8,6 +8,7 @@ import hcmus.zingmp3.web.dto.AlbumResponse;
 import hcmus.zingmp3.web.dto.mapper.AlbumMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -141,5 +142,11 @@ public class AlbumServiceImpl implements AlbumService {
     public void deleteAlbum(UUID id) {
         Album album = getById(id);
         delete(album);
+    }
+
+    @Override
+    public List<AlbumResponse> getMyAlbums(Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return mapper.toDto(queryService.getMyAlbums(userId, pageable));
     }
 }

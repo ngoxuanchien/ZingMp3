@@ -20,9 +20,9 @@ public class Playlist extends AbstractPlaylist {
     }
 
     @Enumerated(EnumType.STRING)
-    private PlaylistType type;
+    private PlaylistType playlistType;
 
     public void setType(PlaylistType type) {
-        this.type = Objects.requireNonNullElse(type, PlaylistType.USER_PLAYLIST);
+        this.playlistType = Objects.requireNonNullElse(type, PlaylistType.USER_PLAYLIST);
     }
 }

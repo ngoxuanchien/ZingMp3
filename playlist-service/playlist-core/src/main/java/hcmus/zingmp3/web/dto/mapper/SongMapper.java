@@ -1,16 +1,11 @@
 package hcmus.zingmp3.web.dto.mapper;
 
 import hcmus.zingmp3.SongResponseGrpc;
-import hcmus.zingmp3.service.artist.ArtistService;
-import hcmus.zingmp3.service.genre.GenreService;
-import hcmus.zingmp3.service.image.ImageService;
 import hcmus.zingmp3.web.dto.SongResponse;
-import hcmus.zingmp3.web.dto.SongStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +28,8 @@ public class SongMapper {
                 entity.getListen(),
                 entity.getLiked(),
                 entity.getLyric(),
-                null
+                entity.getMediaIdsList().stream().map(UUID::fromString).toList(),
+                entity.getDuration()
         );
     }
 }

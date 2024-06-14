@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -73,13 +74,13 @@ public record AlbumRequest(
         @ArtistIdsExists(
                 groups = {OnCreate.class, OnUpdate.class}
         )
-        Set<UUID> artistIds,
+        List<UUID> artistIds,
 
         LocalDateTime releaseDate,
 
         @SongIdsExists(
                 groups = {OnCreate.class, OnUpdate.class}
         )
-        Set<UUID> songIds
+        List<UUID> songIds
 ) {
 }

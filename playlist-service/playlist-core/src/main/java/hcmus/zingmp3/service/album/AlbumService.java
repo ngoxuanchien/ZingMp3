@@ -34,4 +34,6 @@ public interface AlbumService extends QueryService<Album>, CommandService<Album>
 
     // DELETE
     void deleteAlbum(UUID id);
+
+    List<AlbumResponse> getMyAlbums(Pageable pageable);
 }

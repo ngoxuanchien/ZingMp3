@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,9 +56,9 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Set<ArtistResponse> getAllById(Set<UUID> uuids) {
+    public List<ArtistResponse> getAllById(List<UUID> uuids) {
         return uuids.stream()
                 .map(this::getById)
-                .collect(Collectors.toSet());
+                .toList();
     }
 }

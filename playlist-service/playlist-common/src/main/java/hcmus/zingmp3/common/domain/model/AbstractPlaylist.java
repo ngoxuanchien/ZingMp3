@@ -11,10 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Table(name = "playlist")
 @Entity
@@ -43,13 +40,13 @@ public abstract class AbstractPlaylist {
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "artist_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> artistIds = new HashSet<>();
+    private List<UUID> artistIds = new ArrayList<>();
 
     @CollectionTable(name = "playlist_song", joinColumns = @JoinColumn(name = "playlist_id"))
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "song_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Set<UUID> songIds = new HashSet<>();
+    private List<UUID> songIds = new ArrayList<>();
 
     private boolean isPublic;
 
@@ -81,11 +78,11 @@ public abstract class AbstractPlaylist {
         this.id = Objects.requireNonNullElseGet(id, UUID::randomUUID);
     }
 
-    public void setArtistIds(Set<UUID> artistIds) {
-        this.artistIds = Objects.requireNonNullElseGet(artistIds, HashSet::new);
+    public void setArtistIds(List<UUID> artistIds) {
+        this.artistIds = Objects.requireNonNullElseGet(artistIds, ArrayList::new);
     }
 
-    public void setSongIds(Set<UUID> songIds) {
-        this.songIds = Objects.requireNonNullElseGet(songIds, HashSet::new);
+    public void setSongIds(List<UUID> songIds) {
+        this.songIds = Objects.requireNonNullElseGet(songIds, ArrayList::new);
     }
 }

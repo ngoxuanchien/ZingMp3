@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,14 +15,15 @@ public record SongResponse(
         String alias,
         String title,
         String thumbnail,
-        Set<ArtistResponse> artists,
-        Set<GenreResponse> genre,
-        Set<ArtistResponse> composer,
+        List<ArtistResponse> artists,
+        List<GenreResponse> genre,
+        List<ArtistResponse> composer,
         SongStatus status,
         Integer releaseDate,
         Integer listen,
         Integer liked,
         String lyric,
-        Set<UUID> mediaIds
+        List<UUID> mediaIds,
+        Double duration
 ) {
 }

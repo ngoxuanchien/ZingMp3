@@ -2,6 +2,7 @@ package hcmus.zingmp3.common.service.album;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Album;
+import hcmus.zingmp3.common.repository.AbstractPlaylistRepository;
 import hcmus.zingmp3.common.repository.AlbumRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class AlbumQueryServiceImpl implements AlbumQueryService {
 
     private final AlbumRepository repository;
+
+    private final AbstractPlaylistRepository abstractPlaylistRepository;
 
     @Override
     public Album getByAlias(String alias) {
@@ -34,7 +37,7 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
 
     @Override
     public boolean existsByAlias(String alias) {
-        return repository.existsByAlias(alias);
+        return abstractPlaylistRepository.existsByAlias(alias);
     }
 
     @Override
@@ -45,5 +48,10 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
     @Override
     public List<Album> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Album> getMyAlbums(UUID userId, Pageable pageable) {
+        return repository.findAllByCreatedBy(userId, pageable);
     }
 }

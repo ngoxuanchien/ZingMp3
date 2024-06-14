@@ -7,6 +7,7 @@ import hcmus.zingmp3.web.dto.PlaylistResponse;
 import hcmus.zingmp3.web.dto.mapper.PlaylistMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -119,5 +120,11 @@ public class PlaylistServiceImpl implements PlaylistService {
     public void deletePlaylist(UUID id) {
         Playlist playlist = getById(id);
         delete(playlist);
+    }
+
+    @Override
+    public List<PlaylistResponse> getMyPlaylists(Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return mapper.toDto(queryService.getMyPlaylists(userId, pageable));
     }
 }

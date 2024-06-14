@@ -19,13 +19,14 @@ public class MediaGrpcServer extends MediaServiceGrpc.MediaServiceImplBase {
 
     @Override
     public void getById(MediaRequestGrpc request, StreamObserver<MediaResponseGrpc> responseObserver) {
-        super.getById(request, responseObserver);
         UUID id = UUID.fromString(request.getId());
         try {
             var audio = audioService.getAudio(id);
             var response = MediaResponseGrpc.newBuilder()
                     .setId(audio.id().toString())
                     .setUrl(audio.url())
+                    .setBitrate(audio.bitrate())
+                    .setDuration(audio.duration())
                     .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();

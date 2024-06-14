@@ -21,7 +21,7 @@ public class ArtistMapper {
         );
     }
 
-    public Set<ArtistResponse> toDto(List<ArtistResponseGrpc> artistsList) {
-        return artistsList.stream().map(this::toDto).collect(Collectors.toSet());
+    public List<ArtistResponse> toDto(List<ArtistResponseGrpc> artistsList) {
+        return artistsList.stream().map(this::toDto).toList();
     }
 }

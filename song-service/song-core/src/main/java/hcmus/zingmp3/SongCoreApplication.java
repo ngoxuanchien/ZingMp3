@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EntityScan(basePackages = "hcmus.zingmp3")
-@ComponentScan(basePackages = "hcmus.zingmp3")
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories(basePackages = "hcmus.zingmp3")
 public class SongCoreApplication {

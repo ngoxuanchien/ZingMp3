@@ -2,6 +2,7 @@ package hcmus.zingmp3.service.song;
 
 import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.common.service.song.SongQueryService;
+import hcmus.zingmp3.service.media.MediaService;
 import hcmus.zingmp3.web.dto.SongRequest;
 import hcmus.zingmp3.web.dto.SongResponse;
 import hcmus.zingmp3.web.dto.mapper.SongMapper;
@@ -23,10 +24,13 @@ public class SongServiceImpl implements SongService {
 
     private final SongMapper mapper;
 
+    private final MediaService mediaService;
+
 
     @Override
     public SongResponse createSong(SongRequest request) {
         Song song = mapper.toEntity(request);
+        setDuration(song, request.mediaIds());
 
         commandService.create(song);
 
@@ -50,6 +54,14 @@ public class SongServiceImpl implements SongService {
         }
     }
 
+    private void setDuration(Song song, List<UUID> mediaIds) {
+        if (mediaIds == null) {
+            return;
+        }
+
+        song.setDuration(mediaService.getById(mediaIds.getFirst()).getDuration());
+    }
+
     private void mergeSong(Song song, SongRequest request) {
         setIfNotNull(song::setAlias, request.alias());
         setIfNotNull(song::setAlias, request.alias());
@@ -62,6 +74,8 @@ public class SongServiceImpl implements SongService {
         setIfNotNull(song::setListen, request.listen());
         setIfNotNull(song::setLiked, request.liked());
         setIfNotNull(song::setMediaIds, request.mediaIds());
+
+        setDuration(song, request.mediaIds());
     }
 
     @Override

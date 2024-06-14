@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import hcmus.zingmp3.common.domain.model.PlaylistType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ public record PlaylistResponse(
         String thumbnail,
         PlaylistType type,
         String description,
-        Set<ArtistResponse> artists,
-        Set<SongResponse> songs,
+        List<ArtistResponse> artists,
+        List<SongResponse> songs,
         boolean isPublic,
         UUID createdBy,
         LocalDateTime createDate,

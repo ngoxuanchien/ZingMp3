@@ -25,7 +25,7 @@ public class AlbumMapper {
         var album = Album.builder()
                 .alias(dto.alias())
                 .title(dto.title())
-                .type(dto.type())
+                .albumType(dto.type())
                 .description(dto.description())
                 .releaseDate(dto.releaseDate())
                 .build();
@@ -33,6 +33,7 @@ public class AlbumMapper {
         album.setId(dto.id());
         album.setArtistIds(dto.artistIds());
         album.setSongIds(dto.songIds());
+        album.setThumbnailId(dto.thumbnailId());
         return album;
     }
 
@@ -42,7 +43,7 @@ public class AlbumMapper {
                 entity.getAlias(),
                 entity.getTitle(),
                 imageService.getById(entity.getThumbnailId()).getUrl(),
-                entity.getType(),
+                entity.getAlbumType(),
                 entity.getDescription(),
                 artistService.getAllById(entity.getArtistIds()),
                 entity.getReleaseDate(),

@@ -5,7 +5,6 @@ import hcmus.zingmp3.web.dto.GenreResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -18,7 +17,7 @@ public class GenreMapper {
         );
     }
 
-    public Set<GenreResponse> toDto(List<GenreGrpcResponse> genres) {
-        return genres.stream().map(this::toDto).collect(java.util.stream.Collectors.toSet());
+    public List<GenreResponse> toDto(List<GenreGrpcResponse> genres) {
+        return genres.stream().map(this::toDto).toList();
     }
 }

@@ -4,6 +4,7 @@ import hcmus.zingmp3.common.domain.model.Song;
 import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.service.genre.GenreService;
 import hcmus.zingmp3.service.image.ImageService;
+import hcmus.zingmp3.service.media.MediaService;
 import hcmus.zingmp3.web.dto.ArtistResponse;
 import hcmus.zingmp3.web.dto.GenreResponse;
 import hcmus.zingmp3.web.dto.SongRequest;
@@ -20,8 +21,11 @@ public class SongMapper {
     private final ImageService imageService;
     private final ArtistService artistService;
     private final GenreService genreService;
+    private final MediaService mediaService;
 
     public Song toEntity(SongRequest request) {
+
+
         var song = Song.builder()
                 .alias(request.alias())
                 .title(request.title())
@@ -58,7 +62,8 @@ public class SongMapper {
                 song.getListen(),
                 song.getLiked(),
                 song.getLyric(),
-                song.getMediaIds()
+                song.getMediaIds(),
+                song.getDuration()
         );
     }
 

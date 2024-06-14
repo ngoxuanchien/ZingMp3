@@ -24,6 +24,7 @@ public record SongResponse(
         Integer listen,
         Integer liked,
         String lyric,
-        List<UUID> mediaIds
+        List<UUID> mediaIds,
+        Double duration
 ) {
 }
