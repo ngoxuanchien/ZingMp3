@@ -30,6 +30,8 @@ public class Notification {
 
     private String body;
 
+    boolean isRead;
+
     @CreationTimestamp
     private LocalDateTime createdDate;
 }

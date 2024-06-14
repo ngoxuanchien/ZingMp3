@@ -1,5 +1,6 @@
 package hcmus.zingmp3.service.notification;
 
+import hcmus.zingmp3.exception.ResourceNotFoundException;
 import hcmus.zingmp3.notification.domain.model.Notification;
 import hcmus.zingmp3.repository.NotificationRepository;
 import hcmus.zingmp3.web.dto.NotificationResponse;
@@ -32,5 +33,17 @@ public class NotificationServiceImpl implements NotificationService {
         Pageable pageable = PageRequest.of(page, size, sort);
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(repository.findAllByUserId(userId, pageable));
+    }
+
+    @Override
+    public void markAsRead(UUID id) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        Notification notification = repository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("Notification with id %s not found", id)
+                ));
+
+        notification.setRead(true);
+        repository.save(notification);
     }
 }

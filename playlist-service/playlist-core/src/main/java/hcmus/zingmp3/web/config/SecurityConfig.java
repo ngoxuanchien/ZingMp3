@@ -35,14 +35,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/albums/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/playlist/**")
-                        .authenticated()
 
                         .requestMatchers(HttpMethod.PUT, "/api/albums/add-song/**", "/api/albums/remove-song/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
 
-                        .requestMatchers(HttpMethod.PUT, "/api/albums/**", "/api/playlists/**")
+                        .requestMatchers(HttpMethod.PUT, "/api/albums/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
+
+                        .requestMatchers("/api/playlists/**")
+                        .hasAnyRole("DISTRIBUTOR", "ADMIN", "USER")
 
                         .requestMatchers("/api/albums/approved/**", "/api/albums/rejected/**", "/api/albums/released/**")
                         .hasRole("ADMIN")
