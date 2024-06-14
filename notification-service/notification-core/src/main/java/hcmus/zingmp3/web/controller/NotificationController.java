@@ -28,7 +28,7 @@ public class NotificationController {
     @SecurityRequirement(name = "Keycloak")
     public List<NotificationResponse> getNotification(
             @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "1") @Min(1) int size
+            @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
         return notificationService.getNotification(page, size);
     }
