@@ -6,6 +6,7 @@ import hcmus.zingmp3.web.dto.AlbumResponse;
 import hcmus.zingmp3.web.dto.OnCreate;
 import hcmus.zingmp3.web.dto.OnUpdate;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,16 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.getAlbumById(albumId));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<AlbumResponse>> searchAlbum(
+            @RequestParam("title") String title,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(albumService.searchAlbum(title, pageable));
+    }
+
     @GetMapping
     public ResponseEntity<AlbumResponse> getAlbumByAlias(
             @RequestParam String alias
@@ -56,12 +67,10 @@ public class AlbumController {
 
     @GetMapping("/page")
     public ResponseEntity<List<AlbumResponse>> getAllAlbums(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "asc") String order
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy));
+        Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(albumService.getAllAlbums(pageable));
     }
 

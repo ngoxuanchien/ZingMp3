@@ -54,4 +54,9 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
     public List<Album> getMyAlbums(UUID userId, Pageable pageable) {
         return repository.findAllByCreatedBy(userId, pageable);
     }
+
+    @Override
+    public List<Album> searchAlbum(String title, Pageable pageable) {
+        return repository.findAllByTitleContaining(title, pageable);
+    }
 }

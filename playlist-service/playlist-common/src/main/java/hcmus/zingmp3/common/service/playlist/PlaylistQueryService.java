@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface PlaylistQueryService extends QueryService<Playlist> {
     List<Playlist> getMyPlaylists(UUID userId, Pageable pageable);
+
+    List<Playlist> searchPlaylist(String name, Pageable pageable);
 }

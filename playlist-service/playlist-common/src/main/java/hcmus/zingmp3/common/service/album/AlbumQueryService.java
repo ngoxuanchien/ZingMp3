@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface AlbumQueryService extends QueryService<Album> {
     List<Album> getMyAlbums(UUID userId, Pageable pageable);
+
+    List<Album> searchAlbum(String title, Pageable pageable);
 }

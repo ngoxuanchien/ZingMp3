@@ -54,4 +54,9 @@ public class PlaylistQueryServiceImpl implements PlaylistQueryService {
     public List<Playlist> getMyPlaylists(UUID userId, Pageable pageable) {
         return repository.findAllByCreatedBy(userId, pageable);
     }
+
+    @Override
+    public List<Playlist> searchPlaylist(String title, Pageable pageable) {
+        return repository.findAllByTitleContaining(title, pageable);
+    }
 }

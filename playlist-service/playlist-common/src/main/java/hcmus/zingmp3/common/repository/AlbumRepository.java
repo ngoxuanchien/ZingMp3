@@ -13,4 +13,6 @@ public interface AlbumRepository extends JpaRepository<Album, UUID> {
     boolean existsByAlias(String alias);
 
     List<Album> findAllByCreatedBy(UUID userId, Pageable pageable);
+
+    List<Album> findAllByTitleContaining(String title, Pageable pageable);
 }

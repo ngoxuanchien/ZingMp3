@@ -6,6 +6,7 @@ import hcmus.zingmp3.web.dto.OnUpdate;
 import hcmus.zingmp3.web.dto.PlaylistRequest;
 import hcmus.zingmp3.web.dto.PlaylistResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,16 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getPlaylistById(playlistId));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PlaylistResponse>> searchPlaylist(
+            @RequestParam("title") String title,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(playlistService.searchPlaylist(title, pageable));
+    }
+
     @GetMapping
     public ResponseEntity<PlaylistResponse> getPlaylistByAlias(
             @RequestParam String alias
@@ -51,20 +62,18 @@ public class PlaylistController {
 
     @GetMapping("/page/")
     public ResponseEntity<List<PlaylistResponse>> getAllPlaylists(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "asc") String order
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy));
+        Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(playlistService.getAllPlaylists(pageable));
     }
 
     @GetMapping("/my-playlist")
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<PlaylistResponse>> getMyPlaylists(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(playlistService.getMyPlaylists(pageable));

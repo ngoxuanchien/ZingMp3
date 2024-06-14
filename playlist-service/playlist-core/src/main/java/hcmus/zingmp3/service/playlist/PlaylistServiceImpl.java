@@ -127,4 +127,9 @@ public class PlaylistServiceImpl implements PlaylistService {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.getMyPlaylists(userId, pageable));
     }
+
+    @Override
+    public List<PlaylistResponse> searchPlaylist(String title, Pageable pageable) {
+        return mapper.toDto(queryService.searchPlaylist(title, pageable));
+    }
 }

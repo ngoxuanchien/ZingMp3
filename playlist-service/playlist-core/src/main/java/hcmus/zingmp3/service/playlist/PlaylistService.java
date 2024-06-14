@@ -27,4 +27,6 @@ public interface PlaylistService extends CommandService<Playlist>, QueryService<
 
 
     List<PlaylistResponse> getMyPlaylists(Pageable pageable);
+
+    List<PlaylistResponse> searchPlaylist(String name, Pageable pageable);
 }

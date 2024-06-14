@@ -14,6 +14,7 @@ pipeline {
                     sh '''
                         cd init 
                         docker-compose up -d
+                        docker-compose ps
                         cd ..
                     '''
                 }
@@ -60,7 +61,8 @@ pipeline {
                         writeFile file: '.env', text: envContent
 
                         sh 'sudo aa-remove-unknown'
-                        sh 'docker-compose down -v'
+                        sh 'docker-compose stop'
+                        sh 'docker-compose rm -f'
 //                        sh 'rm -rf ./database'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
