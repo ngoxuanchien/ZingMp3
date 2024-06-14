@@ -9,6 +9,7 @@ import hcmus.zingmp3.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,8 +40,8 @@ public class SongMapperGrpc {
                 .addAllMediaIds(entity.getMediaIds().stream().map(UUID::toString).collect(Collectors.toList()))
                 .setCreatedBy(entity.getCreatedBy().toString())
                 .setCreatedDate(String.valueOf(entity.getCreatedDate()))
-                .setLastModifiedBy(entity.getLastModifiedBy().toString())
-                .setLastModifiedDate(String.valueOf(entity.getLastModifiedDate()))
+                .setLastModifiedBy(Objects.requireNonNullElse(entity.getLastModifiedBy().toString(), null))
+                .setLastModifiedDate(Objects.requireNonNullElse(String.valueOf(entity.getLastModifiedDate()), null))
                 .build();
     }
 }
