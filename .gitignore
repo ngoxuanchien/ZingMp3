@@ -39,7 +39,7 @@ build/
 
 *.env
 *.gitignore
-/elastic-search/config/
-/elastic-search/data/
+/init/elastic-search/config/
+/init/elastic-search/data/
 /delete/
 /init/database/

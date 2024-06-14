@@ -32,8 +32,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/albums/**", "/api/playlists/**")
                         .permitAll()
 
-                        .requestMatchers(HttpMethod.POST)
+                        .requestMatchers(HttpMethod.POST, "/api/albums/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/playlist/**")
+                        .authenticated()
 
                         .requestMatchers(HttpMethod.PUT, "/api/albums/add-song/**", "/api/albums/remove-song/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
