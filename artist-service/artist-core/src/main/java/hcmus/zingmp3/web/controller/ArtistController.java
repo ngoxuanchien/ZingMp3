@@ -47,6 +47,16 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.getArtistById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<ArtistResponse>> searchArtist(
+            @RequestParam("name") final String name,
+            @RequestParam(defaultValue = "0") @Min(0) Integer page,
+            @RequestParam(defaultValue = "10") @Min(1) Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(artistService.searchArtist(name, pageable));
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ArtistResponse>> getAllArtists() {
         return ResponseEntity.ok(artistService.getAllArtists());

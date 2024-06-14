@@ -7,6 +7,7 @@ import hcmus.zingmp3.web.dto.SongRequest;
 import hcmus.zingmp3.web.dto.SongResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,16 @@ public class SongController {
                 .body(songService.createSong(request));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<SongResponse>> searchSong(
+            @RequestParam("title") String name,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(songService.searchSong(name, pageable));
+    }
+
     @GetMapping("/{song-id}")
     public ResponseEntity<SongResponse> getSongById(
             @PathVariable("song-id") UUID songId
@@ -49,8 +60,8 @@ public class SongController {
 
     @GetMapping("/page")
     public ResponseEntity<List<SongResponse>> getAllSongsByPage(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "page", defaultValue = "0") @Min(0) int page,
+            @RequestParam(value = "size", defaultValue = "10") @Min(1) int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @Schema(description = "Sort order", allowableValues = {"asc", "desc"})
             @RequestParam(defaultValue = "asc") String order

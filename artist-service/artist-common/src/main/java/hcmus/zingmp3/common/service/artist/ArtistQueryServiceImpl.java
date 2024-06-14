@@ -50,4 +50,9 @@ public class ArtistQueryServiceImpl implements ArtistQueryService {
     public List<Artist> getAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<Artist> searchArtist(String name, Pageable pageable) {
+        return repository.findAllByNameContaining(name, pageable);
+    }
 }

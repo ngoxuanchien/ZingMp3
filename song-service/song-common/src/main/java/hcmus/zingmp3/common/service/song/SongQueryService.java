@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface SongQueryService extends QueryService<Song> {
     List<Song> getAllByCreatedBy(UUID userId, Pageable pageable);
+
+    List<Song> searchSong(String name, Pageable pageable);
 }

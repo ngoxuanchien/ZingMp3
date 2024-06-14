@@ -135,4 +135,9 @@ public class SongServiceImpl implements SongService {
                 .map(mapper::toDto)
                 .toList();
     }
+
+    @Override
+    public List<SongResponse> searchSong(String title, Pageable pageable) {
+        return mapper.toDto(queryService.searchSong(title, pageable));
+    }
 }

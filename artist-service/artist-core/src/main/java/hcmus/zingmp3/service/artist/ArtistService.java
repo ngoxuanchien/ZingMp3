@@ -28,4 +28,6 @@ public interface ArtistService extends QueryService<Artist>, CommandService<Arti
     List<ArtistResponse> getAllArtists(Pageable pageable);
 
     List<ArtistResponse> getAllArtists();
+
+    List<ArtistResponse> searchArtist(String name, Pageable pageable);
 }

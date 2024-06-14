@@ -134,4 +134,9 @@ public class ArtistServiceImpl implements ArtistService {
     public List<ArtistResponse> getAllArtists() {
         return artistMapper.toDto(getAll());
     }
+
+    @Override
+    public List<ArtistResponse> searchArtist(String name, Pageable pageable) {
+        return artistMapper.toDto(queryService.searchArtist(name, pageable));
+    }
 }
