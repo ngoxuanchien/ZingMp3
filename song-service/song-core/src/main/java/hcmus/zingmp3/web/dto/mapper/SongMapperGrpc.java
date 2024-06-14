@@ -40,8 +40,8 @@ public class SongMapperGrpc {
                 .addAllMediaIds(entity.getMediaIds().stream().map(UUID::toString).collect(Collectors.toList()))
                 .setCreatedBy(entity.getCreatedBy().toString())
                 .setCreatedDate(String.valueOf(entity.getCreatedDate()))
-                .setLastModifiedBy(Objects.requireNonNullElse(entity.getLastModifiedBy().toString(), null))
-                .setLastModifiedDate(Objects.requireNonNullElse(String.valueOf(entity.getLastModifiedDate()), null))
+                .setLastModifiedBy(Objects.requireNonNullElse(entity.getLastModifiedBy(), "").toString())
+                .setLastModifiedDate(Objects.requireNonNullElse(entity.getLastModifiedDate(), "").toString())
                 .build();
     }
 }
