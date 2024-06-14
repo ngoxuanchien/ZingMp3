@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ArtistMapper {
-    private final ImageService imageClient;
+    private final ImageService imageService;
 
     public ArtistResponse toDto(Artist artist) {
         if (artist == null) {
@@ -22,7 +22,7 @@ public class ArtistMapper {
         return new ArtistResponse(
             artist.getId(),
             artist.getAlias(),
-            artist.getThumbnailId(),
+            imageService.getImage(artist.getThumbnailId()).getUrl(),
             artist.getName(),
             artist.getRealName(),
             artist.getStatus(),

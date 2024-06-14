@@ -44,6 +44,11 @@ public class ImageServiceImpl implements ImageService {
         var request = ImageRequestGrpc.newBuilder()
                 .setId(imageId.toString())
                 .build();
-        return imageClient.getById(request);
+        try {
+            return imageClient.getById(request);
+
+        } catch (StatusRuntimeException e) {
+            return ImageResponseGrpc.newBuilder().build();
+        }
     }
 }

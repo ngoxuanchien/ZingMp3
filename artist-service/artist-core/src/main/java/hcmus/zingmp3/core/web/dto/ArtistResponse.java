@@ -7,7 +7,7 @@ import java.util.UUID;
 public record ArtistResponse(
         UUID id,
         String alias,
-        UUID thumbnailId,
+        String thumbnail,
         String name,
         String realName,
         ArtistStatus status,
