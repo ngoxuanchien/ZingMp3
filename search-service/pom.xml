@@ -17,6 +17,7 @@
     <modules>
         <module>search-common</module>
         <module>search-core</module>
+        <module>search-event-handler</module>
     </modules>
 
     <build>

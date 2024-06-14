@@ -19,10 +19,7 @@ public class Artist {
     @Id
     private UUID id;
 
-    private String alias;
     private String name;
-    private UUID thumbnailId;
-    private String realName;
 
     private String status;
 

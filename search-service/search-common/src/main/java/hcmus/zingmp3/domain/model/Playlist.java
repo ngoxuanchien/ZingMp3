@@ -16,6 +16,4 @@ public class Playlist extends AbstractPlaylist {
     }
 
     private boolean isPublic;
-
-    private UUID createdBy;
 }

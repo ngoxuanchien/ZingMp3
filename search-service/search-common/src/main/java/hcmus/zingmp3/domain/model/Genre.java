@@ -18,7 +18,5 @@ public class Genre {
     @Id
     private UUID id;
 
-    private String alias;
-
     private String name;
 }

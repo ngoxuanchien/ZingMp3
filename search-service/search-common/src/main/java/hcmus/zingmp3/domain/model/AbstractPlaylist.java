@@ -21,15 +21,7 @@ public abstract class AbstractPlaylist {
     @Id
     private UUID id;
 
-    private String alias;
-
     private String title;
-
-    private UUID thumbnailId;
-
-    private String type;
-
-    private String description;
 
     private Set<Artist> artists;
 

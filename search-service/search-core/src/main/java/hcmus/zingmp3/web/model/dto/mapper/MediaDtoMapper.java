@@ -1,6 +1,5 @@
 package hcmus.zingmp3.web.model.dto.mapper;
 
-import hcmus.zingmp3.domain.model.Media;
 import hcmus.zingmp3.web.model.dto.MediaDto;
 import org.springframework.stereotype.Component;
 

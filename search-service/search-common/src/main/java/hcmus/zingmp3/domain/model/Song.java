@@ -19,11 +19,7 @@ public class Song {
     @Id
     private UUID id;
 
-    private String alias;
-
     private String title;
-
-    private UUID thumbnailId;
 
     @Field(type = FieldType.Nested, includeInParent = true)
     private Set<Artist> artists;
@@ -35,20 +31,6 @@ public class Song {
     private Set<Artist> composers;
 
     private String status;
-
-    private Integer releaseDate;
-
-    private Integer listen;
-
-    private Integer liked;
-
-    @Field(type = FieldType.Text)
-    private String lyric;
-
-    @Field(type = FieldType.Nested, includeInParent = true)
-    private Set<Media> medias;
-
-    private double duration;
 
     private Album album;
 }
