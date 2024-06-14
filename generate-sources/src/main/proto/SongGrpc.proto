@@ -36,6 +36,7 @@ message SongResponseGrpc {
   string createdDate = 15;
   string lastModifiedBy = 16;
   string lastModifiedDate = 17;
+  double duration = 18;
 }
 
 service SongService {

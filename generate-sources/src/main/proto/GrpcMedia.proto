@@ -12,6 +12,8 @@ message MediaRequestGrpc {
 message MediaResponseGrpc {
   string id = 1;
   string url = 2;
+  int64 bitrate = 3;
+  double duration = 4;
 }
 
 service MediaService {
