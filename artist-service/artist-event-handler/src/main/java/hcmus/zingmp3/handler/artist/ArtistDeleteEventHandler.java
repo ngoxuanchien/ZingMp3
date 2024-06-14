@@ -7,6 +7,7 @@ import hcmus.zingmp3.common.events.ArtistUpdateEvent;
 import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.service.notification.EmailNotificationService;
+import hcmus.zingmp3.service.notification.UserNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class ArtistDeleteEventHandler implements EventHandler {
     private final ArtistService artistService;
     private final Gson gson;
     private final EmailNotificationService emailNotificationService;
+    private final UserNotificationService userNotificationService;
 
     @Override
     public void handle(JsonObject object) {
@@ -30,6 +32,7 @@ public class ArtistDeleteEventHandler implements EventHandler {
         artistService.delete(artist);
 
         emailNotificationService.sendEmail(artist.getCreatedBy(), event.getType().name(), artist.getAlias());
+        userNotificationService.send(artist.getCreatedBy(), event.getType().name(), artist.getName());
 
     }
 }
