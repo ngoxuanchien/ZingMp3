@@ -11,9 +11,11 @@ pipeline {
         stage("Init") {
             steps {
                 script {
-                    sh 'cd init'
-                    sh 'docker-compose up -d'
-                    sh 'cd ..'
+                    sh '''
+                        cd init 
+                        docker-compose up -d
+                        cd ..
+                    '''
                 }
             }
         }
