@@ -11,6 +11,7 @@ public record AlbumResponse(
         UUID id,
         String alias,
         String title,
+        String thumbnail,
         AlbumType type,
         String description,
         Set<UUID> artistIds,

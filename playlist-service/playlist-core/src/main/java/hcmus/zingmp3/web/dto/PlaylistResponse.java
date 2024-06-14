@@ -10,7 +10,7 @@ public record PlaylistResponse(
         UUID id,
         String alias,
         String title,
-        UUID thumbnailId,
+        String thumbnail,
         PlaylistType type,
         String description,
         Set<UUID> artistIds,
