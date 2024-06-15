@@ -88,12 +88,12 @@ public class SongController {
     public ResponseEntity<List<SongResponse>> searchMySongs(
             @RequestParam("title") String title,
             @RequestParam(value = "status") List<SongStatus> status,
-            @RequestParam(value = "genreIds", required = false) @Validated @GenreExists List<UUID> genreIds,
+//            @RequestParam(value = "genreIds", required = false) @Validated @GenreExists List<UUID> genreIds,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(songService.searchMySongs(title, status, genreIds, pageable));
+        return ResponseEntity.ok(songService.searchMySongs(title, status, pageable));
     }
 
     @GetMapping

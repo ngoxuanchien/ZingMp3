@@ -14,5 +14,5 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
     boolean existsByAlias(String alias);
     List<Song> findAllByCreatedBy(UUID userId, Pageable pageable);
     List<Song> findAllByTitleContaining(String title, Pageable pageable);
-    List<Song> findAllByTitleLikeAndStatusInAndGenreIdsInAndCreatedBy(String title, List<SongStatus> status, List<UUID> genreIds, UUID createdBy, Pageable pageable);
+    List<Song> findAllByTitleLikeAndStatusInAndCreatedBy(String title, List<SongStatus> status, UUID createdBy, Pageable pageable);
 }
