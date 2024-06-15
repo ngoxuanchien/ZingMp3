@@ -39,13 +39,8 @@ public class ArtistServiceImpl implements ArtistService {
                 System.out.println("Error: " + errorMessage.message());
                 return null;
             }
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                ErrorMessage errorMessage = gson.fromJson(e.getResponseBodyAsString(), ErrorMessage.class);
-                System.out.println("Error: " + errorMessage.message());
-                System.out.println("Details: " + errorMessage.errors());
-            }
-            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create genre", e);
         }
     }
 

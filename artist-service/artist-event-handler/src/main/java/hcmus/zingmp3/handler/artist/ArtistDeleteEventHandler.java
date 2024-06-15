@@ -3,6 +3,7 @@ package hcmus.zingmp3.handler.artist;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import hcmus.zingmp3.common.domain.model.Artist;
+import hcmus.zingmp3.common.events.ArtistDeleteEvent;
 import hcmus.zingmp3.common.events.ArtistUpdateEvent;
 import hcmus.zingmp3.handler.EventHandler;
 import hcmus.zingmp3.service.artist.ArtistService;
@@ -21,9 +22,9 @@ public class ArtistDeleteEventHandler implements EventHandler {
 
     @Override
     public void handle(JsonObject object) {
-        ArtistUpdateEvent event = gson.fromJson(
+        ArtistDeleteEvent event = gson.fromJson(
                 object,
-                ArtistUpdateEvent.class
+                ArtistDeleteEvent.class
         );
 
         Artist artist = (Artist) event.getPayload();
