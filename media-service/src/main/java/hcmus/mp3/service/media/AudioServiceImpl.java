@@ -104,6 +104,7 @@ public class AudioServiceImpl implements AudioService {
 
         String originalFilename = audio.getOriginalFilename();
         long bitrate = getBitrate(audio);
+        createDirectoryIfNotExists(AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate));
         String path = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate) + originalFilename;
         File newFile = new File(path);
         if (newFile.exists() && !replace) {
