@@ -6,6 +6,7 @@ import hcmus.zingmp3.repository.NotificationRepository;
 import hcmus.zingmp3.web.dto.NotificationResponse;
 import hcmus.zingmp3.web.dto.mapper.NotificationMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<NotificationResponse> getNotification(int page, int size) {
+    public Page<NotificationResponse> getNotification(int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, size, sort);
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());

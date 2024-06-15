@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,11 @@ public class NotificationController {
 
     @GetMapping
     @SecurityRequirement(name = "Keycloak")
-    public List<NotificationResponse> getNotification(
+    public ResponseEntity<Page<NotificationResponse>> getNotification(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
-        return notificationService.getNotification(page, size);
+        return ResponseEntity.ok(notificationService.getNotification(page, size));
     }
 
     @GetMapping("/is-read")
