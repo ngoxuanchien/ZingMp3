@@ -34,6 +34,7 @@ public abstract class AbstractPlaylist {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID thumbnailId;
 
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String description;
 
     @CollectionTable(name = "playlist_artist", joinColumns = @JoinColumn(name = "playlist_id"))

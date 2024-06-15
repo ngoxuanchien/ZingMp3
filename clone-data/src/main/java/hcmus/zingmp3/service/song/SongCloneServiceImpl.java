@@ -67,7 +67,10 @@ public class SongCloneServiceImpl implements SongCloneService {
 
             JsonObject jsonObject = gson.fromJson(response.getBody(), JsonObject.class);
 
-            if (jsonObject.get("album").getAsJsonObject() != null && jsonObject.get("album").getAsJsonObject().get("encodeId") != null) {
+            if (jsonObject.get("album") != null &&
+                    jsonObject.get("album").getAsJsonObject() != null &&
+                    jsonObject.get("album").getAsJsonObject().get("encodeId") != null
+            ) {
                 clone.addToClone(jsonObject.get("album").getAsJsonObject().get("encodeId").getAsString());
             }
 

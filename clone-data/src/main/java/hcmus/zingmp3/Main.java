@@ -26,12 +26,16 @@ import hcmus.zingmp3.service.artist.ArtistCloneService;
 import hcmus.zingmp3.service.artist.ArtistCloneServiceImpl;
 import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.service.artist.ArtistServiceImpl;
+import hcmus.zingmp3.service.genre.GenreCloneService;
+import hcmus.zingmp3.service.genre.GenreCloneServiceImpl;
 import hcmus.zingmp3.service.genre.GenreService;
 import hcmus.zingmp3.service.genre.GenreServiceImpl;
 import hcmus.zingmp3.service.image.ImageCloneService;
 import hcmus.zingmp3.service.image.ImageCloneServiceImpl;
 import hcmus.zingmp3.service.image.ImageService;
 import hcmus.zingmp3.service.image.ImageServiceImpl;
+import hcmus.zingmp3.service.media.MediaCloneService;
+import hcmus.zingmp3.service.media.MediaCloneServiceImpl;
 import hcmus.zingmp3.service.media.MediaService;
 import hcmus.zingmp3.service.media.MediaServiceImpl;
 import hcmus.zingmp3.service.playlist.PlaylistService;
@@ -73,6 +77,8 @@ public class Main {
     public static final SongMapper songMapper = new SongMapper();
     public static final PlaylistMapper playlistMapper = new PlaylistMapper();
     public static final GenreMapper genreMapper = new GenreMapper();
+    public static final GenreCloneService genreCloneService = new GenreCloneServiceImpl();
+    public static final MediaCloneService mediaCloneService = new MediaCloneServiceImpl();
 
     public static final UserService userService = new UserServiceImpl();
     public static final MediaService mediaService = new MediaServiceImpl();
@@ -83,15 +89,16 @@ public class Main {
     public static final AlbumService albumService = new AlbumServiceImpl();
     public static final PlaylistService playlistService = new PlaylistServiceImpl();
 
-
-//    private static final CloneService cloneService = new CloneServiceImpl();
     public static void main(String[] args) {
         user = userService.getAccessToken("nxc.hcmus@gmail.com", "123456789");
         clone.addToClone("ZWZB96AI");
 
+//        songCloneService.cloneSong("ZZ98C8I6");
+
         while (!clone.getToClone().isEmpty()) {
             String id = clone.getToClone().poll();
             cloneService.clonePlaylist(id);
+            System.out.println(id);
         }
         System.out.println(clone.getCloned().size() + " playlists cloned");
 

@@ -65,7 +65,7 @@ public record AlbumRequest(
 
 
         @Length(
-                max = 255,
+                max = 1000,
                 message = "Description must be less than {max} characters",
                 groups = {OnCreate.class}
         )
