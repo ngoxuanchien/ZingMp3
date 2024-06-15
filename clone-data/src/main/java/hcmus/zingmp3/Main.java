@@ -1,6 +1,6 @@
 package hcmus.zingmp3;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import hcmus.zingmp3.dto.User;
 import hcmus.zingmp3.dto.artist.ArtistRequest;
 import hcmus.zingmp3.dto.song.SongRequest;
@@ -17,12 +17,17 @@ import hcmus.zingmp3.service.user.UserServiceImpl;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.net.http.HttpClient;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
 public class Main {
-    public static final Gson gson = new Gson();
+    public static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(ZonedDateTime.class, (JsonDeserializer<ZonedDateTime>) (json, type, jsonDeserializationContext) -> ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()))
+            .registerTypeAdapter(ZonedDateTime.class, (JsonSerializer<ZonedDateTime>) (date, type, jsonSerializationContext) -> new JsonPrimitive(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)))
+            .create();
     private static final UserService userService = new UserServiceImpl();
     private static final MediaService mediaService = new MediaServiceImpl(gson);
     public static User user;
@@ -47,7 +52,7 @@ public class Main {
 
         UUID artistId = artistService.createArtist(artistRequest);
 
-       var songRequest = new SongRequest(
+        var songRequest = new SongRequest(
                    "alias-test",
                    "title-test",
                    thumbnailId,
@@ -61,7 +66,9 @@ public class Main {
                    List.of(mediaId)
                );
 
-       songService.createSong(songRequest);
+        UUID songId = songService.createSong(songRequest);
+
+        songService.deleteSong(songId);
 
         artistService.deleteArtist(artistId);
         userService.logout();

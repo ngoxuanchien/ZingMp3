@@ -73,7 +73,7 @@ public class Song {
     @Column(columnDefinition = "TEXT")
     private String lyric;
 
-    @CollectionTable(name = "song_artist", joinColumns = @JoinColumn(name = "song_id"))
+    @CollectionTable(name = "song_medias", joinColumns = @JoinColumn(name = "song_id"))
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "media_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
