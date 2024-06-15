@@ -87,7 +87,7 @@ public class SongController {
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<SongResponse>> searchMySongs(
             @RequestParam("title") String title,
-            @RequestParam(value = "status", required = false) List<SongStatus> status,
+            @RequestParam(value = "status") List<SongStatus> status,
             @RequestParam(value = "genreIds", required = false) @Validated @GenreExists List<UUID> genreIds,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
