@@ -6,8 +6,6 @@ import hcmus.mp3.domain.model.Audio;
 import hcmus.mp3.repository.AudioRepository;
 import hcmus.mp3.web.dto.AudioResponseDto;
 import hcmus.mp3.web.dto.mapper.AudioMapper;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
@@ -17,10 +15,6 @@ import org.jaudiotagger.audio.AudioHeader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 public class AudioServiceImpl implements AudioService {
     private static final String AUDIO_PATH = "./data/audio/";
-    private static final String FILE_PATH_FORMAT = "song/%d/%s/";
+    private static final String FILE_PATH_FORMAT = "song/%d/";
 
     private final Tika tika = new Tika();
     private final AudioRepository audioRepository;
@@ -101,36 +95,44 @@ public class AudioServiceImpl implements AudioService {
     }
 
     @Override
-    public AudioResponseDto createAudio(MultipartFile audio) {
+    public AudioResponseDto createAudio(MultipartFile audio, boolean replace) {
         if (!isAudioFile(audio)) {
             throw new NotAnAudioFileException(
                     String.format("File %s is not an audio file", audio.getOriginalFilename())
             );
         }
 
-        String currentDate = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        String originalFilename = audio.getOriginalFilename();
         long bitrate = getBitrate(audio);
-        String path = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate, currentDate);
+        String path = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate) + originalFilename;
+        File newFile = new File(path);
+        if (newFile.exists() && !replace) {
+            String filenameWithoutExtension = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+            String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
 
-        createDirectoryIfNotExists(path);
+            originalFilename = filenameWithoutExtension + System.currentTimeMillis() + extension;
+            path = AUDIO_PATH + String.format(FILE_PATH_FORMAT, bitrate) + originalFilename;
+            newFile = new File(path);
+        }
 
-        Audio entity;
         try {
-            String filePath = path + audio.getOriginalFilename();
-            entity = Audio.builder()
-                    .name(audio.getOriginalFilename())
-                    .type(audio.getContentType())
-                    .path(path)
-                    .size(audio.getSize())
-                    .bitrate(bitrate)
-                    .build();
-            audio.transferTo(new File(filePath).toPath());
-            entity.setDuration(getDuration(filePath));
+            audio.transferTo(newFile.toPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return audioMapper.toDto(audioRepository.save(entity));
+        var entity = Audio.builder()
+                .name(audio.getOriginalFilename())
+                .type(audio.getContentType())
+                .path(path)
+                .size(audio.getSize())
+                .bitrate(bitrate)
+                .duration(getDuration(path))
+                .build();
+
+        return audioMapper.toDto(
+                audioRepository.findByPath(path)
+                        .orElse(audioRepository.save(entity)));
     }
 
     @Override

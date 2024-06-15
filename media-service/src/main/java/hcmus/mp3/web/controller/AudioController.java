@@ -21,9 +21,10 @@ public class AudioController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<AudioResponseDto> createAudio(
+            @RequestParam(value = "replace", required = false, defaultValue = "false") boolean replace,
             @RequestPart("audio") final MultipartFile audio
     ) {
-        return ResponseEntity.ok(audioService.createAudio(audio));
+        return ResponseEntity.ok(audioService.createAudio(audio, replace));
     }
 
     @GetMapping("/{audio-id}")

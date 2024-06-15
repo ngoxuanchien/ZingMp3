@@ -26,7 +26,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public UUID uploadImage(String path) {
-        String url = "http://nxc-hcmus.me:8081/api/images";
+        String url = "http://nxc-hcmus.me:8081/api/images?replace=true";
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         Resource resource = new FileSystemResource(new File(path));

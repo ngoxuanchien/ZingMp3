@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AudioService {
-    AudioResponseDto createAudio(MultipartFile audio);
+    AudioResponseDto createAudio(MultipartFile audio, boolean replace);
 
     AudioResponseDto getAudio(UUID audioId);
 
