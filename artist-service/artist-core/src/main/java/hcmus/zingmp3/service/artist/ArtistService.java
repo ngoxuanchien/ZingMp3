@@ -31,4 +31,6 @@ public interface ArtistService extends QueryService<Artist>, CommandService<Arti
     List<ArtistResponse> getAllArtists();
 
     List<ArtistResponse> searchArtist(String name, List<ArtistStatus> status, Pageable pageable);
+
+    List<ArtistResponse> getAllArtists(List<ArtistStatus> status, Pageable pageable);
 }

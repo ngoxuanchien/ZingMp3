@@ -76,11 +76,16 @@ public class SongController {
     @GetMapping("/my-songs")
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<SongResponse>> getMySongs(
+            @RequestParam(value = "status", required = false) List<SongStatus> status,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(songService.getAllMySongs(pageable));
+        if (status != null) {
+            return ResponseEntity.ok(songService.getAllMySongs(status, pageable));
+        } else {
+            return ResponseEntity.ok(songService.getAllMySongs(pageable));
+        }
     }
 
     @GetMapping("/my-songs/search")

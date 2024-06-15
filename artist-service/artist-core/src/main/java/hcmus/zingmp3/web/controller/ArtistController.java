@@ -66,6 +66,7 @@ public class ArtistController {
 
     @GetMapping("/page")
     public ResponseEntity<List<ArtistResponse>> getArtistByAlias(
+            @RequestParam(value = "status", required = false) List<ArtistStatus> status,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
             @Schema(description = "Sort by field name", allowableValues = { "id", "name", "alias", "realName" })
@@ -76,7 +77,12 @@ public class ArtistController {
     ) {
         Sort sortData = Sort.by(Sort.Direction.fromString(order), sortBy);
         Pageable pageable = PageRequest.of(page, size, sortData);
-        return ResponseEntity.ok(artistService.getAllArtists(pageable));
+        if (status == null) {
+            return ResponseEntity.ok(artistService.getAllArtists(pageable));
+
+        } else {
+            return ResponseEntity.ok(artistService.getAllArtists(status, pageable));
+        }
     }
 
     @GetMapping

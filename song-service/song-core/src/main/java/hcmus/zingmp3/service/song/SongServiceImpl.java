@@ -147,4 +147,10 @@ public class SongServiceImpl implements SongService {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.searchMySongs(name, status, userId, pageable));
     }
+
+    @Override
+    public List<SongResponse> getAllMySongs(List<SongStatus> status, Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return mapper.toDto(queryService.getAllMySongs(status, userId, pageable));
+    }
 }

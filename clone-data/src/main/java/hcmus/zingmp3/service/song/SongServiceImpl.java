@@ -57,7 +57,7 @@ public class SongServiceImpl implements SongService {
         }
 
         try {
-            String url = "http://nxc-hcmus.me:8081/api/songs" + songId.toString();
+            String url = "http://nxc-hcmus.me:8081/api/songs/" + songId.toString();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setBearerAuth(user.accessToken());

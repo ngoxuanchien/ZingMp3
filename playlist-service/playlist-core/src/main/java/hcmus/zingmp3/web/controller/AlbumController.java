@@ -78,10 +78,14 @@ public class AlbumController {
     @GetMapping("/my-albums")
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<AlbumResponse>> getMyAlbums(
+            @RequestParam(value = "status", required = false) List<AlbumStatus> status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
+        if (status != null) {
+            return ResponseEntity.ok(albumService.getMyAlbums(status, pageable));
+        }
         return ResponseEntity.ok(albumService.getMyAlbums(pageable));
     }
 

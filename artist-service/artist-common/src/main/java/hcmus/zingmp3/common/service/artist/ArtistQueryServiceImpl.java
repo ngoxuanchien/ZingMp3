@@ -56,4 +56,9 @@ public class ArtistQueryServiceImpl implements ArtistQueryService {
     public List<Artist> searchArtist(String name, List<ArtistStatus> status, Pageable pageable) {
         return repository.findAllByNameLikeAndStatusIn(name, status, pageable);
     }
+
+    @Override
+    public List<Artist> getAll(List<ArtistStatus> status, Pageable pageable) {
+        return repository.findAllByStatusIn(status, pageable);
+    }
 }

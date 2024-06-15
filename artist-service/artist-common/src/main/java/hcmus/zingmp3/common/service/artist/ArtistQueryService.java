@@ -10,4 +10,6 @@ import java.util.List;
 public interface ArtistQueryService extends QueryService<Artist> {
 
     List<Artist> searchArtist(String name, List<ArtistStatus> status, Pageable pageable);
+
+    List<Artist> getAll(List<ArtistStatus> status, Pageable pageable);
 }

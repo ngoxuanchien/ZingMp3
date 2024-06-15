@@ -14,4 +14,6 @@ public interface AlbumQueryService extends QueryService<Album> {
     List<Album> searchAlbum(String title, Pageable pageable);
 
     List<Album> searchMyAlbums(String title, List<AlbumStatus> status, UUID userId, Pageable pageable);
+
+    List<Album> getMyAlbums(List<AlbumStatus> status, UUID userId, Pageable pageable);
 }

@@ -13,4 +13,5 @@ public interface ArtistRepository extends JpaRepository<Artist, UUID> {
     Optional<Artist> findByAlias(String alias);
     boolean existsByAlias(String alias);
     List<Artist> findAllByNameLikeAndStatusIn(String name, List<ArtistStatus> status, Pageable pageable);
+    List<Artist> findAllByStatusIn(List<ArtistStatus> status, Pageable pageable);
 }
