@@ -21,7 +21,7 @@ public class SongServiceImpl implements SongService {
 
 
     @Override
-    public UUID createSong(SongRequest songRequest) {
+    public SongResponse createSong(SongRequest songRequest) {
         if (songRequest == null) {
             return null;
         }
@@ -39,13 +39,14 @@ public class SongServiceImpl implements SongService {
 
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 SongResponse songResponse = gson.fromJson(response.getBody(), SongResponse.class);
-                return songResponse.id();
+                return songResponse;
             } else {
                 ErrorMessage errorMessage = gson.fromJson(response.getBody(), ErrorMessage.class);
                 System.out.println("Error: " + errorMessage.message());
                 return null;
             }
         } catch (HttpClientErrorException e) {
+            e.printStackTrace();
             throw new RuntimeException("Failed to create song", e);
         }
     }
@@ -71,6 +72,7 @@ public class SongServiceImpl implements SongService {
             }
         } catch (HttpClientErrorException e) {
             System.out.println("Error: " + e.getStatusCode() + " - " + e.getStatusText());
+            e.printStackTrace();
             System.out.println("Response Body: " + e.getResponseBodyAsString());
         }
     }

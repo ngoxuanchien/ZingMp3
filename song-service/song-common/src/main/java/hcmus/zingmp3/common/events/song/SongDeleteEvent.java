@@ -17,7 +17,7 @@ public class SongDeleteEvent extends AbstractEvent {
     public SongDeleteEvent(
             final Song payload
     ) {
-        super(null, EventType.SONG_DELETE, null);
+        super(null, EventType.SONG_DELETE, payload);
     }
 
     @Override

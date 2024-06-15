@@ -2,10 +2,21 @@ package hcmus.zingmp3;
 
 import com.google.gson.*;
 import hcmus.zingmp3.dto.User;
+import hcmus.zingmp3.dto.album.AlbumRequest;
+import hcmus.zingmp3.dto.album.AlbumResponse;
+import hcmus.zingmp3.dto.album.AlbumType;
 import hcmus.zingmp3.dto.artist.ArtistRequest;
+import hcmus.zingmp3.dto.artist.ArtistResponse;
+import hcmus.zingmp3.dto.genre.GenreRequest;
+import hcmus.zingmp3.dto.genre.GenreResponse;
 import hcmus.zingmp3.dto.song.SongRequest;
+import hcmus.zingmp3.dto.song.SongResponse;
+import hcmus.zingmp3.service.album.AlbumService;
+import hcmus.zingmp3.service.album.AlbumServiceImpl;
 import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.service.artist.ArtistServiceImpl;
+import hcmus.zingmp3.service.genre.GenreService;
+import hcmus.zingmp3.service.genre.GenreServiceImpl;
 import hcmus.zingmp3.service.image.ImageService;
 import hcmus.zingmp3.service.image.ImageServiceImpl;
 import hcmus.zingmp3.service.media.MediaService;
@@ -16,7 +27,7 @@ import hcmus.zingmp3.service.user.UserService;
 import hcmus.zingmp3.service.user.UserServiceImpl;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.net.http.HttpClient;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,6 +45,8 @@ public class Main {
     private static final ImageService imageService = new ImageServiceImpl();
     private static final ArtistService artistService = new ArtistServiceImpl();
     private static final SongService songService = new SongServiceImpl();
+    private static final GenreService genreService = new GenreServiceImpl();
+    private static final AlbumService albumService = new AlbumServiceImpl();
 
     public static void main(String[] args) {
         user = userService.getAccessToken("nxc.hcmus@gmail.com", "123456789");
@@ -41,6 +54,13 @@ public class Main {
         UUID mediaId = mediaService.uploadMedia("src/main/resources/test.mp3");
 
         UUID thumbnailId = imageService.uploadImage("src/main/resources/testImage.jpg");
+
+        GenreRequest genreRequest = new GenreRequest(
+                "alias-test",
+                "name-test"
+        );
+
+        GenreResponse genre = genreService.createGenre(genreRequest);
 
 
         ArtistRequest artistRequest = new ArtistRequest(
@@ -50,15 +70,15 @@ public class Main {
                 "realName-test"
         );
 
-        UUID artistId = artistService.createArtist(artistRequest);
+        ArtistResponse artist = artistService.createArtist(artistRequest);
 
         var songRequest = new SongRequest(
                    "alias-test",
                    "title-test",
                    thumbnailId,
-                   List.of(artistId),
-                   List.of(),
-                   List.of(artistId),
+                   List.of(artist.id()),
+                   List.of(genre.id()),
+                   List.of(artist.id()),
                    0,
                    null,
                    null,
@@ -66,11 +86,27 @@ public class Main {
                    List.of(mediaId)
                );
 
-        UUID songId = songService.createSong(songRequest);
+        SongResponse song = songService.createSong(songRequest);
 
-        songService.deleteSong(songId);
+        AlbumRequest albumRequest = new AlbumRequest(
+                "alias-test",
+                thumbnailId,
+                "title-test",
+                AlbumType.ALBUM,
+                "description-test",
+                List.of(artist.id()),
+                LocalDateTime.now(),
+                List.of(song.id())
+        );
 
-        artistService.deleteArtist(artistId);
+        AlbumResponse album = albumService.createAlbum(albumRequest);
+
+
+
+        albumService.deleteAlbum(album.id());
+        songService.deleteSong(song.id());
+        artistService.deleteArtist(artist.id());
+        genreService.deleteGenre(genre.id());
         userService.logout();
 
     }

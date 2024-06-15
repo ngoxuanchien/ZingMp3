@@ -19,7 +19,7 @@ public class ArtistServiceImpl implements ArtistService {
 
 
     @Override
-    public UUID createArtist(ArtistRequest artistRequest) {
+    public ArtistResponse createArtist(ArtistRequest artistRequest) {
         try {
             String url = "http://nxc-hcmus.me:8081/api/artists";
 
@@ -33,7 +33,7 @@ public class ArtistServiceImpl implements ArtistService {
 
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 ArtistResponse artistResponse = gson.fromJson(response.getBody(), ArtistResponse.class);
-                return artistResponse.id();
+                return artistResponse;
             } else {
                 ErrorMessage errorMessage = gson.fromJson(response.getBody(), ErrorMessage.class);
                 System.out.println("Error: " + errorMessage.message());
