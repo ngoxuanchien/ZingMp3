@@ -17,6 +17,27 @@ import static hcmus.zingmp3.Main.*;
 @Service
 public class SongServiceImpl implements SongService {
 
+    private void approveSong(String songAlias) {
+        try {
+            String url = "http://nxc-hcmus.me:8081/api/songs/approved/" + songAlias;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(user.accessToken());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+            if (response.getStatusCode() != HttpStatus.ACCEPTED) {
+                throw new RuntimeException("Failed to approve song");
+            }
+        } catch (HttpClientErrorException e) {
+            System.out.println("Error: " + e.getStatusCode() + " - " + e.getStatusText());
+            System.out.println("Response Body: " + e.getResponseBodyAsString());
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public SongResponse createSong(SongRequest songRequest) {
         if (songRequest == null) {
@@ -36,6 +57,7 @@ public class SongServiceImpl implements SongService {
 
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 SongResponse songResponse = gson.fromJson(response.getBody(), SongResponse.class);
+                approveSong(songResponse.alias());
                 return songResponse;
             } else {
                 ErrorMessage errorMessage = gson.fromJson(response.getBody(), ErrorMessage.class);

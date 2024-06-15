@@ -18,4 +18,6 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
     Page<Song> findAllByTitleLikeAndStatusInAndCreatedBy(String title, List<SongStatus> status, UUID createdBy, Pageable pageable);
 
     Page<Song> findAllByStatusInAndCreatedBy(List<SongStatus> status, UUID userId, Pageable pageable);
+
+    List<Song> findAllByStatus(SongStatus songStatus);
 }

@@ -21,4 +21,6 @@ public interface AlbumRepository extends JpaRepository<Album, UUID> {
     Page<Album> findAllByTitleContainingAndStatusInAndCreatedBy(String title, List<AlbumStatus> status, UUID userId, Pageable pageable);
 
     Page<Album> findAllByStatusInAndCreatedBy(List<AlbumStatus> status, UUID userId, Pageable pageable);
+
+    List<Album> findAllByStatus(AlbumStatus albumStatus);
 }

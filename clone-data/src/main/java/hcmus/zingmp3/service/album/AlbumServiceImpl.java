@@ -15,6 +15,27 @@ import static hcmus.zingmp3.Main.user;
 @Service
 public class AlbumServiceImpl implements AlbumService {
 
+    void approveAlbum(String albumAlias) {
+        try {
+            String url = "http://nxc-hcmus.me:8081/api/albums/approved/" + albumAlias;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(user.accessToken());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+            if (response.getStatusCode() != HttpStatus.ACCEPTED) {
+                throw new RuntimeException("Failed to approve album");
+            }
+        } catch (HttpClientErrorException e) {
+            System.out.println("Error: " + e.getStatusCode() + " - " + e.getStatusText());
+            System.out.println("Response Body: " + e.getResponseBodyAsString());
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public AlbumResponse createAlbum(AlbumRequest albumRequest) {
         try {
