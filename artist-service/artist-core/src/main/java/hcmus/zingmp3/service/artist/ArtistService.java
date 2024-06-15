@@ -1,6 +1,7 @@
 package hcmus.zingmp3.service.artist;
 
 import hcmus.zingmp3.common.domain.model.Artist;
+import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.common.service.QueryService;
 import hcmus.zingmp3.service.CommandService;
 import hcmus.zingmp3.web.dto.ArtistRequest;
@@ -29,5 +30,5 @@ public interface ArtistService extends QueryService<Artist>, CommandService<Arti
 
     List<ArtistResponse> getAllArtists();
 
-    List<ArtistResponse> searchArtist(String name, Pageable pageable);
+    List<ArtistResponse> searchArtist(String name, ArtistStatus status, Pageable pageable);
 }

@@ -2,6 +2,7 @@ package hcmus.zingmp3.common.service.artist;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Artist;
+import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.common.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +53,7 @@ public class ArtistQueryServiceImpl implements ArtistQueryService {
     }
 
     @Override
-    public List<Artist> searchArtist(String name, Pageable pageable) {
-        return repository.findAllByNameContaining(name, pageable);
+    public List<Artist> searchArtist(String name, ArtistStatus status, Pageable pageable) {
+        return repository.findAllByNameLikeAndStatus(name, status, pageable);
     }
 }

@@ -1,10 +1,12 @@
 package hcmus.zingmp3.web.controller;
 
+import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.service.song.SongService;
 import hcmus.zingmp3.web.dto.OnCreate;
 import hcmus.zingmp3.web.dto.OnUpdate;
 import hcmus.zingmp3.web.dto.SongRequest;
 import hcmus.zingmp3.web.dto.SongResponse;
+import hcmus.zingmp3.web.dto.validator.genre.GenreExists;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
@@ -84,12 +86,14 @@ public class SongController {
     @GetMapping("/my-songs/search")
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<SongResponse>> searchMySongs(
-            @RequestParam("title") String name,
+            @RequestParam("title") String title,
+            @RequestParam(value = "status", required = false) SongStatus status,
+            @RequestParam(value = "genreIds", required = false) @Validated @GenreExists List<UUID> genreIds,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(songService.searchMySongs(name, pageable));
+        return ResponseEntity.ok(songService.searchMySongs(title, status, genreIds, pageable));
     }
 
     @GetMapping

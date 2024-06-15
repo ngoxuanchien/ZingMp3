@@ -1,6 +1,7 @@
 package hcmus.zingmp3.service.song;
 
 import hcmus.zingmp3.common.domain.model.Song;
+import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.song.SongQueryService;
 import hcmus.zingmp3.service.media.MediaService;
 import hcmus.zingmp3.web.dto.SongRequest;
@@ -142,8 +143,8 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<SongResponse> searchMySongs(String name, Pageable pageable) {
+    public List<SongResponse> searchMySongs(String name, SongStatus status, List<UUID> genreIds, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
-        return mapper.toDto(queryService.searchMySongs(name, userId, pageable));
+        return mapper.toDto(queryService.searchMySongs(name, status, genreIds, userId, pageable));
     }
 }

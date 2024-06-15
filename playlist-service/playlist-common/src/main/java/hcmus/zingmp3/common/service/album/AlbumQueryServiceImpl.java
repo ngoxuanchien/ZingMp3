@@ -2,6 +2,7 @@ package hcmus.zingmp3.common.service.album;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Album;
+import hcmus.zingmp3.common.domain.model.AlbumStatus;
 import hcmus.zingmp3.common.repository.AbstractPlaylistRepository;
 import hcmus.zingmp3.common.repository.AlbumRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +59,10 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
     @Override
     public List<Album> searchAlbum(String title, Pageable pageable) {
         return repository.findAllByTitleContaining(title, pageable);
+    }
+
+    @Override
+    public List<Album> searchMyAlbums(String title, AlbumStatus status, UUID userId, Pageable pageable) {
+        return repository.findAllByTitleContainingAndStatusAndCreatedBy(title, status, userId, pageable);
     }
 }

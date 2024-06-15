@@ -1,5 +1,6 @@
 package hcmus.zingmp3.web.controller;
 
+import hcmus.zingmp3.common.domain.model.AlbumStatus;
 import hcmus.zingmp3.service.album.AlbumService;
 import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
@@ -82,6 +83,18 @@ public class AlbumController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(albumService.getMyAlbums(pageable));
+    }
+
+    @GetMapping("/my-albums/search")
+    @SecurityRequirement(name = "Keycloak")
+    public ResponseEntity<List<AlbumResponse>> searchMyAlbums(
+            @RequestParam("title") String title,
+            @RequestParam("status")AlbumStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(albumService.searchMyAlbums(title, status, pageable));
     }
 
     @PutMapping

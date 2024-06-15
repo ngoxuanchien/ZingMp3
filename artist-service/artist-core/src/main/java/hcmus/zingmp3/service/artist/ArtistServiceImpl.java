@@ -1,6 +1,7 @@
 package hcmus.zingmp3.service.artist;
 
 import hcmus.zingmp3.common.domain.model.Artist;
+import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.common.service.artist.ArtistQueryService;
 import hcmus.zingmp3.web.dto.ArtistRequest;
 import hcmus.zingmp3.web.dto.ArtistResponse;
@@ -136,7 +137,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<ArtistResponse> searchArtist(String name, Pageable pageable) {
-        return artistMapper.toDto(queryService.searchArtist(name, pageable));
+    public List<ArtistResponse> searchArtist(String name, ArtistStatus status,  Pageable pageable) {
+        return artistMapper.toDto(queryService.searchArtist(name, status, pageable));
     }
 }

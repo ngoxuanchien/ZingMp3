@@ -1,9 +1,10 @@
-package hcmus.zingmp3.web.dto;
+package hcmus.zingmp3.dto.song;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import hcmus.zingmp3.common.domain.model.SongStatus;
+import hcmus.zingmp3.dto.artist.ArtistResponse;
+import hcmus.zingmp3.dto.genre.GenreResponse;
 
 import java.util.List;
 import java.util.UUID;

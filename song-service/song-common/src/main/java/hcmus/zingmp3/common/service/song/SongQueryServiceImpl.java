@@ -2,6 +2,7 @@ package hcmus.zingmp3.common.service.song;
 
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Song;
+import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.repository.SongRepository;
 import hcmus.zingmp3.common.service.song.SongQueryService;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,7 @@ public class SongQueryServiceImpl implements SongQueryService {
     }
 
     @Override
-    public List<Song> searchMySongs(String name, UUID userId, Pageable pageable) {
-        return repository.findAllByTitleContainingAndCreatedBy(name, userId, pageable);
+    public List<Song> searchMySongs(String name, SongStatus status, List<UUID> genreIds, UUID userId, Pageable pageable) {
+        return repository.findAllByTitleLikeAndStatusAndGenreIdsInAndCreatedBy(name, status, genreIds , userId, pageable);
     }
 }

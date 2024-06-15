@@ -1,6 +1,7 @@
 package hcmus.zingmp3.service.album;
 
 import hcmus.zingmp3.common.domain.model.Album;
+import hcmus.zingmp3.common.domain.model.AlbumStatus;
 import hcmus.zingmp3.common.service.QueryService;
 import hcmus.zingmp3.service.CommandService;
 import hcmus.zingmp3.web.dto.AlbumRequest;
@@ -38,4 +39,6 @@ public interface AlbumService extends QueryService<Album>, CommandService<Album>
     List<AlbumResponse> getMyAlbums(Pageable pageable);
 
     List<AlbumResponse> searchAlbum(String title, Pageable pageable);
+
+    List<AlbumResponse> searchMyAlbums(String title, AlbumStatus status, Pageable pageable);
 }

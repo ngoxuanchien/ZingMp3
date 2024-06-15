@@ -2,6 +2,7 @@ package hcmus.zingmp3.web.handler;
 
 import hcmus.zingmp3.common.domain.exception.ResourceAlreadyExistsException;
 import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,6 +42,26 @@ public class GlobalExceptionHandler {
                 e.getMessage(),
                 BAD_REQUEST,
                 null,
+                ZonedDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorMessage constraintViolation(
+            final ConstraintViolationException e
+    ) {
+        Map<String, String> errors = e.getConstraintViolations().stream()
+                .collect(Collectors.toMap(
+                        violation -> violation.getPropertyPath().toString(),
+                        violation -> violation.getMessage(),
+                        (existingMessage, newMessage) ->
+                                existingMessage + " " + newMessage
+                ));
+        return new ErrorMessage(
+                "Validation failed.",
+                BAD_REQUEST,
+                errors,
                 ZonedDateTime.now()
         );
     }

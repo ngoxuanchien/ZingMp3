@@ -154,4 +154,10 @@ public class AlbumServiceImpl implements AlbumService {
     public List<AlbumResponse> searchAlbum(String title, Pageable pageable) {
         return mapper.toDto(queryService.searchAlbum(title, pageable));
     }
+
+    @Override
+    public List<AlbumResponse> searchMyAlbums(String title, AlbumStatus status, Pageable pageable) {
+        UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
+        return mapper.toDto(queryService.searchMyAlbums(title, status, userId, pageable));
+    }
 }

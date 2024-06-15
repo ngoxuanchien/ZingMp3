@@ -1,6 +1,7 @@
 package hcmus.zingmp3.service.song;
 
 import hcmus.zingmp3.common.domain.model.Song;
+import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.service.QueryService;
 import hcmus.zingmp3.service.CommandService;
 import hcmus.zingmp3.web.dto.SongRequest;
@@ -35,5 +36,5 @@ public interface SongService {
 
     List<SongResponse> searchSong(String title, Pageable pageable);
 
-    List<SongResponse> searchMySongs(String name, Pageable pageable);
+    List<SongResponse> searchMySongs(String name, SongStatus status, List<UUID> genreIds, Pageable pageable);
 }

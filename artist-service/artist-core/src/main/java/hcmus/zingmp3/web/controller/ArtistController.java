@@ -1,5 +1,6 @@
 package hcmus.zingmp3.web.controller;
 
+import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.service.artist.ArtistService;
 import hcmus.zingmp3.web.dto.ArtistRequest;
 import hcmus.zingmp3.web.dto.ArtistResponse;
@@ -50,11 +51,12 @@ public class ArtistController {
     @GetMapping("/search")
     public ResponseEntity<List<ArtistResponse>> searchArtist(
             @RequestParam("name") final String name,
+            @RequestParam(value = "status", required = false) ArtistStatus status,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(artistService.searchArtist(name, pageable));
+        return ResponseEntity.ok(artistService.searchArtist(name, status, pageable));
     }
 
     @GetMapping("/all")

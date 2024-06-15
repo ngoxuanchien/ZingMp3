@@ -62,7 +62,7 @@ public class Song {
     @Enumerated(EnumType.STRING)
     private SongStatus status = SongStatus.APPROVAL_PENDING;
 
-    private Integer releaseDate;
+    private int releaseDate;
 
     @Builder.Default
     private Integer listen = 0;

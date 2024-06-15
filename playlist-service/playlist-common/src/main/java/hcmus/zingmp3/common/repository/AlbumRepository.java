@@ -1,6 +1,7 @@
 package hcmus.zingmp3.common.repository;
 
 import hcmus.zingmp3.common.domain.model.Album;
+import hcmus.zingmp3.common.domain.model.AlbumStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,6 @@ public interface AlbumRepository extends JpaRepository<Album, UUID> {
     List<Album> findAllByCreatedBy(UUID userId, Pageable pageable);
 
     List<Album> findAllByTitleContaining(String title, Pageable pageable);
+
+    List<Album> findAllByTitleContainingAndStatusAndCreatedBy(String title, AlbumStatus status, UUID userId, Pageable pageable);
 }
