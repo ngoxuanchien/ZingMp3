@@ -27,7 +27,7 @@ public class ArtistDeleteEventHandler implements EventHandler {
                 ArtistDeleteEvent.class
         );
 
-        Artist artist = (Artist) event.getPayload();
+        Artist artist = gson.fromJson(gson.toJsonTree(event.getPayload()), Artist.class);
         artist.setLastModifiedBy(event.getCreatedBy());
         artist.setLastModifiedDate(event.getTimestamp());
         artistService.delete(artist);
