@@ -9,6 +9,7 @@ import hcmus.zingmp3.web.dto.OnUpdate;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,7 +46,7 @@ public class AlbumController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<AlbumResponse>> searchAlbum(
+    public ResponseEntity<Page<AlbumResponse>> searchAlbum(
             @RequestParam("title") String title,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
@@ -77,7 +78,7 @@ public class AlbumController {
 
     @GetMapping("/my-albums")
     @SecurityRequirement(name = "Keycloak")
-    public ResponseEntity<List<AlbumResponse>> getMyAlbums(
+    public ResponseEntity<Page<AlbumResponse>> getMyAlbums(
             @RequestParam(value = "status", required = false) List<AlbumStatus> status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -91,7 +92,7 @@ public class AlbumController {
 
     @GetMapping("/my-albums/search")
     @SecurityRequirement(name = "Keycloak")
-    public ResponseEntity<List<AlbumResponse>> searchMyAlbums(
+    public ResponseEntity<Page<AlbumResponse>> searchMyAlbums(
             @RequestParam("title") String title,
             @RequestParam("status") List<AlbumStatus> status,
             @RequestParam(defaultValue = "0") int page,

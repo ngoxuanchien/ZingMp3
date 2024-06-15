@@ -7,6 +7,7 @@ import hcmus.zingmp3.web.dto.ArtistRequest;
 import hcmus.zingmp3.web.dto.ArtistResponse;
 import hcmus.zingmp3.web.dto.mapper.ArtistMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Artist> getAll(Pageable pageable) {
+    public Page<Artist> getAll(Pageable pageable) {
         return queryService.getAll(pageable);
     }
 
@@ -127,7 +128,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<ArtistResponse> getAllArtists(Pageable pageable) {
+    public Page<ArtistResponse> getAllArtists(Pageable pageable) {
         return artistMapper.toDto(getAll(pageable));
     }
 
@@ -137,12 +138,12 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<ArtistResponse> searchArtist(String name, List<ArtistStatus> status,  Pageable pageable) {
+    public Page<ArtistResponse> searchArtist(String name, List<ArtistStatus> status, Pageable pageable) {
         return artistMapper.toDto(queryService.searchArtist(name, status, pageable));
     }
 
     @Override
-    public List<ArtistResponse> getAllArtists(List<ArtistStatus> status, Pageable pageable) {
+    public Page<ArtistResponse> getAllArtists(List<ArtistStatus> status, Pageable pageable) {
         return artistMapper.toDto(queryService.getAll(status, pageable));
     }
 }

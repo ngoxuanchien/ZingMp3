@@ -4,6 +4,7 @@ import hcmus.zingmp3.common.domain.exception.ResourceNotFoundException;
 import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.common.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,8 @@ public class GenreQueryServiceImpl implements GenreQueryService {
     }
 
     @Override
-    public List<Genre> getAll(Pageable pageable) {
-        return repository.findAll(pageable).getContent();
+    public Page<Genre> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override

@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.service.QueryService;
 import hcmus.zingmp3.service.CommandService;
 import hcmus.zingmp3.web.dto.ArtistRequest;
 import hcmus.zingmp3.web.dto.ArtistResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -26,11 +27,11 @@ public interface ArtistService extends QueryService<Artist>, CommandService<Arti
 
     ArtistResponse getArtistById(UUID id);
 
-    List<ArtistResponse> getAllArtists(Pageable pageable);
+    Page<ArtistResponse> getAllArtists(Pageable pageable);
 
     List<ArtistResponse> getAllArtists();
 
-    List<ArtistResponse> searchArtist(String name, List<ArtistStatus> status, Pageable pageable);
+    Page<ArtistResponse> searchArtist(String name, List<ArtistStatus> status, Pageable pageable);
 
-    List<ArtistResponse> getAllArtists(List<ArtistStatus> status, Pageable pageable);
+    Page<ArtistResponse> getAllArtists(List<ArtistStatus> status, Pageable pageable);
 }

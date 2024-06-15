@@ -8,6 +8,7 @@ import hcmus.zingmp3.web.dto.SongRequest;
 import hcmus.zingmp3.web.dto.SongResponse;
 import hcmus.zingmp3.web.dto.mapper.SongMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -119,7 +120,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<SongResponse> getAllSongs(Pageable pageable) {
+    public Page<SongResponse> getAllSongs(Pageable pageable) {
         return mapper.toDto(queryService.getAll(pageable));
     }
 
@@ -129,27 +130,24 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<SongResponse> getAllMySongs(Pageable pageable) {
+    public Page<SongResponse> getAllMySongs(Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
-        return queryService.getAllByCreatedBy(userId, pageable)
-                .stream()
-                .map(mapper::toDto)
-                .toList();
+        return mapper.toDto(queryService.getAllByCreatedBy(userId, pageable));
     }
 
     @Override
-    public List<SongResponse> searchSong(String title, Pageable pageable) {
+    public Page<SongResponse> searchSong(String title, Pageable pageable) {
         return mapper.toDto(queryService.searchSong(title, pageable));
     }
 
     @Override
-    public List<SongResponse> searchMySongs(String name, List<SongStatus> status, Pageable pageable) {
+    public Page<SongResponse> searchMySongs(String name, List<SongStatus> status, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.searchMySongs(name, status, userId, pageable));
     }
 
     @Override
-    public List<SongResponse> getAllMySongs(List<SongStatus> status, Pageable pageable) {
+    public Page<SongResponse> getAllMySongs(List<SongStatus> status, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.getAllMySongs(status, userId, pageable));
     }

@@ -8,6 +8,7 @@ import hcmus.zingmp3.web.dto.OnUpdate;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -63,7 +64,7 @@ public class GenreController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<List<GenreResponse>> getGenreByAlias(
+    public ResponseEntity<Page<GenreResponse>> getGenreByAlias(
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
             @RequestParam(defaultValue = "id") String sortBy,

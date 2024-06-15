@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.domain.model.SongStatus;
 import hcmus.zingmp3.common.repository.SongRepository;
 import hcmus.zingmp3.common.service.song.SongQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,8 @@ public class SongQueryServiceImpl implements SongQueryService {
     }
 
     @Override
-    public List<Song> getAll(Pageable pageable) {
-        return repository.findAll(pageable).getContent();
+    public Page<Song> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
@@ -54,22 +55,22 @@ public class SongQueryServiceImpl implements SongQueryService {
     }
 
     @Override
-    public List<Song> getAllByCreatedBy(UUID userId, Pageable pageable) {
+    public Page<Song> getAllByCreatedBy(UUID userId, Pageable pageable) {
         return repository.findAllByCreatedBy(userId, pageable);
     }
 
     @Override
-    public List<Song> searchSong(String title, Pageable pageable) {
+    public Page<Song> searchSong(String title, Pageable pageable) {
         return repository.findAllByTitleContaining(title, pageable);
     }
 
     @Override
-    public List<Song> searchMySongs(String name, List<SongStatus> status, UUID userId, Pageable pageable) {
+    public Page<Song> searchMySongs(String name, List<SongStatus> status, UUID userId, Pageable pageable) {
         return repository.findAllByTitleLikeAndStatusInAndCreatedBy(name, status , userId, pageable);
     }
 
     @Override
-    public List<Song> getAllMySongs(List<SongStatus> status, UUID userId, Pageable pageable) {
+    public Page<Song> getAllMySongs(List<SongStatus> status, UUID userId, Pageable pageable) {
         return repository.findAllByStatusInAndCreatedBy(status, userId, pageable);
     }
 }

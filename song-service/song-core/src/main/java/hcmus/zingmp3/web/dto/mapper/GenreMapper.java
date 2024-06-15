@@ -4,6 +4,7 @@ import hcmus.zingmp3.GenreGrpcResponse;
 import hcmus.zingmp3.common.domain.model.Genre;
 import hcmus.zingmp3.web.dto.GenreRequest;
 import hcmus.zingmp3.web.dto.GenreResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -51,5 +52,9 @@ public class GenreMapper {
         return genres.stream()
                 .map(this::toGrpc)
                 .toList();
+    }
+
+    public Page<GenreResponse> toDto(Page<Genre> pages) {
+        return pages.map(this::toDto);
     }
 }

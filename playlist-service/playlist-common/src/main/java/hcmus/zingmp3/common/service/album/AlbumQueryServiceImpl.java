@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.domain.model.AlbumStatus;
 import hcmus.zingmp3.common.repository.AbstractPlaylistRepository;
 import hcmus.zingmp3.common.repository.AlbumRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -52,22 +53,22 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
     }
 
     @Override
-    public List<Album> getMyAlbums(UUID userId, Pageable pageable) {
+    public Page<Album> getMyAlbums(UUID userId, Pageable pageable) {
         return repository.findAllByCreatedBy(userId, pageable);
     }
 
     @Override
-    public List<Album> searchAlbum(String title, Pageable pageable) {
+    public Page<Album> searchAlbum(String title, Pageable pageable) {
         return repository.findAllByTitleContaining(title, pageable);
     }
 
     @Override
-    public List<Album> searchMyAlbums(String title, List<AlbumStatus> status, UUID userId, Pageable pageable) {
+    public Page<Album> searchMyAlbums(String title, List<AlbumStatus> status, UUID userId, Pageable pageable) {
         return repository.findAllByTitleContainingAndStatusInAndCreatedBy(title, status, userId, pageable);
     }
 
     @Override
-    public List<Album> getMyAlbums(List<AlbumStatus> status, UUID userId, Pageable pageable) {
+    public Page<Album> getMyAlbums(List<AlbumStatus> status, UUID userId, Pageable pageable) {
         return repository.findAllByStatusInAndCreatedBy(status, userId, pageable);
     }
 }

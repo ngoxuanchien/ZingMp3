@@ -7,6 +7,7 @@ import hcmus.zingmp3.service.song.SongService;
 import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -60,5 +61,9 @@ public class AlbumMapper {
         return albums.stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    public Page<AlbumResponse> toDto(Page<Album> albums) {
+        return albums.map(this::toDto);
     }
 }

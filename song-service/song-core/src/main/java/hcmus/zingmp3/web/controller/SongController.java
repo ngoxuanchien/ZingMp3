@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,7 +40,7 @@ public class SongController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<SongResponse>> searchSong(
+    public ResponseEntity<Page<SongResponse>> searchSong(
             @RequestParam("title") String name,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
@@ -61,7 +62,7 @@ public class SongController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<List<SongResponse>> getAllSongsByPage(
+    public ResponseEntity<Page<SongResponse>> getAllSongsByPage(
             @RequestParam(value = "page", defaultValue = "0") @Min(0) int page,
             @RequestParam(value = "size", defaultValue = "10") @Min(1) int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -75,7 +76,7 @@ public class SongController {
 
     @GetMapping("/my-songs")
     @SecurityRequirement(name = "Keycloak")
-    public ResponseEntity<List<SongResponse>> getMySongs(
+    public ResponseEntity<Page<SongResponse>> getMySongs(
             @RequestParam(value = "status", required = false) List<SongStatus> status,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
@@ -90,7 +91,7 @@ public class SongController {
 
     @GetMapping("/my-songs/search")
     @SecurityRequirement(name = "Keycloak")
-    public ResponseEntity<List<SongResponse>> searchMySongs(
+    public ResponseEntity<Page<SongResponse>> searchMySongs(
             @RequestParam("title") String title,
             @RequestParam(value = "status") List<SongStatus> status,
 //            @RequestParam(value = "genreIds", required = false) @Validated @GenreExists List<UUID> genreIds,

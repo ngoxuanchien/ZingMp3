@@ -6,6 +6,7 @@ import hcmus.zingmp3.common.service.QueryService;
 import hcmus.zingmp3.service.CommandService;
 import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -36,11 +37,11 @@ public interface AlbumService extends QueryService<Album>, CommandService<Album>
     // DELETE
     void deleteAlbum(UUID id);
 
-    List<AlbumResponse> getMyAlbums(Pageable pageable);
+    Page<AlbumResponse> getMyAlbums(Pageable pageable);
 
-    List<AlbumResponse> searchAlbum(String title, Pageable pageable);
+    Page<AlbumResponse> searchAlbum(String title, Pageable pageable);
 
-    List<AlbumResponse> searchMyAlbums(String title, List<AlbumStatus> status, Pageable pageable);
+    Page<AlbumResponse> searchMyAlbums(String title, List<AlbumStatus> status, Pageable pageable);
 
-    List<AlbumResponse> getMyAlbums(List<AlbumStatus> status, Pageable pageable);
+    Page<AlbumResponse> getMyAlbums(List<AlbumStatus> status, Pageable pageable);
 }

@@ -5,6 +5,7 @@ import hcmus.zingmp3.service.image.ImageService;
 import hcmus.zingmp3.web.dto.ArtistRequest;
 import hcmus.zingmp3.web.dto.ArtistResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,5 +46,9 @@ public class ArtistMapper {
 
     public List<ArtistResponse> toDto(List<Artist> artists) {
         return artists.stream().map(this::toDto).toList();
+    }
+
+    public Page<ArtistResponse> toDto(Page<Artist> artists) {
+        return artists.map(this::toDto);
     }
 }

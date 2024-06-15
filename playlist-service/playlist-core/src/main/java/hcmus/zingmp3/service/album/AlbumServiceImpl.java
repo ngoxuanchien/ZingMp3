@@ -7,6 +7,7 @@ import hcmus.zingmp3.web.dto.AlbumRequest;
 import hcmus.zingmp3.web.dto.AlbumResponse;
 import hcmus.zingmp3.web.dto.mapper.AlbumMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -145,24 +146,24 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<AlbumResponse> getMyAlbums(Pageable pageable) {
+    public Page<AlbumResponse> getMyAlbums(Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.getMyAlbums(userId, pageable));
     }
 
     @Override
-    public List<AlbumResponse> searchAlbum(String title, Pageable pageable) {
+    public Page<AlbumResponse> searchAlbum(String title, Pageable pageable) {
         return mapper.toDto(queryService.searchAlbum(title, pageable));
     }
 
     @Override
-    public List<AlbumResponse> searchMyAlbums(String title, List<AlbumStatus> status, Pageable pageable) {
+    public Page<AlbumResponse> searchMyAlbums(String title, List<AlbumStatus> status, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.searchMyAlbums(title, status, userId, pageable));
     }
 
     @Override
-    public List<AlbumResponse> getMyAlbums(List<AlbumStatus> status, Pageable pageable) {
+    public Page<AlbumResponse> getMyAlbums(List<AlbumStatus> status, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.getMyAlbums(status, userId, pageable));
     }

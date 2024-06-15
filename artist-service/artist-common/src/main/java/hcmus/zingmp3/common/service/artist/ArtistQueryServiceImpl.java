@@ -5,6 +5,7 @@ import hcmus.zingmp3.common.domain.model.Artist;
 import hcmus.zingmp3.common.domain.model.ArtistStatus;
 import hcmus.zingmp3.common.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +44,8 @@ public class ArtistQueryServiceImpl implements ArtistQueryService {
     }
 
     @Override
-    public List<Artist> getAll(Pageable pageable) {
-        return repository.findAll(pageable).getContent();
+    public Page<Artist> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
@@ -53,12 +54,12 @@ public class ArtistQueryServiceImpl implements ArtistQueryService {
     }
 
     @Override
-    public List<Artist> searchArtist(String name, List<ArtistStatus> status, Pageable pageable) {
+    public Page<Artist> searchArtist(String name, List<ArtistStatus> status, Pageable pageable) {
         return repository.findAllByNameLikeAndStatusIn(name, status, pageable);
     }
 
     @Override
-    public List<Artist> getAll(List<ArtistStatus> status, Pageable pageable) {
+    public Page<Artist> getAll(List<ArtistStatus> status, Pageable pageable) {
         return repository.findAllByStatusIn(status, pageable);
     }
 }

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -49,7 +50,7 @@ public class ArtistController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ArtistResponse>> searchArtist(
+    public ResponseEntity<Page<ArtistResponse>> searchArtist(
             @RequestParam("name") final String name,
             @RequestParam(value = "status") List<ArtistStatus> status,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
@@ -65,7 +66,7 @@ public class ArtistController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<List<ArtistResponse>> getArtistByAlias(
+    public ResponseEntity<Page<ArtistResponse>> getArtistByAlias(
             @RequestParam(value = "status", required = false) List<ArtistStatus> status,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size,

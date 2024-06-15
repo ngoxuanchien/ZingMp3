@@ -10,6 +10,7 @@ import hcmus.zingmp3.service.genre.GenreService;
 import hcmus.zingmp3.web.dto.mapper.GenreMapper;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> getAll(Pageable pageable) {
+    public Page<Genre> getAll(Pageable pageable) {
         return queryService.getAll(pageable);
     }
 
@@ -101,7 +102,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<GenreResponse> getAllGenres(Pageable pageable) {
+    public Page<GenreResponse> getAllGenres(Pageable pageable) {
         return mapper.toDto(getAll(pageable));
     }
 

@@ -10,6 +10,7 @@ import hcmus.zingmp3.web.dto.GenreResponse;
 import hcmus.zingmp3.web.dto.SongRequest;
 import hcmus.zingmp3.web.dto.SongResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -71,5 +72,9 @@ public class SongMapper {
         return songs.stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    public Page<SongResponse> toDto(Page<Song> pages) {
+        return pages.map(this::toDto);
     }
 }
