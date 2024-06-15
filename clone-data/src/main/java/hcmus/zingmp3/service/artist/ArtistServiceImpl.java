@@ -45,6 +45,38 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
+    public ArtistResponse getOrCreateIfNotExist(ArtistRequest artistRequest) {
+        ArtistResponse response = getArtistByAlias(artistRequest.alias());
+
+        if (response != null) {
+            return response;
+        }
+
+        return createArtist(artistRequest);
+    }
+
+    @Override
+    public ArtistResponse getArtistByAlias(String artistAlias) {
+        try {
+            String url = "http://nxc-hcmus.me:8081/api/artists?alias=" + artistAlias;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(user.accessToken());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<ArtistResponse> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ArtistResponse.class);
+
+            return response.getBody();
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+    @Override
     public void deleteArtist(UUID artistId) {
         try {
             String url = "http://nxc-hcmus.me:8081/api/artists/" + artistId.toString();

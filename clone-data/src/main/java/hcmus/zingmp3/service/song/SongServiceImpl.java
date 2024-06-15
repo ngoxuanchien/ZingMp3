@@ -4,6 +4,7 @@ import hcmus.zingmp3.dto.ErrorMessage;
 import hcmus.zingmp3.dto.artist.ArtistResponse;
 import hcmus.zingmp3.dto.song.SongRequest;
 import hcmus.zingmp3.dto.song.SongResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,7 +19,6 @@ import static hcmus.zingmp3.Main.user;
 public class SongServiceImpl implements SongService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-
 
     @Override
     public SongResponse createSong(SongRequest songRequest) {
@@ -48,6 +48,39 @@ public class SongServiceImpl implements SongService {
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to create song", e);
+        }
+    }
+
+    @Override
+    public SongResponse getOrCreateIfNotExist(SongRequest songRequest) {
+        SongResponse response = getSongByAlias(songRequest.alias());
+
+        if (response != null) {
+            return response;
+        }
+
+        return createSong(songRequest);
+    }
+
+    @Override
+    public SongResponse getSongByAlias(String songAlias) {
+        try {
+            String url = "http://nxc-hcmus.me:8081/api/songs?alias=" + songAlias;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(user.accessToken());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<SongResponse> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, SongResponse.class);
+
+            return response.getBody();
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return null;
+            } else {
+                throw e;
+            }
         }
     }
 

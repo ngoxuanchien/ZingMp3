@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ImageService {
 
-    ImageResponseDto uploadImage(MultipartFile image);
+    ImageResponseDto uploadImage(MultipartFile image, boolean replace);
 
     ImageResponseDto getImageById(UUID imageId);
 

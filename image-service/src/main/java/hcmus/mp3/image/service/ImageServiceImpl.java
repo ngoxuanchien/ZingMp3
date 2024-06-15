@@ -30,7 +30,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageResponseDto uploadImage(MultipartFile file) {
+    public ImageResponseDto uploadImage(MultipartFile file, boolean replace) {
 
         // todo check the image file
         if (!isImage(file)) {
@@ -40,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
         String originalFilename = file.getOriginalFilename();
         String path = IMAGE_PATH + originalFilename;
         File newFile = new File(path);
-        if (newFile.exists()) {
+        if (newFile.exists() && !replace) {
             String filenameWithoutExtension = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
             String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
 
@@ -49,12 +49,7 @@ public class ImageServiceImpl implements ImageService {
             newFile = new File(path);
         }
 
-        var image = Image.builder()
-                .name(originalFilename)
-                .type(file.getContentType())
-                .size(file.getSize())
-                .path(path)
-                .build();
+
         try {
             file.transferTo(newFile.toPath());
         } catch (IOException e) {
@@ -62,7 +57,18 @@ public class ImageServiceImpl implements ImageService {
             throw new CannotSaveFile("Cannot save file");
         }
 
-        return imageMapper.toDto(imageRepository.save(image));
+
+
+        var image = Image.builder()
+                .name(originalFilename)
+                .type(file.getContentType())
+                .size(file.getSize())
+                .path(path)
+                .build();
+
+        return imageMapper.toDto(
+                imageRepository.findByPath(path)
+                        .orElse(imageRepository.save(image)));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package hcmus.mp3.image.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hcmus.mp3.image.dto.ImageResponseDto;
 import hcmus.mp3.image.service.ImageService;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,14 +23,17 @@ import static org.springframework.http.HttpStatus.*;
 public class ImageController {
 
     private final ImageService imageService;
+    private final ObjectMapper objectMapper;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<ImageResponseDto> uploadImage(
+            @RequestParam(value = "replace", required = false, defaultValue = "false") boolean replace,
             @RequestPart("image") MultipartFile image
     ) {
+
         return ResponseEntity.status(CREATED)
-                .body(imageService.uploadImage(image));
+                .body(imageService.uploadImage(image, replace));
     }
 
     @GetMapping("/{image-id}")

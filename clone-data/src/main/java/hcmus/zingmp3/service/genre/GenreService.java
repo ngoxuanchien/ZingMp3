@@ -9,4 +9,10 @@ public interface GenreService {
 
     GenreResponse createGenre(GenreRequest genreRequest);
     void deleteGenre(UUID genreId);
+
+    boolean isGenreExist(String genreAlias);
+
+    GenreResponse getOrCreateIfNotExist(GenreRequest genreRequest);
+
+    GenreResponse getGenreByAlias(String genreAlias);
 }

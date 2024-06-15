@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.util.UUID;
 
+import static hcmus.zingmp3.Main.gson;
 import static hcmus.zingmp3.Main.user;
 
 @Service
@@ -21,7 +22,6 @@ import static hcmus.zingmp3.Main.user;
 public class MediaServiceImpl implements MediaService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final Gson gson;
 
     @Override
     public UUID uploadMedia(String path) {

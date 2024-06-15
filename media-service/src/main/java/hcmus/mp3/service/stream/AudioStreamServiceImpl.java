@@ -11,11 +11,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -28,29 +26,21 @@ public class AudioStreamServiceImpl implements AudioStreamService {
 
     private final String MEDIA_FILE_PATH = "./data/audio/%s%s";
 
-    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile
-            (String localMediaFilePath, String rangeValues)
-            throws IOException
-    {
-        if (!StringUtils.hasText(rangeValues))
-        {
+    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile(String localMediaFilePath, String rangeValues)
+            throws IOException {
+        if (!StringUtils.hasText(rangeValues)) {
             System.out.println("Read all media file content.");
             return loadEntireMediaFile(localMediaFilePath);
-        }
-        else
-        {
+        } else {
             long rangeStart = 0L;
             long rangeEnd = 0L;
 
-            if (!StringUtils.hasText(localMediaFilePath))
-            {
-                throw new IllegalArgumentException
-                        ("The full path to the media file is NULL or empty.");
+            if (!StringUtils.hasText(localMediaFilePath)) {
+                throw new IllegalArgumentException("The full path to the media file is NULL or empty.");
             }
 
             Path filePath = Paths.get(localMediaFilePath);
-            if (!filePath.toFile().exists())
-            {
+            if (!filePath.toFile().exists()) {
                 throw new FileNotFoundException("The media file does not exist.");
             }
 
@@ -60,65 +50,48 @@ public class AudioStreamServiceImpl implements AudioStreamService {
             System.out.println("Rang values: [" + rangeValues + "]");
 
             int dashPos = rangeValues.indexOf("-");
-            if (dashPos > 0 && dashPos <= (rangeValues.length() - 1))
-            {
+            if (dashPos > 0 && dashPos <= (rangeValues.length() - 1)) {
                 String[] rangesArr = rangeValues.split("-");
 
-                if (rangesArr != null && rangesArr.length > 0)
-                {
+                if (rangesArr != null && rangesArr.length > 0) {
                     System.out.println("ArraySize: " + rangesArr.length);
-                    if (StringUtils.hasText(rangesArr[0]))
-                    {
+                    if (StringUtils.hasText(rangesArr[0])) {
                         System.out.println("Rang values[0]: [" + rangesArr[0] + "]");
                         String valToParse = numericStringValue(rangesArr[0]);
                         rangeStart = safeParseStringValueToLong(valToParse, 0L);
-                    }
-                    else
-                    {
+                    } else {
                         rangeStart = 0L;
                     }
 
-                    if (rangesArr.length > 1)
-                    {
+                    if (rangesArr.length > 1) {
                         System.out.println("Rang values[1]: [" + rangesArr[1] + "]");
                         String valToParse = numericStringValue(rangesArr[1]);
                         rangeEnd = safeParseStringValueToLong(valToParse, 0L);
-                    }
-                    else
-                    {
-                        if (fileSize > 0)
-                        {
+                    } else {
+                        if (fileSize > 0) {
                             rangeEnd = fileSize - 1L;
-                        }
-                        else
-                        {
+                        } else {
                             rangeEnd = 0L;
                         }
                     }
                 }
             }
 
-            if (rangeEnd == 0L && fileSize > 0L)
-            {
+            if (rangeEnd == 0L && fileSize > 0L) {
                 rangeEnd = fileSize - 1;
             }
-            if (fileSize < rangeEnd)
-            {
+            if (fileSize < rangeEnd) {
                 rangeEnd = fileSize - 1;
             }
 
-            System.out.println(String.format("Parsed Range Values: [%d] - [%d]",
-                                             rangeStart, rangeEnd));
-
+            System.out.println(String.format("Parsed Range Values: [%d] - [%d]", rangeStart, rangeEnd));
             return loadPartialMediaFile(localMediaFilePath, rangeStart, rangeEnd);
         }
     }
 
-    private String numericStringValue(String origVal)
-    {
+    private String numericStringValue(String origVal) {
         String retVal = "";
-        if (StringUtils.hasText(origVal))
-        {
+        if (StringUtils.hasText(origVal)) {
             retVal = origVal.replaceAll("[^0-9]", "");
             System.out.println("Parsed Long Int Value: [" + retVal + "]");
         }
@@ -126,17 +99,12 @@ public class AudioStreamServiceImpl implements AudioStreamService {
         return retVal;
     }
 
-    private long safeParseStringValueToLong(String valToParse, long defaultVal)
-    {
+    private long safeParseStringValueToLong(String valToParse, long defaultVal) {
         long retVal = defaultVal;
-        if (StringUtils.hasText(valToParse))
-        {
-            try
-            {
+        if (StringUtils.hasText(valToParse)) {
+            try {
                 retVal = Long.parseLong(valToParse);
-            }
-            catch (NumberFormatException ex)
-            {
+            } catch (NumberFormatException ex) {
                 // TODO: log the invalid long int val in text format.
                 retVal = defaultVal;
             }
@@ -145,63 +113,47 @@ public class AudioStreamServiceImpl implements AudioStreamService {
         return retVal;
     }
 
-    public ResponseEntity<StreamingResponseBody> loadEntireMediaFile(String localMediaFilePath)
-            throws IOException
-    {
+    public ResponseEntity<StreamingResponseBody> loadEntireMediaFile(String localMediaFilePath) throws IOException {
         Path filePath = Paths.get(localMediaFilePath);
-        if (!filePath.toFile().exists())
-        {
+        if (!filePath.toFile().exists()) {
             throw new FileNotFoundException("The media file does not exist.");
         }
 
         long fileSize = Files.size(filePath);
         long endPos = fileSize;
-        if (fileSize > 0L)
-        {
+
+        if (fileSize > 0L) {
             endPos = fileSize - 1;
-        }
-        else
-        {
+        } else {
             endPos = 0L;
         }
 
-        ResponseEntity<StreamingResponseBody> retVal =
-                loadPartialMediaFile(localMediaFilePath, 0, endPos);
-
+        ResponseEntity<StreamingResponseBody> retVal = loadPartialMediaFile(localMediaFilePath, 0, endPos);
         return retVal;
     }
 
-    public ResponseEntity<StreamingResponseBody>
-    loadPartialMediaFile(String localMediaFilePath, long fileStartPos, long fileEndPos)
-            throws IOException
-    {
+    public ResponseEntity<StreamingResponseBody> loadPartialMediaFile(String localMediaFilePath, long fileStartPos,
+            long fileEndPos) throws IOException {
         StreamingResponseBody responseStream;
         Path filePath = Paths.get(localMediaFilePath);
-        if (!filePath.toFile().exists())
-        {
+        if (!filePath.toFile().exists()) {
             throw new FileNotFoundException("The media file does not exist.");
         }
 
         long fileSize = Files.size(filePath);
-        if (fileStartPos < 0L)
-        {
+        if (fileStartPos < 0L) {
             fileStartPos = 0L;
         }
 
-        if (fileSize > 0L)
-        {
-            if (fileStartPos >= fileSize)
-            {
+        if (fileSize > 0L) {
+            if (fileStartPos >= fileSize) {
                 fileStartPos = fileSize - 1L;
             }
 
-            if (fileEndPos >= fileSize)
-            {
+            if (fileEndPos >= fileSize) {
                 fileEndPos = fileSize - 1L;
             }
-        }
-        else
-        {
+        } else {
             fileStartPos = 0L;
             fileEndPos = 0L;
         }
@@ -215,29 +167,26 @@ public class AudioStreamServiceImpl implements AudioStreamService {
         responseHeaders.add("Content-Length", contentLength);
         responseHeaders.add("Accept-Ranges", "bytes");
         responseHeaders.add("Content-Range",
-                            String.format("bytes %d-%d/%d", fileStartPos, fileEndPos, fileSize));
+                String.format("bytes %d-%d/%d", fileStartPos, fileEndPos, fileSize));
 
         final long fileStartPos2 = fileStartPos;
         final long fileEndPos2 = fileEndPos;
         responseStream = os -> {
             RandomAccessFile file = new RandomAccessFile(localMediaFilePath, "r");
-            try (file)
-            {
+            try (file) {
                 long pos = fileStartPos2;
                 file.seek(pos);
-                while (pos < fileEndPos2)
-                {
+                while (pos < fileEndPos2) {
                     file.read(buffer);
                     os.write(buffer);
                     pos += buffer.length;
                 }
                 os.flush();
+            } catch (Exception e) {
             }
-            catch (Exception e) {}
         };
 
-        return new ResponseEntity<>
-                (responseStream, responseHeaders, HttpStatus.PARTIAL_CONTENT);
+        return new ResponseEntity<>(responseStream, responseHeaders, HttpStatus.PARTIAL_CONTENT);
     }
 
     @Override
@@ -245,8 +194,7 @@ public class AudioStreamServiceImpl implements AudioStreamService {
         try {
             var audio = audioRepository.findById(audioId)
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            String.format("Audio with id %s not found", audioId)
-                    ));
+                            String.format("Audio with id %s not found", audioId)));
             var audioPath = audio.getPath() + audio.getName();
             return loadPartialMediaFile(audioPath, httpRangeList);
         } catch (IOException e) {

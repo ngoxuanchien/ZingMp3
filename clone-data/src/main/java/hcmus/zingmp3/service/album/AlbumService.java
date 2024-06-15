@@ -8,5 +8,9 @@ import java.util.UUID;
 public interface AlbumService {
     AlbumResponse createAlbum(AlbumRequest albumRequest);
 
+    AlbumResponse getOrCreateIfNotExist(AlbumRequest albumRequest);
+
+    AlbumResponse getAlbumByAlias(String albumAlias);
+
     void deleteAlbum(UUID albumId);
 }

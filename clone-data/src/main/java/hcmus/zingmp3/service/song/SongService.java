@@ -9,5 +9,9 @@ public interface SongService {
 
     SongResponse createSong(SongRequest songRequest);
 
+    SongResponse getOrCreateIfNotExist(SongRequest songRequest);
+
+    SongResponse getSongByAlias(String songAlias);
+
     void deleteSong(UUID songId);
 }
