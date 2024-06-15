@@ -137,7 +137,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<ArtistResponse> searchArtist(String name, ArtistStatus status,  Pageable pageable) {
+    public List<ArtistResponse> searchArtist(String name, List<ArtistStatus> status,  Pageable pageable) {
         return artistMapper.toDto(queryService.searchArtist(name, status, pageable));
     }
 }

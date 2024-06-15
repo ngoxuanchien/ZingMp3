@@ -143,7 +143,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<SongResponse> searchMySongs(String name, SongStatus status, List<UUID> genreIds, Pageable pageable) {
+    public List<SongResponse> searchMySongs(String name, List<SongStatus> status, List<UUID> genreIds, Pageable pageable) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         return mapper.toDto(queryService.searchMySongs(name, status, genreIds, userId, pageable));
     }

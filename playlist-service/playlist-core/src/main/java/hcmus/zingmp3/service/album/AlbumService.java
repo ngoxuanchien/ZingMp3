@@ -40,5 +40,5 @@ public interface AlbumService extends QueryService<Album>, CommandService<Album>
 
     List<AlbumResponse> searchAlbum(String title, Pageable pageable);
 
-    List<AlbumResponse> searchMyAlbums(String title, AlbumStatus status, Pageable pageable);
+    List<AlbumResponse> searchMyAlbums(String title, List<AlbumStatus> status, Pageable pageable);
 }

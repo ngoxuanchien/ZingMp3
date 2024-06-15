@@ -51,7 +51,7 @@ public class ArtistController {
     @GetMapping("/search")
     public ResponseEntity<List<ArtistResponse>> searchArtist(
             @RequestParam("name") final String name,
-            @RequestParam(value = "status", required = false) ArtistStatus status,
+            @RequestParam(value = "status") List<ArtistStatus> status,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size
     ) {

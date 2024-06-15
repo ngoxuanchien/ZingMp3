@@ -89,7 +89,7 @@ public class AlbumController {
     @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<AlbumResponse>> searchMyAlbums(
             @RequestParam("title") String title,
-            @RequestParam("status")AlbumStatus status,
+            @RequestParam("status") List<AlbumStatus> status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {

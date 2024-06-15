@@ -62,7 +62,7 @@ public class AlbumQueryServiceImpl implements AlbumQueryService {
     }
 
     @Override
-    public List<Album> searchMyAlbums(String title, AlbumStatus status, UUID userId, Pageable pageable) {
-        return repository.findAllByTitleContainingAndStatusAndCreatedBy(title, status, userId, pageable);
+    public List<Album> searchMyAlbums(String title, List<AlbumStatus> status, UUID userId, Pageable pageable) {
+        return repository.findAllByTitleContainingAndStatusInAndCreatedBy(title, status, userId, pageable);
     }
 }

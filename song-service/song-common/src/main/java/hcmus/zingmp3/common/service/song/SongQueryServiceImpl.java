@@ -64,7 +64,7 @@ public class SongQueryServiceImpl implements SongQueryService {
     }
 
     @Override
-    public List<Song> searchMySongs(String name, SongStatus status, List<UUID> genreIds, UUID userId, Pageable pageable) {
-        return repository.findAllByTitleLikeAndStatusAndGenreIdsInAndCreatedBy(name, status, genreIds , userId, pageable);
+    public List<Song> searchMySongs(String name, List<SongStatus> status, List<UUID> genreIds, UUID userId, Pageable pageable) {
+        return repository.findAllByTitleLikeAndStatusInAndGenreIdsInAndCreatedBy(name, status, genreIds , userId, pageable);
     }
 }
