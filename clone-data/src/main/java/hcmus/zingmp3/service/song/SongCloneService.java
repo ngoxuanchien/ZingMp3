@@ -15,5 +15,5 @@ public interface SongCloneService {
 
     UUID cloneSong(JsonObject jsonObject);
 
-    void cloneSong(String songId);
+    UUID cloneSong(String songId);
 }

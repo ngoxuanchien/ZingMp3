@@ -25,12 +25,9 @@ public class SongMapper {
     private final MediaService mediaService;
 
     public Song toEntity(SongRequest request) {
-
-
         var song = Song.builder()
                 .alias(request.alias())
                 .title(request.title())
-                .lyric(request.lyric())
                 .build();
 
         song.setId(request.id());
@@ -42,6 +39,7 @@ public class SongMapper {
         song.setLiked(request.liked());
         song.setListen(request.listen());
         song.setMediaIds(request.mediaIds());
+        song.setLyric(request.lyric());
         return song;
     }
 

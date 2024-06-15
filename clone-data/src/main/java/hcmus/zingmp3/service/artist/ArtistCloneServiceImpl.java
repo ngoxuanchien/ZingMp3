@@ -49,6 +49,11 @@ public class ArtistCloneServiceImpl implements ArtistCloneService {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 
             JsonObject jsonObject = gson.fromJson(response.getBody(), JsonObject.class);
+
+            if (jsonObject.get("playlistId") != null) {
+                clone.addToClone(jsonObject.get("playlistId").toString());
+            }
+
             return cloneArtist(jsonObject);
 
 

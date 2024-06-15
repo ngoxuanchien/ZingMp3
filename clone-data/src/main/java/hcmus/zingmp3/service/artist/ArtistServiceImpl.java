@@ -10,13 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
-import static hcmus.zingmp3.Main.gson;
-import static hcmus.zingmp3.Main.user;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
-    private final RestTemplate restTemplate = new RestTemplate();
-
 
     @Override
     public ArtistResponse createArtist(ArtistRequest artistRequest) {
@@ -39,8 +36,9 @@ public class ArtistServiceImpl implements ArtistService {
                 System.out.println("Error: " + errorMessage.message());
                 return null;
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create genre", e);
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to create artist", e);
         }
     }
 

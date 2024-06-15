@@ -38,7 +38,7 @@ public class SongServiceImpl implements SongService {
             if (sre.getStatus().getCode().equals(Status.Code.NOT_FOUND)) {
                 return false;
             }
-            throw sre;
+            return false;
         }
     }
 

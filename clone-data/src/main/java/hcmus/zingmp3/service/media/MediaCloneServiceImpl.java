@@ -9,10 +9,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+import static hcmus.zingmp3.Main.mediaService;
+
 @Service
 public class MediaCloneServiceImpl implements MediaCloneService {
-
-    private static final MediaService mediaService = new MediaServiceImpl();
 
     @Override
     public UUID cloneMedia(String fileName, String url) {

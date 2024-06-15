@@ -204,4 +204,8 @@ public class Song {
     public void setReleaseDate(Integer releaseDate) {
         this.releaseDate = Objects.requireNonNullElse(releaseDate, 0);
     }
+
+    public void setLyric(String lyric) {
+        this.lyric = Objects.requireNonNullElse(lyric, "");
+    }
 }

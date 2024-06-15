@@ -36,7 +36,7 @@ public class SongMapperGrpc {
                 .setReleaseDate(entity.getReleaseDate())
                 .setListen(entity.getListen())
                 .setLiked(entity.getLiked())
-                .setLyric(entity.getLyric())
+                .setLyric(Objects.requireNonNullElse(entity.getLyric(), ""))
                 .addAllMediaIds(entity.getMediaIds().stream().map(UUID::toString).collect(Collectors.toList()))
                 .setCreatedBy(entity.getCreatedBy().toString())
                 .setCreatedDate(String.valueOf(entity.getCreatedDate()))

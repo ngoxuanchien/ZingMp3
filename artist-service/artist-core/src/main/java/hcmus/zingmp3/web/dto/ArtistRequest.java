@@ -71,9 +71,8 @@ public record ArtistRequest(
                 }
         )
         @Length(
-                min = 1,
                 max = 255,
-                message = "Real name length must be between {min} and {max}.",
+                message = "Real name length must smaller than {max}.",
                 groups = {
                         OnCreate.class,
                         OnUpdate.class

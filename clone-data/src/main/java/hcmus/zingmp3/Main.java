@@ -1,6 +1,7 @@
 package hcmus.zingmp3;
 
 import com.google.gson.*;
+import hcmus.zingmp3.dto.Clone;
 import hcmus.zingmp3.dto.User;
 import hcmus.zingmp3.dto.album.AlbumRequest;
 import hcmus.zingmp3.dto.album.AlbumResponse;
@@ -14,8 +15,7 @@ import hcmus.zingmp3.dto.playlist.PlaylistResponse;
 import hcmus.zingmp3.dto.playlist.PlaylistType;
 import hcmus.zingmp3.dto.song.SongRequest;
 import hcmus.zingmp3.dto.song.SongResponse;
-import hcmus.zingmp3.mapper.AlbumMapper;
-import hcmus.zingmp3.mapper.ArtistMapper;
+import hcmus.zingmp3.mapper.*;
 import hcmus.zingmp3.service.CloneService;
 import hcmus.zingmp3.service.CloneServiceImpl;
 import hcmus.zingmp3.service.album.AlbumCloneService;
@@ -68,98 +68,33 @@ public class Main {
     public static final AlbumMapper albumMapper = new AlbumMapper();
     public static final SongCloneService songCloneService = new SongCloneServiceImpl();
     public static final AlbumCloneService albumCloneService = new AlbumCloneServiceImpl();
+    public static final Clone clone = new Clone();
+    public static final CloneService cloneService = new CloneServiceImpl();
+    public static final SongMapper songMapper = new SongMapper();
+    public static final PlaylistMapper playlistMapper = new PlaylistMapper();
+    public static final GenreMapper genreMapper = new GenreMapper();
 
-    private static final UserService userService = new UserServiceImpl();
-    private static final MediaService mediaService = new MediaServiceImpl();
-    private static final ImageService imageService = new ImageServiceImpl();
+    public static final UserService userService = new UserServiceImpl();
+    public static final MediaService mediaService = new MediaServiceImpl();
+    public static final ImageService imageService = new ImageServiceImpl();
     public static final ArtistService artistService = new ArtistServiceImpl();
-    private static final SongService songService = new SongServiceImpl();
-    private static final GenreService genreService = new GenreServiceImpl();
+    public static final SongService songService = new SongServiceImpl();
+    public static final GenreService genreService = new GenreServiceImpl();
     public static final AlbumService albumService = new AlbumServiceImpl();
-    private static final PlaylistService playlistService = new PlaylistServiceImpl();
-
-    public static Set<String> toClonePlaylists = new HashSet<>();
-    public static Set<String> clonedPlaylists = new HashSet<>();
+    public static final PlaylistService playlistService = new PlaylistServiceImpl();
 
 
 //    private static final CloneService cloneService = new CloneServiceImpl();
     public static void main(String[] args) {
         user = userService.getAccessToken("nxc.hcmus@gmail.com", "123456789");
-//        System.out.println(user);
-//        UUID mediaId = mediaService.uploadMedia("src/main/resources/test.mp3");
-//
-//        UUID thumbnailId = imageService.uploadImage("src/main/resources/testImage.jpg");
-//
-//        GenreRequest genreRequest = new GenreRequest(
-//                "alias-test",
-//                "name-test"
-//        );
-//
-//        GenreResponse genre = genreService.getOrCreateIfNotExist(genreRequest);
-//
-//
-//        ArtistRequest artistRequest = new ArtistRequest(
-//                "alias-test",
-//                thumbnailId,
-//                "name-test",
-//                "realName-test"
-//        );
-//
-//        ArtistResponse artist = artistService.getOrCreateIfNotExist(artistRequest);
-//
-//        var songRequest = new SongRequest(
-//                   "alias-test",
-//                   "title-test",
-//                   thumbnailId,
-//                   List.of(artist.id()),
-//                   List.of(genre.id()),
-//                   List.of(artist.id()),
-//                   0,
-//                   null,
-//                   null,
-//                   "test-lyric",
-//                   List.of(mediaId)
-//               );
-//
-//        SongResponse song = songService.getOrCreateIfNotExist(songRequest);
-//
-//        AlbumRequest albumRequest = new AlbumRequest(
-//                "alias-test-album",
-//                thumbnailId,
-//                "title-test",
-//                AlbumType.ALBUM,
-//                "description-test",
-//                List.of(artist.id()),
-//                LocalDateTime.now(),
-//                List.of(song.id())
-//        );
-//
-//        AlbumResponse album = albumService.getOrCreateIfNotExist(albumRequest);
-//
-//        PlaylistRequest playlistRequest = new PlaylistRequest(
-//                "alias-test-playlist",
-//                "title-test",
-//                thumbnailId,
-//                PlaylistType.SYSTEM_PLAYLIST,
-//                "description-test",
-//                List.of(artist.id()),
-//                List.of(song.id()),
-//                true
-//        );
-//
-//        PlaylistResponse playlist = playlistService.getOrCreateIfNotExist(playlistRequest);
-//
-//
-////        albumService.deleteAlbum(album.id());
-////        songService.deleteSong(song.id());
-////        artistService.deleteArtist(artist.id());
-////        genreService.deleteGenre(genre.id());
-//        userService.logout();
+        clone.addToClone("ZWZB96AI");
 
-//        cloneService.clonePlaylist("ZWZB96AI");
+        while (!clone.getToClone().isEmpty()) {
+            String id = clone.getToClone().poll();
+            cloneService.clonePlaylist(id);
+        }
+        System.out.println(clone.getCloned().size() + " playlists cloned");
 
-//        songCloneService.cloneSong("ZZDFW9O6");
-//        artistCloneService.cloneArtist("Son-Tung-M-TP");
-        albumCloneService.cloneAlbum("6BD0WAFU");
+        userService.logout();
     }
 }

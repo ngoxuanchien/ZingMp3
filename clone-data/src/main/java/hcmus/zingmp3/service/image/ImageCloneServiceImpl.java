@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
-public class ImageCloneServiceImpl implements ImageCloneService {
+import static hcmus.zingmp3.Main.imageService;
 
-    private static final ImageService imageService = new ImageServiceImpl();
+public class ImageCloneServiceImpl implements ImageCloneService {
 
     @Override
     public UUID cloneImage(String fileName, String url) {

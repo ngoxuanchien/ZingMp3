@@ -15,14 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
-import static hcmus.zingmp3.Main.user;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
-
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final Gson gson = new Gson();
 
     @Override
     public UUID uploadImage(String path) {

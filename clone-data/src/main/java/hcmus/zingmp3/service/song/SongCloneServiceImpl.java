@@ -16,14 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static hcmus.zingmp3.Main.gson;
-import static hcmus.zingmp3.Main.restTemplate;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 public class SongCloneServiceImpl implements SongCloneService {
-
-    private static final SongMapper songMapper = new SongMapper();
-    private static final SongService songService = new SongServiceImpl();
 
     @Override
     public SongRequest cloneSong(SongRequest songRequest) {
@@ -43,7 +39,7 @@ public class SongCloneServiceImpl implements SongCloneService {
         List<UUID> result = new ArrayList<>();
         jsonArray.asList().forEach(
                 jsonElement ->
-                        result.add(cloneSong(jsonElement.getAsJsonObject()))
+                        result.add(cloneSong(jsonElement.getAsJsonObject().get("encodeId").getAsString()))
         );
         return result;
     }
@@ -52,14 +48,14 @@ public class SongCloneServiceImpl implements SongCloneService {
     public UUID cloneSong(JsonObject jsonObject) {
         SongRequest request = songMapper.toRequest(jsonObject);
 
-        SongResponse response = songService.createSong(request);
+        SongResponse response = songService.getOrCreateIfNotExist(request);
 
 
         return response.id();
     }
 
     @Override
-    public void cloneSong(String songId) {
+    public UUID cloneSong(String songId) {
         try {
             String url = "http://localhost:3000/test/getFullInfo/" + songId;
 
@@ -70,7 +66,12 @@ public class SongCloneServiceImpl implements SongCloneService {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 
             JsonObject jsonObject = gson.fromJson(response.getBody(), JsonObject.class);
-            cloneSong(jsonObject);
+
+            if (jsonObject.get("album").getAsJsonObject() != null && jsonObject.get("album").getAsJsonObject().get("encodeId") != null) {
+                clone.addToClone(jsonObject.get("album").getAsJsonObject().get("encodeId").getAsString());
+            }
+
+            return cloneSong(jsonObject);
         } catch (HttpClientErrorException e) {
             throw e;
         }

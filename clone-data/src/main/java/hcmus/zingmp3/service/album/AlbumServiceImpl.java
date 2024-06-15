@@ -9,12 +9,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
+import static hcmus.zingmp3.Main.restTemplate;
 import static hcmus.zingmp3.Main.user;
 
 @Service
 public class AlbumServiceImpl implements AlbumService {
-
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public AlbumResponse createAlbum(AlbumRequest albumRequest) {
@@ -29,13 +28,9 @@ public class AlbumServiceImpl implements AlbumService {
 
             ResponseEntity<AlbumResponse> response = restTemplate.postForEntity(url, requestEntity, AlbumResponse.class);
 
-            if (response.getStatusCode() == HttpStatus.CREATED) {
-                return response.getBody();
-            } else {
-                throw new RuntimeException("Failed to create album");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create album", e);
+            return response.getBody();
+        } catch (HttpClientErrorException e) {
+            throw e;
         }
     }
 

@@ -12,12 +12,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
+import static hcmus.zingmp3.Main.restTemplate;
 import static hcmus.zingmp3.Main.user;
 
 @Service
 public class GenreServiceImpl implements GenreService {
-
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public GenreResponse createGenre(GenreRequest genreRequest) {

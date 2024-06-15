@@ -12,13 +12,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
-import static hcmus.zingmp3.Main.gson;
-import static hcmus.zingmp3.Main.user;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 public class SongServiceImpl implements SongService {
-
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public SongResponse createSong(SongRequest songRequest) {

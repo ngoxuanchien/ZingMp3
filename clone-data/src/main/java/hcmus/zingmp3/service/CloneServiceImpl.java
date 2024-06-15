@@ -12,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import static hcmus.zingmp3.Main.gson;
-import static hcmus.zingmp3.Main.restTemplate;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 public class CloneServiceImpl implements CloneService {
@@ -24,6 +23,7 @@ public class CloneServiceImpl implements CloneService {
     @Override
     public void clonePlaylist(String id) {
         try {
+            clone.addCloned(id);
             String url = "http://localhost:3000/test/getDetailPlaylist/" + id;
 
             HttpHeaders headers = new HttpHeaders();

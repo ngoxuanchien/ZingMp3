@@ -9,15 +9,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import static hcmus.zingmp3.Main.user;
+import static hcmus.zingmp3.Main.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    private final RestTemplate restTemplate = new RestTemplate();
-
-    private final Gson gson = new Gson();
-
     @Override
     public User getAccessToken(String username, String password) {
         String keycloakUrl = "http://nxc-hcmus.me:8081/api/auth/token";

@@ -4,13 +4,15 @@ import com.google.gson.JsonObject;
 import hcmus.zingmp3.dto.playlist.PlaylistRequest;
 import hcmus.zingmp3.dto.playlist.PlaylistResponse;
 import hcmus.zingmp3.mapper.PlaylistMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-public class PlaylistCloneServiceImpl implements PlaylistCloneService {
+import static hcmus.zingmp3.Main.playlistMapper;
+import static hcmus.zingmp3.Main.playlistService;
 
-    private static final PlaylistService playlistService = new PlaylistServiceImpl();
-    private static final PlaylistMapper playlistMapper = new PlaylistMapper();
+@Service
+public class PlaylistCloneServiceImpl implements PlaylistCloneService {
 
     @Override
     public UUID clonePlaylist(JsonObject jsonObject) {

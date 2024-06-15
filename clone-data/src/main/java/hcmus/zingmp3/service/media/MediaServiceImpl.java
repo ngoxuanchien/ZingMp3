@@ -25,7 +25,7 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public UUID uploadMedia(String path) {
-        String url = "http://nxc-hcmus.me:8081/api/audios";
+        String url = "http://nxc-hcmus.me:8081/api/audios?replace=true";
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         Resource resource = new FileSystemResource(new File(path));

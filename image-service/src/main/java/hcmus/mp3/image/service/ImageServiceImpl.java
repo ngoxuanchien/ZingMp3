@@ -57,8 +57,6 @@ public class ImageServiceImpl implements ImageService {
             throw new CannotSaveFile("Cannot save file");
         }
 
-
-
         var image = Image.builder()
                 .name(originalFilename)
                 .type(file.getContentType())
