@@ -32,6 +32,7 @@ public class ImageController {
     }
 
     @GetMapping("/{image-id}")
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<ImageResponseDto> getImage(
             @PathVariable("image-id") UUID imageId
     ) {
@@ -39,6 +40,7 @@ public class ImageController {
     }
 
     @GetMapping("/all")
+    @SecurityRequirement(name = "Keycloak")
     public ResponseEntity<List<ImageResponseDto>> getAllImages() {
         return ResponseEntity.ok(imageService.getAllImages());
     }
