@@ -195,7 +195,7 @@ public class AudioStreamServiceImpl implements AudioStreamService {
             var audio = audioRepository.findById(audioId)
                     .orElseThrow(() -> new ResourceNotFoundException(
                             String.format("Audio with id %s not found", audioId)));
-            var audioPath = audio.getPath() + audio.getName();
+            var audioPath = audio.getPath();
             return loadPartialMediaFile(audioPath, httpRangeList);
         } catch (IOException e) {
             e.printStackTrace();
