@@ -79,7 +79,6 @@ public class Main {
     public static final GenreMapper genreMapper = new GenreMapper();
     public static final GenreCloneService genreCloneService = new GenreCloneServiceImpl();
     public static final MediaCloneService mediaCloneService = new MediaCloneServiceImpl();
-
     public static final UserService userService = new UserServiceImpl();
     public static final MediaService mediaService = new MediaServiceImpl();
     public static final ImageService imageService = new ImageServiceImpl();
@@ -92,16 +91,18 @@ public class Main {
     public static void main(String[] args) {
         user = userService.getAccessToken("nxc.hcmus@gmail.com", "123456789");
         clone.addToClone("ZWZB96AI");
-        clone.addCloned("ZWZAC9BF");
+        clone.addToClone("ZWZAC9BF");
 
 //        songCloneService.cloneSong("ZZ98C8I6");
 
         while (!clone.getToClone().isEmpty()) {
             String id = clone.getToClone().poll();
             System.out.println(id);
+
             cloneService.clonePlaylist(id);
+            System.out.println(clone.getCloned().size() + " playlists cloned");
+            System.out.println(clone.getToClone().size() + " playlists left");
         }
-        System.out.println(clone.getCloned().size() + " playlists cloned");
 
         userService.logout();
     }

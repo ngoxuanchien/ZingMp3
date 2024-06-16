@@ -24,6 +24,7 @@ public class Clone {
     }
 
     public void addToClone(String id) {
+        id = id.replace("\"", "");
         if (!cloned.contains(id)) {
             toClone.add(id);
         }

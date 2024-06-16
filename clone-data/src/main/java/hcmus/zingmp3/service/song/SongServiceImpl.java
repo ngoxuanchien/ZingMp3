@@ -4,12 +4,14 @@ import hcmus.zingmp3.dto.ErrorMessage;
 import hcmus.zingmp3.dto.artist.ArtistResponse;
 import hcmus.zingmp3.dto.song.SongRequest;
 import hcmus.zingmp3.dto.song.SongResponse;
+import hcmus.zingmp3.dto.song.SongStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static hcmus.zingmp3.Main.*;
@@ -57,7 +59,7 @@ public class SongServiceImpl implements SongService {
 
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 SongResponse songResponse = gson.fromJson(response.getBody(), SongResponse.class);
-                approveSong(songResponse.alias());
+                System.out.println("Create song: " + songResponse.id());
                 return songResponse;
             } else {
                 ErrorMessage errorMessage = gson.fromJson(response.getBody(), ErrorMessage.class);
@@ -92,7 +94,9 @@ public class SongServiceImpl implements SongService {
             HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 
             ResponseEntity<SongResponse> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, SongResponse.class);
-
+            if (Objects.requireNonNull(response.getBody()).status() == SongStatus.APPROVAL_PENDING) {
+                approveSong(songAlias);
+            }
             return response.getBody();
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {

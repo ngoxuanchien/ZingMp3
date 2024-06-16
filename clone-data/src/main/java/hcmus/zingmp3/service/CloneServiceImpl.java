@@ -38,10 +38,8 @@ public class CloneServiceImpl implements CloneService {
             } else {
                 playlistCloneService.clonePlaylist(jsonObject);
             }
-            System.out.println(jsonObject);
-
-        } catch (HttpClientErrorException e) {
-            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

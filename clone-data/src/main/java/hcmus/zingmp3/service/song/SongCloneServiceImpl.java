@@ -38,8 +38,12 @@ public class SongCloneServiceImpl implements SongCloneService {
     public List<UUID> cloneSong(JsonArray jsonArray) {
         List<UUID> result = new ArrayList<>();
         jsonArray.asList().forEach(
-                jsonElement ->
-                        result.add(cloneSong(jsonElement.getAsJsonObject().get("encodeId").getAsString()))
+                jsonElement -> {
+                    UUID songId = cloneSong(jsonElement.getAsJsonObject().get("encodeId").getAsString());
+                    if (songId != null) {
+                        result.add(songId);
+                    }
+                }
         );
         return result;
     }
@@ -75,8 +79,8 @@ public class SongCloneServiceImpl implements SongCloneService {
             }
 
             return cloneSong(jsonObject);
-        } catch (HttpClientErrorException e) {
-            throw e;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

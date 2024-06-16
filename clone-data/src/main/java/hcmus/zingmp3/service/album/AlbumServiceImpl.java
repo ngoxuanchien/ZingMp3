@@ -2,11 +2,13 @@ package hcmus.zingmp3.service.album;
 
 import hcmus.zingmp3.dto.album.AlbumRequest;
 import hcmus.zingmp3.dto.album.AlbumResponse;
+import hcmus.zingmp3.dto.album.AlbumStatus;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static hcmus.zingmp3.Main.restTemplate;
@@ -49,6 +51,7 @@ public class AlbumServiceImpl implements AlbumService {
 
             ResponseEntity<AlbumResponse> response = restTemplate.postForEntity(url, requestEntity, AlbumResponse.class);
 
+            System.out.println("Create album: " + response.getBody().id());
             return response.getBody();
         } catch (HttpClientErrorException e) {
             throw e;
@@ -78,7 +81,9 @@ public class AlbumServiceImpl implements AlbumService {
             HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 
             ResponseEntity<AlbumResponse> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, AlbumResponse.class);
-
+            if (Objects.requireNonNull(response.getBody()).status() == AlbumStatus.APPROVAL_PENDING) {
+                approveAlbum(albumAlias);
+            }
             return response.getBody();
 
         } catch (HttpClientErrorException e) {

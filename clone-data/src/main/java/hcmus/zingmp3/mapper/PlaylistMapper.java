@@ -11,25 +11,42 @@ import hcmus.zingmp3.service.song.SongCloneService;
 import hcmus.zingmp3.service.song.SongCloneServiceImpl;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.UUID;
+
+import static hcmus.zingmp3.Main.*;
+
 @Component
 public class PlaylistMapper {
-
-    private static final ImageCloneService imageService = new ImageCloneServiceImpl();
-    private static final ArtistCloneService artistCloneService = new ArtistCloneServiceImpl();
-    private static final SongCloneService songCloneService = new SongCloneServiceImpl();
 
     public PlaylistRequest toRequest(JsonObject jsonObject) {
 
         String alias = jsonObject.get("aliasTitle").getAsString();
 
+        UUID thumbnailId = null;
+        List<UUID> artistIds = null;
+        List<UUID> songIds = null;
+
+        if (jsonObject.get("thumbnailM") != null) {
+            thumbnailId = imageCloneService.cloneImage(alias, jsonObject.get("thumbnailM").getAsString());
+        }
+
+        if (jsonObject.get("artists") != null) {
+            artistIds = artistCloneService.cloneArtist(jsonObject.get("artists").getAsJsonArray());
+        }
+
+        if (jsonObject.get("song") != null && jsonObject.get("song").getAsJsonObject().get("items") != null) {
+            songIds = songCloneService.cloneSong(jsonObject.get("song").getAsJsonObject().get("items").getAsJsonArray());
+        }
+
         return new PlaylistRequest(
                 alias,
                 jsonObject.get("title").getAsString(),
-                imageService.cloneImage(alias, jsonObject.get("thumbnailM").getAsString()),
+                thumbnailId,
                 PlaylistType.SYSTEM_PLAYLIST,
                 jsonObject.get("sortDescription").getAsString(),
-                artistCloneService.cloneArtist(jsonObject.get("artists").getAsJsonArray()),
-                songCloneService.cloneSong(jsonObject.get("song").getAsJsonObject().get("items").getAsJsonArray()),
+                artistIds,
+                songIds,
                 true
         );
     }

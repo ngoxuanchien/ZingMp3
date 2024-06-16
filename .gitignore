@@ -43,3 +43,6 @@ build/
 /init/elastic-search/data/
 /delete/
 /init/database/
+/clone-data/
+/BuildScripts/
+/01_Deployment_Package/

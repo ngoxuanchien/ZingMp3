@@ -27,6 +27,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
             ResponseEntity<PlaylistResponse> response = restTemplate.postForEntity(url, requestEntity, PlaylistResponse.class);
 
+            System.out.println("Create playlist: " + response.getBody().id());
+
             return response.getBody();
 
         } catch (HttpClientErrorException e) {

@@ -46,7 +46,7 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
-    ip-address: ${HOST_IP:localhost}
+#    ip-address: ${HOST_IP:localhost}
 grpc:
   client:
     song-service:

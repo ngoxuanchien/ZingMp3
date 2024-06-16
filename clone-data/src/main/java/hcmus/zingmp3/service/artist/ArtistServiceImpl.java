@@ -3,17 +3,40 @@ package hcmus.zingmp3.service.artist;
 import hcmus.zingmp3.dto.ErrorMessage;
 import hcmus.zingmp3.dto.artist.ArtistRequest;
 import hcmus.zingmp3.dto.artist.ArtistResponse;
+import hcmus.zingmp3.dto.artist.ArtistStatus;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static hcmus.zingmp3.Main.*;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
+
+    public void approvedArtist(String artistAlias) {
+        try {
+            String url = "http://nxc-hcmus.me:8081/api/artists/approved/" + artistAlias;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(user.accessToken());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+
+            if (response.getStatusCode() != HttpStatus.ACCEPTED) {
+                throw new RuntimeException("Failed to approve artist");
+            }
+        } catch (HttpClientErrorException e) {
+            System.out.println("Error: " + e.getStatusCode() + " - " + e.getStatusText());
+            System.out.println("Response Body: " + e.getResponseBodyAsString());
+            throw e;
+        }
+    }
 
     @Override
     public ArtistResponse createArtist(ArtistRequest artistRequest) {
@@ -64,7 +87,9 @@ public class ArtistServiceImpl implements ArtistService {
             HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 
             ResponseEntity<ArtistResponse> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ArtistResponse.class);
-
+            if (Objects.requireNonNull(response.getBody()).status() == ArtistStatus.APPROVAL_PENDING) {
+                approvedArtist(artistAlias);
+            }
             return response.getBody();
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
