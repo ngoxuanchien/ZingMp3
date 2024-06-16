@@ -40,7 +40,7 @@ springdoc:
       client-id: ${KEYCLOAK_CLIENT_ID:music-service}
       client-secret: ${KEYCLOAK_CLIENT_SECRET:VkkYcgHZEnyEbKNBr0Ca1uit4i1iORz7}
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:0}
 eureka:
   client:
     service-url:
