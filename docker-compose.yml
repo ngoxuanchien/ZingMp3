@@ -142,12 +142,6 @@ services:
 #      - "9003:9003"
     networks:
       zingmp3-net:
-    healthcheck:
-      test: "curl --fail --silent localhost:8003/actuator/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
     environment:
       SPRING_DATASOURCE_USERNAME: zingmp3
       SPRING_DATASOURCE_PASSWORD: zingmp3
