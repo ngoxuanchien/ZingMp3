@@ -13,6 +13,6 @@ import java.util.UUID;
 public interface ArtistRepository extends JpaRepository<Artist, UUID> {
     Optional<Artist> findByAlias(String alias);
     boolean existsByAlias(String alias);
-    Page<Artist> findAllByNameLikeAndStatusIn(String name, List<ArtistStatus> status, Pageable pageable);
+    Page<Artist> findAllByNameContainingAndStatusIn(String name, List<ArtistStatus> status, Pageable pageable);
     Page<Artist> findAllByStatusIn(List<ArtistStatus> status, Pageable pageable);
 }
