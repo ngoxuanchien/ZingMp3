@@ -29,8 +29,14 @@ public class SecurityConfig {
                         .requestMatchers(WHITELIST)
                         .permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/albums/my-albums/**")
+                        .authenticated()
+
                         .requestMatchers(HttpMethod.GET, "/api/albums/**", "/api/playlists/**")
                         .permitAll()
+
+                        .requestMatchers("/api/albums/approved/**", "/api/albums/rejected/**", "/api/albums/released/**")
+                        .hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/albums/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN")
@@ -45,12 +51,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/playlists/**")
                         .hasAnyRole("DISTRIBUTOR", "ADMIN", "USER")
 
-                        .requestMatchers("/api/albums/approved/**", "/api/albums/rejected/**", "/api/albums/released/**")
-                        .hasRole("ADMIN")
-
                         .requestMatchers(HttpMethod.DELETE)
                         .hasRole("ADMIN")
-                )
+
+                        .anyRequest()
+                        .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthConverter)));

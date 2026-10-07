@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers(WHITELIST)
                         .permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/songs/my-songs")
+                        .requestMatchers(HttpMethod.GET, "/api/songs/my-songs/**")
                         .authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/api/songs/**", "/api/genres/**")
